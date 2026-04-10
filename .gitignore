@@ -1,0 +1,6 @@
+  1 node_modules/
+     2 venv/
+     3 backend/venv/
+     4 .env
+     5 *.log
+     6 dist/

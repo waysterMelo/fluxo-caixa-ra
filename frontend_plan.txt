@@ -1,0 +1,44 @@
+# Plano de Desenvolvimento: Frontend - Sistema de Fluxo de Caixa
+
+## 1. Tecnologias e Estilo
+*   **Framework:** React (TypeScript)
+*   **Estilização:** Vanilla CSS (CSS Modules) para máxima flexibilidade e performance.
+*   **Estado Global:** React Context API ou Zustand (conforme necessidade).
+*   **Consumo de API:** Axios.
+*   **Visual:** Design moderno, "clean" e focado em usabilidade financeira (tabelas claras, dashboards visuais).
+
+## 2. Etapas de Implementação
+
+### Fase 1: Setup e Autenticação
+1.  **Inicialização do Projeto:** Setup do React com Vite e TypeScript.
+2.  **Configuração de Rotas:** Implementação do React Router com rotas protegidas.
+3.  **Tela de Login:** Formulário de acesso integrado ao endpoint `/login/access-token` do backend.
+4.  **Gerenciamento de Token:** Armazenamento seguro do JWT (localStorage/Cookies) e configuração de interceptors do Axios.
+
+### Fase 2: Estrutura Base (Layout)
+1.  **Layout Principal:** Sidebar de navegação, Header com informações do usuário e área de conteúdo.
+2.  **Componentes Reutilizáveis:** Botões, Inputs, Modais e Tabelas padronizadas com CSS puro.
+
+### Fase 3: Funcionalidades Core (Fluxo de Caixa)
+1.  **Dashboard de Fluxo Diário:** 
+    *   Visualização de saldos (Anterior, Entradas, Saídas, Final).
+    *   Listagem de movimentos por data.
+    *   Filtro por Empresa.
+2.  **Gestão de Fechamento:**
+    *   Botão para "Fechar Dia" (congelar saldos).
+    *   Solicitação de reabertura (para administradores).
+
+### Fase 4: Importações e Conciliação
+1.  **Módulo de Importação:** Upload de arquivos (ERP e Extratos Bancários).
+2.  **Tela de Conciliação:** 
+    *   Interface para vínculo manual entre movimentos bancários e títulos do ERP.
+    *   Visualização de sugestões da conciliação automática.
+
+### Fase 5: Ajustes e Consolidação
+1.  **Ajustes Manuais:** Tela para inclusão de lançamentos não previstos no ERP.
+2.  **Relatório Consolidado:** Visão macro de múltiplas empresas.
+
+## 3. Próximos Passos Imediatos
+1.  Criar a pasta `frontend` na raiz do projeto.
+2.  Executar o setup inicial do React.
+3.  Definir a paleta de cores e tipografia base no arquivo de variáveis CSS.
