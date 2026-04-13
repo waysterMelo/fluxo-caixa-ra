@@ -1,13 +1,24 @@
 /*
  * Design Tokens — Fluxo de Caixa RA · Bela-Tec
- * Tema: Clean Corporate Premium (Apple + Meta)
- * Paleta: Azul escuro · Cinza · Branco
+ * Tema: Ocean Corporate Premium
+ * Paleta: Azul ocean escuro · Cinzas frios · Branco gelado
  */
 
 :root {
   /* ========================================
-     CORES PRINCIPAIS (Identidade Bela-Tec)
+     PALETA OCEAN (Identidade Bela-Tec)
      ======================================== */
+
+  /* Ocean Depths — para sidebar, backgrounds escuros */
+  --ocean-deep: #0A1628;
+  --ocean-navy: #0F1F3D;
+  --ocean-blue: #1E3A5F;
+  
+  /* Steel Blues — accent principal */
+  --steel-blue: #3B82F6;
+  --ocean-sky: #60A5FA;
+  --ocean-breeze: #93C5FD;
+  --ocean-mist: #BFDBFE;
 
   /* Backgrounds */
   --bg-primary: #F8FAFC;
@@ -18,15 +29,9 @@
   --bg-input: #FFFFFF;
   --bg-hover: #F1F5F9;
   --bg-active: #E2E8F0;
-  --bg-overlay: rgba(15, 23, 42, 0.5);
+  --bg-overlay: rgba(10, 22, 40, 0.5);
 
-  /* Navy (sidebar, premium elements) */
-  --navy-900: #0F172A;
-  --navy-800: #1E293B;
-  --navy-700: #334155;
-  --navy-600: #475569;
-
-  /* Grays */
+  /* Grays (escala fria) */
   --gray-500: #64748B;
   --gray-400: #94A3B8;
   --gray-300: #CBD5E1;
@@ -40,42 +45,43 @@
   --border-light: #E2E8F0;
   --border-default: #CBD5E1;
   --border-strong: #94A3B8;
-  --border-focus: #2563EB;
+  --border-focus: #3B82F6;
   --border-error: #EF4444;
 
   /* ========================================
      TEXTO
      ======================================== */
-  --text-primary: #0F172A;
+  --text-primary: #0A1628;
   --text-secondary: #475569;
   --text-tertiary: #64748B;
   --text-muted: #94A3B8;
   --text-inverse: #FFFFFF;
-  --text-link: #2563EB;
+  --text-link: #3B82F6;
 
   /* ========================================
      CORES DE AÇÃO
      ======================================== */
-  --accent-blue: #2563EB;
-  --accent-blue-hover: #1D4ED8;
+  --accent-blue: #3B82F6;
+  --accent-blue-hover: #2563EB;
   --accent-blue-light: #DBEAFE;
   --accent-blue-50: #EFF6FF;
-  --accent-info: #0EA5E9;
+  --accent-info: #06B6D4;
+  --accent-info-light: #67E8F9;
 
-  /* Sucesso */
-  --accent-success: #16A34A;
-  --accent-success-light: #DCFCE7;
-  --accent-success-border: #BBF7D0;
+  /* Sucesso (Emerald — mais sofisticado) */
+  --accent-success: #10B981;
+  --accent-success-light: #D1FAE5;
+  --accent-success-border: #6EE7B7;
 
-  /* Aviso */
-  --accent-warning: #D97706;
+  /* Aviso (Amber — mais maduro) */
+  --accent-warning: #F59E0B;
   --accent-warning-light: #FEF3C7;
-  --accent-warning-border: #FDE68A;
+  --accent-warning-border: #FCD34D;
 
-  /* Erro */
-  --accent-error: #DC2626;
+  /* Erro (Red — vibrante mas controlado) */
+  --accent-error: #EF4444;
   --accent-error-light: #FEE2E2;
-  --accent-error-border: #FECACA;
+  --accent-error-border: #FCA5A5;
 
   /* ========================================
      STATUS SEMÂNTICO
@@ -93,8 +99,8 @@
   --status-error-border: var(--accent-error-border);
 
   --status-info: var(--accent-info);
-  --status-info-bg: var(--accent-blue-light);
-  --status-info-border: #BAE6FD;
+  --status-info-bg: #CFFAFE;
+  --status-info-border: #67E8F9;
 
   /* ========================================
      TIPOGRAFIA
@@ -150,16 +156,35 @@
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius-2xl: 20px;
   --radius-full: 9999px;
 
   /* ========================================
-     SOMBRAS
+     SOMBRAS PREMIUM
      ======================================== */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+  /* Sombras premium para cards */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.10);
+  --shadow-glass: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  /* ========================================
+     GRADIENTES
+     ======================================== */
+  --gradient-primary: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+  --gradient-primary-hover: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+  --gradient-card: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  --gradient-hero: linear-gradient(135deg, #0A1628 0%, #1E3A5F 100%);
+  --gradient-sidebar: linear-gradient(180deg, #0A1628 0%, #0F1F3D 100%);
+  --gradient-status-success: linear-gradient(180deg, #10B981 0%, #059669 100%);
+  --gradient-status-warning: linear-gradient(180deg, #F59E0B 0%, #D97706 100%);
+  --gradient-status-error: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
 
   /* ========================================
      TRANSIÇÕES
@@ -167,6 +192,11 @@
   --transition-fast: 150ms ease;
   --transition-base: 200ms ease;
   --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Curvas de animação premium */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ========================================
      LAYOUT
@@ -179,10 +209,10 @@
   /* ========================================
      TABELAS
      ======================================== */
-  --table-header-bg: var(--bg-secondary);
-  --table-row-hover: var(--bg-hover);
+  --table-header-bg: #F8FAFC;
+  --table-row-hover: #EFF6FF;
   --table-row-stripe: #FAFBFC;
-  --table-border: var(--border-light);
+  --table-border: #E2E8F0;
   --table-cell-padding: var(--spacing-sm) var(--spacing-lg);
 
   /* ========================================
@@ -197,11 +227,10 @@
 
   /* ========================================
      BACKWARD COMPAT (from old variables.css)
-     Remove after full migration
      ======================================== */
   --color-primary: var(--accent-blue);
   --color-primary-dark: var(--accent-blue-hover);
-  --color-primary-light: #60A5FA;
+  --color-primary-light: var(--ocean-sky);
   --color-bg: var(--bg-primary);
   --color-surface: var(--bg-panel);
   --color-border: var(--border-light);
@@ -214,8 +243,8 @@
   --color-danger-light: var(--accent-error-light);
   --color-warning: var(--accent-warning);
   --color-warning-light: var(--accent-warning-light);
-  --color-info: var(--accent-blue);
-  --color-info-light: var(--accent-blue-light);
+  --color-info: var(--accent-info);
+  --color-info-light: var(--accent-info-light);
   --font-family-base: var(--font-sans);
   --border-radius-sm: var(--radius-sm);
   --border-radius-md: var(--radius-md);

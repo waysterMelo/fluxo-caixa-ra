@@ -1,12 +1,14 @@
 /*
- * Table — Clean Corporate Premium
- * Sticky header, zebra rows, tabular-nums, footer totals
+ * Table — Ocean Corporate Premium
+ * Header estilizado, hover azul, zebra sutil, tabular-nums
  */
 
 .container {
   width: 100%;
   overflow-x: auto;
   border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  background: var(--bg-panel);
 }
 
 .table {
@@ -15,13 +17,16 @@
   border-spacing: 0;
 }
 
-/* Header */
+/* ========================================
+   HEADER — Uppercase, peso 600, fundo sutil
+   ======================================== */
+
 .th {
   padding: var(--spacing-sm) var(--spacing-lg);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: var(--text-tertiary);
   background: var(--table-header-bg);
   text-align: left;
@@ -35,17 +40,19 @@
 .th.right { text-align: right; }
 .th.center { text-align: center; }
 
-/* Rows */
+/* ========================================
+   ROWS E CELLS
+   ======================================== */
+
 .tr {
   transition: background-color var(--transition-fast);
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--table-border);
 }
 
 .tr:last-child {
   border-bottom: none;
 }
 
-/* Cells */
 .td {
   padding: var(--spacing-sm) var(--spacing-lg);
   font-size: var(--font-size-sm);
@@ -58,16 +65,23 @@
   text-align: right;
   font-variant-numeric: tabular-nums;
   font-weight: var(--font-weight-medium);
+  letter-spacing: -0.01em;
 }
 
 .td.center { text-align: center; }
 
-/* Hover */
+/* ========================================
+   HOVER — Azul sutil (ocean)
+   ======================================== */
+
 .container:not(.noHover) tbody .tr:hover {
   background-color: var(--table-row-hover);
 }
 
-/* Striped */
+/* ========================================
+   STRIPED — Zebra muito sutil
+   ======================================== */
+
 .stripe tbody .tr:nth-child(even) {
   background-color: var(--table-row-stripe);
 }
@@ -76,7 +90,10 @@
   background-color: var(--table-row-hover);
 }
 
-/* Compact */
+/* ========================================
+   COMPACT
+   ======================================== */
+
 .compact .th {
   padding: var(--spacing-xs) var(--spacing-md);
 }
@@ -86,21 +103,57 @@
   font-size: var(--font-size-xs);
 }
 
-/* Bordered */
+/* ========================================
+   Bordered
+   ======================================== */
+
 .bordered .td,
 .bordered .th {
   border: 1px solid var(--border-light);
 }
 
-/* Selected row */
+/* ========================================
+   SELECTED ROW
+   ======================================== */
+
 .selected {
   background-color: var(--accent-blue-50) !important;
+  box-shadow: inset 3px 0 0 var(--steel-blue);
 }
 
-/* Empty state */
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
 .emptyState {
   padding: var(--spacing-3xl) var(--spacing-xl);
   text-align: center;
   color: var(--text-muted);
   font-size: var(--font-size-sm);
+  background: var(--bg-secondary);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .container {
+    border-radius: var(--radius-md);
+  }
+  
+  .th, .td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .table {
+    min-width: 600px;
+  }
 }

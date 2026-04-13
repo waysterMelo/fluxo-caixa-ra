@@ -10,6 +10,7 @@ import { BankAccount, bankAccountService } from '../services/bankAccountService'
 import { Table } from '../components/ui/Table';
 import { Badge } from '../components/ui/Badge';
 import { formatDateBR } from '../utils/date';
+import { Upload, FileSpreadsheet, Building2, ChevronRight, History } from 'lucide-react';
 import styles from './Importacoes.module.css';
 
 type Message = { type: 'success' | 'error'; text: string } | null;
@@ -39,15 +40,12 @@ export default function Importacoes() {
   const [msgReceivable, setMsgReceivable] = useState<Message>(null);
   const [msgBank, setMsgBank] = useState<Message>(null);
 
-  // History State
   const [importHistory, setImportHistory] = useState<ImportHistoryRow[]>([]);
   const [historyPage, setHistoryPage] = useState(1);
   const [historyTotalPages, setHistoryTotalPages] = useState(1);
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
 
-  useEffect(() => {
-    void loadCompanies();
-  }, []);
+  useEffect(() => { void loadCompanies(); }, []);
 
   useEffect(() => {
     if (companyId) {
@@ -61,9 +59,7 @@ export default function Importacoes() {
   }, [companyId]);
 
   useEffect(() => {
-    if (companyId) {
-      void loadHistory(companyId, historyPage);
-    }
+    if (companyId) { void loadHistory(companyId, historyPage); }
   }, [historyPage]);
 
   const loadHistory = async (compId: number, page: number) => {
@@ -72,29 +68,20 @@ export default function Importacoes() {
       const resp = await getImportHistory(compId, page);
       setImportHistory(resp.data);
       setHistoryTotalPages(resp.totalPages);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoadingHistory(false);
-    }
+    } catch (err) { console.error(err); }
+    finally { setIsLoadingHistory(false); }
   };
 
   const loadCompanies = async () => {
     setIsLoadingCompanies(true);
     setCompanyMessage(null);
-
     try {
       const data = await listCompanies(true);
       setCompanies(data);
       setCompanyId((current) => current ?? data[0]?.id ?? null);
     } catch (err: any) {
-      setCompanyMessage({
-        type: 'error',
-        text: err.response?.data?.detail || 'Não foi possível carregar as empresas.',
-      });
-    } finally {
-      setIsLoadingCompanies(false);
-    }
+      setCompanyMessage({ type: 'error', text: err.response?.data?.detail || 'Não foi possível carregar as empresas.' });
+    } finally { setIsLoadingCompanies(false); }
   };
 
   const loadBankAccounts = async (selectedCompanyId: number) => {
@@ -106,9 +93,7 @@ export default function Importacoes() {
     } catch (err: any) {
       setBankAccounts([]);
       setBankAccountId(null);
-    } finally {
-      setIsLoadingBankAccounts(false);
-    }
+    } finally { setIsLoadingBankAccounts(false); }
   };
 
   const selectedCompanyUnavailable = companyId === null;
@@ -116,109 +101,75 @@ export default function Importacoes() {
   const handleImportPayable = async (event: FormEvent) => {
     event.preventDefault();
     const selectedCompanyId = companyId;
-
     if (selectedCompanyId === null) {
       setMsgPayable({ type: 'error', text: 'Cadastre e selecione uma empresa antes de importar.' });
       return;
     }
-
     const file = payableFileRef.current?.files?.[0];
     if (!file) {
       setMsgPayable({ type: 'error', text: 'Selecione um arquivo CSV ou XLSX.' });
       return;
     }
-
     setIsLoadingPayable(true);
     setMsgPayable(null);
-
     try {
       const response = await importErpPayable(selectedCompanyId, file);
       setMsgPayable({ type: 'success', text: `${response.detail} (${response.records_processed} registros)` });
-      if (payableFileRef.current) {
-        payableFileRef.current.value = '';
-      }
+      if (payableFileRef.current) payableFileRef.current.value = '';
     } catch (err: any) {
-      setMsgPayable({
-        type: 'error',
-        text: err.response?.data?.detail || 'Erro ao importar contas a pagar.',
-      });
-    } finally {
-      setIsLoadingPayable(false);
-    }
+      setMsgPayable({ type: 'error', text: err.response?.data?.detail || 'Erro ao importar contas a pagar.' });
+    } finally { setIsLoadingPayable(false); }
   };
 
   const handleImportReceivable = async (event: FormEvent) => {
     event.preventDefault();
     const selectedCompanyId = companyId;
-
     if (selectedCompanyId === null) {
       setMsgReceivable({ type: 'error', text: 'Cadastre e selecione uma empresa antes de importar.' });
       return;
     }
-
     const file = receivableFileRef.current?.files?.[0];
     if (!file) {
       setMsgReceivable({ type: 'error', text: 'Selecione um arquivo CSV ou XLSX.' });
       return;
     }
-
     setIsLoadingReceivable(true);
     setMsgReceivable(null);
-
     try {
       const response = await importErpReceivable(selectedCompanyId, file);
       setMsgReceivable({ type: 'success', text: `${response.detail} (${response.records_processed} registros)` });
-      if (receivableFileRef.current) {
-        receivableFileRef.current.value = '';
-      }
+      if (receivableFileRef.current) receivableFileRef.current.value = '';
     } catch (err: any) {
-      setMsgReceivable({
-        type: 'error',
-        text: err.response?.data?.detail || 'Erro ao importar contas a receber.',
-      });
-    } finally {
-      setIsLoadingReceivable(false);
-    }
+      setMsgReceivable({ type: 'error', text: err.response?.data?.detail || 'Erro ao importar contas a receber.' });
+    } finally { setIsLoadingReceivable(false); }
   };
 
   const handleImportBank = async (event: FormEvent) => {
     event.preventDefault();
     const selectedCompanyId = companyId;
-
     if (selectedCompanyId === null) {
       setMsgBank({ type: 'error', text: 'Cadastre e selecione uma empresa antes de importar.' });
       return;
     }
-
     if (bankAccountId === null) {
       setMsgBank({ type: 'error', text: 'Cadastre e selecione uma conta bancária antes de importar.' });
       return;
     }
-
     const file = bankFileRef.current?.files?.[0];
     if (!file) {
       setMsgBank({ type: 'error', text: 'Selecione um arquivo PDF, CSV ou XLSX.' });
       return;
     }
-
     setIsLoadingBank(true);
     setMsgBank(null);
-
     try {
       const response = await importBank(selectedCompanyId, bankAccountId, replacePeriod, file);
       setMsgBank({ type: 'success', text: `${response.detail} (${response.records_processed} registros)` });
-      if (bankFileRef.current) {
-        bankFileRef.current.value = '';
-      }
+      if (bankFileRef.current) bankFileRef.current.value = '';
       setReplacePeriod(false);
     } catch (err: any) {
-      setMsgBank({
-        type: 'error',
-        text: err.response?.data?.detail || 'Erro ao importar extrato bancário.',
-      });
-    } finally {
-      setIsLoadingBank(false);
-    }
+      setMsgBank({ type: 'error', text: err.response?.data?.detail || 'Erro ao importar extrato bancário.' });
+    } finally { setIsLoadingBank(false); }
   };
 
   const historyColumns = [
@@ -227,7 +178,7 @@ export default function Importacoes() {
     {
       header: 'STATUS',
       accessor: (row: ImportHistoryRow) => (
-        <Badge variant={row.status === 'Sucesso' ? 'success' : row.status.includes('Erro') ? 'error' : 'warning'} size="small">
+        <Badge variant={row.status === 'Sucesso' ? 'success' : row.status.includes('Erro') ? 'error' : 'warning'} size="small" withDot>
           {row.status}
         </Badge>
       )
@@ -239,36 +190,28 @@ export default function Importacoes() {
   return (
     <Layout>
       <div className={styles.container}>
-        {/* Header */}
         <div className={styles.header}>
           <div>
             <h2 className={styles.title}>Importações</h2>
-            <p className={styles.subtitle}>
-              Importe arquivos do ERP e extratos bancários para atualizar o sistema.
-            </p>
+            <p className={styles.subtitle}>Importe arquivos do ERP e extratos bancários para atualizar o sistema.</p>
           </div>
         </div>
 
-        {/* Company Selector */}
-        <Card title="Empresa Atual" headerAction={
-          <Link to="/empresas" className={styles.linkButton}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
-            </svg>
-            Gerenciar empresas
-          </Link>
-        }>
-          <p className={styles.selectorDescription}>
-            Escolha a empresa cadastrada que receberá a importação.
-          </p>
-
+        <Card 
+          title="Empresa Atual" 
+          subtitle="Escolha a empresa que receberá a importação"
+          headerAction={
+            <Link to="/empresas" className={styles.linkButton}>
+              <Building2 size={14} />
+              Gerenciar empresas
+            </Link>
+          }
+        >
           {companyMessage && (
             <div className={`${styles.alert} ${companyMessage.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
               {companyMessage.text}
             </div>
           )}
-
           <select
             value={companyId ?? ''}
             onChange={(event) => setCompanyId(Number(event.target.value))}
@@ -279,13 +222,10 @@ export default function Importacoes() {
               <option value="">Nenhuma empresa ativa cadastrada</option>
             ) : (
               companies.map((company) => (
-                <option key={company.id} value={company.id}>
-                  {company.name}
-                </option>
+                <option key={company.id} value={company.id}>{company.name}</option>
               ))
             )}
           </select>
-
           {companies.length === 0 && !isLoadingCompanies && (
             <div className={styles.infoBox}>
               Cadastre pelo menos uma empresa no módulo de empresas antes de executar importações.
@@ -293,29 +233,25 @@ export default function Importacoes() {
           )}
         </Card>
 
-        {/* Import Cards Grid */}
         <div className={styles.importsGrid}>
           {/* ERP - Contas a Receber */}
           <Card title="ERP - Contas a Receber" subtitle="Importe os títulos previstos para o contas a receber">
             <form onSubmit={handleImportReceivable} className={styles.importForm}>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Arquivo CSV ou XLSX</label>
-                <input
-                  type="file"
-                  accept=".csv,.xlsx"
-                  ref={receivableFileRef}
-                  className={styles.fileInput}
-                />
+                <div className={styles.fileUpload}>
+                  <FileSpreadsheet size={24} className={styles.uploadIcon} />
+                  <input type="file" accept=".csv,.xlsx" ref={receivableFileRef} className={styles.fileInput} />
+                  <span className={styles.fileText}>Clique para selecionar</span>
+                </div>
               </div>
-
               {msgReceivable && (
                 <div className={`${styles.alert} ${msgReceivable.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
                   {msgReceivable.text}
                 </div>
               )}
-
               <div className={styles.actions}>
-                <Button type="submit" variant="primary" disabled={isLoadingReceivable || selectedCompanyUnavailable}>
+                <Button type="submit" variant="primary" disabled={isLoadingReceivable || selectedCompanyUnavailable} icon={<Upload size={16} />}>
                   {isLoadingReceivable ? 'Importando...' : 'Importar recebíveis'}
                 </Button>
               </div>
@@ -327,22 +263,19 @@ export default function Importacoes() {
             <form onSubmit={handleImportPayable} className={styles.importForm}>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Arquivo CSV ou XLSX</label>
-                <input
-                  type="file"
-                  accept=".csv,.xlsx"
-                  ref={payableFileRef}
-                  className={styles.fileInput}
-                />
+                <div className={styles.fileUpload}>
+                  <FileSpreadsheet size={24} className={styles.uploadIcon} />
+                  <input type="file" accept=".csv,.xlsx" ref={payableFileRef} className={styles.fileInput} />
+                  <span className={styles.fileText}>Clique para selecionar</span>
+                </div>
               </div>
-
               {msgPayable && (
                 <div className={`${styles.alert} ${msgPayable.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
                   {msgPayable.text}
                 </div>
               )}
-
               <div className={styles.actions}>
-                <Button type="submit" variant="primary" disabled={isLoadingPayable || selectedCompanyUnavailable}>
+                <Button type="submit" variant="primary" disabled={isLoadingPayable || selectedCompanyUnavailable} icon={<Upload size={16} />}>
                   {isLoadingPayable ? 'Importando...' : 'Importar pagáveis'}
                 </Button>
               </div>
@@ -371,39 +304,27 @@ export default function Importacoes() {
                   )}
                 </select>
               </div>
-
               <div className={styles.formGroup}>
                 <label className={styles.label}>Arquivo PDF, CSV ou XLSX</label>
-                <input
-                  type="file"
-                  accept=".pdf,.csv,.xlsx"
-                  ref={bankFileRef}
-                  className={styles.fileInput}
-                />
+                <div className={styles.fileUpload}>
+                  <FileSpreadsheet size={24} className={styles.uploadIcon} />
+                  <input type="file" accept=".pdf,.csv,.xlsx" ref={bankFileRef} className={styles.fileInput} />
+                  <span className={styles.fileText}>Clique para selecionar</span>
+                </div>
               </div>
-
               {user?.is_admin && (
                 <div className={styles.checkboxContainer}>
-                  <input
-                    type="checkbox"
-                    id="replacePeriod"
-                    checked={replacePeriod}
-                    onChange={(event) => setReplacePeriod(event.target.checked)}
-                  />
-                  <label htmlFor="replacePeriod" className={styles.checkboxLabel}>
-                    Forçar substituição de período (Admin)
-                  </label>
+                  <input type="checkbox" id="replacePeriod" checked={replacePeriod} onChange={(event) => setReplacePeriod(event.target.checked)} />
+                  <label htmlFor="replacePeriod" className={styles.checkboxLabel}>Forçar substituição de período (Admin)</label>
                 </div>
               )}
-
               {msgBank && (
                 <div className={`${styles.alert} ${msgBank.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
                   {msgBank.text}
                 </div>
               )}
-
               <div className={styles.actions}>
-                <Button type="submit" variant="primary" disabled={isLoadingBank || selectedCompanyUnavailable || bankAccounts.length === 0}>
+                <Button type="submit" variant="primary" disabled={isLoadingBank || selectedCompanyUnavailable || bankAccounts.length === 0} icon={<Upload size={16} />}>
                   {isLoadingBank ? 'Importando...' : 'Importar extrato'}
                 </Button>
               </div>
@@ -411,32 +332,17 @@ export default function Importacoes() {
           </Card>
         </div>
 
-        {/* History Section */}
+        {/* Histórico */}
         <Card title="Histórico de Importações" subtitle="Acompanhe o status dos últimos arquivos processados">
-          <Table
-            columns={historyColumns}
-            data={importHistory}
-            keyExtractor={(row) => row.id}
-            compact
-          />
+          <Table columns={historyColumns} data={importHistory} keyExtractor={(row) => row.id} compact />
           {historyTotalPages > 1 && (
             <div className={styles.pagination}>
-              <Button
-                variant="secondary"
-                size="sm"
-                disabled={historyPage === 1 || isLoadingHistory}
-                onClick={() => setHistoryPage(p => p - 1)}
-              >
+              <Button variant="secondary" size="sm" disabled={historyPage === 1 || isLoadingHistory} onClick={() => setHistoryPage(p => p - 1)}>
                 Anterior
               </Button>
               <span className={styles.pageInfo}>Página {historyPage} de {historyTotalPages}</span>
-              <Button
-                variant="secondary"
-                size="sm"
-                disabled={historyPage === historyTotalPages || isLoadingHistory}
-                onClick={() => setHistoryPage(p => p + 1)}
-              >
-                Próxima
+              <Button variant="secondary" size="sm" disabled={historyPage === historyTotalPages || isLoadingHistory} onClick={() => setHistoryPage(p => p + 1)}>
+                Próxima <ChevronRight size={14} />
               </Button>
             </div>
           )}

@@ -1,6 +1,6 @@
 /*
- * MetricCard — Clean Corporate Premium
- * KPIs limpos, tabular-nums, hover elevação
+ * MetricCard — Ocean Corporate Premium
+ * Gradiente sutil, ícone, trend com setas, status bar elegante
  */
 
 .metricCard {
@@ -10,33 +10,48 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
   transition: all var(--transition-base);
   position: relative;
   overflow: hidden;
-  border: none;
+  border: 1px solid var(--border-light);
 }
 
 .metricCard:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
 }
 
-/* Status bar */
-.metricCard.success {
-  border-left: 3px solid var(--status-success);
+/* Gradiente de fundo sutil */
+.gradientBg {
+  background: var(--gradient-card);
 }
 
-.metricCard.warning {
-  border-left: 3px solid var(--status-warning);
+/* Status bar — barra lateral com gradiente */
+.statusBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--gray-200);
+  transition: background var(--transition-base);
 }
 
-.metricCard.error {
-  border-left: 3px solid var(--status-error);
+.metricCard.success .statusBar {
+  background: var(--gradient-status-success);
 }
 
-.metricCard.info {
-  border-left: 3px solid var(--status-info);
+.metricCard.warning .statusBar {
+  background: var(--gradient-status-warning);
+}
+
+.metricCard.error .statusBar {
+  background: var(--gradient-status-error);
+}
+
+.metricCard.info .statusBar {
+  background: linear-gradient(180deg, #06B6D4 0%, #0891B2 100%);
 }
 
 /* Header */
@@ -47,19 +62,56 @@
   gap: var(--spacing-sm);
 }
 
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Ícone com fundo circular */
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--accent-blue-50);
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.metricCard.success .iconWrapper {
+  background: var(--status-success-bg);
+  color: var(--status-success);
+}
+
+.metricCard.warning .iconWrapper {
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+}
+
+.metricCard.error .iconWrapper {
+  background: var(--status-error-bg);
+  color: var(--status-error);
+}
+
+.metricCard.info .iconWrapper {
+  background: var(--status-info-bg);
+  color: var(--status-info);
+}
+
 .label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   color: var(--text-tertiary);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   line-height: 1.3;
 }
 
-.icon {
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
+.badge {
+  flex-shrink: 0;
 }
 
 /* Value */
@@ -70,8 +122,9 @@
   line-height: 1.1;
   color: var(--text-primary);
   word-break: break-word;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
+  margin-top: var(--spacing-2xs);
 }
 
 .value.small {
@@ -98,19 +151,34 @@
   margin-top: var(--spacing-2xs);
 }
 
-/* Trend */
+/* Trend com setas elegantes */
 .trend {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: var(--spacing-2xs);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   margin-top: var(--spacing-2xs);
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  width: fit-content;
 }
 
-.trend.up { color: var(--status-success); }
-.trend.down { color: var(--status-error); }
-.trend.neutral { color: var(--text-muted); }
+.trend.up { 
+  color: var(--status-success);
+  background: var(--status-success-bg);
+}
+
+.trend.down { 
+  color: var(--status-error);
+  background: var(--status-error-bg);
+}
+
+.trend.neutral { 
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+}
 
 /* Footer */
 .footer {
@@ -134,8 +202,32 @@
   font-size: var(--font-size-metric-sm);
 }
 
+.compact .iconWrapper {
+  width: 28px;
+  height: 28px;
+}
+
 .relaxed {
   padding: var(--spacing-2xl);
+}
+
+.relaxed .iconWrapper {
+  width: 36px;
+  height: 36px;
+}
+
+/* Dot de status (para StatusDot) */
+.statusDot {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* Responsive adjustments */
@@ -154,6 +246,11 @@
 
   .value.xlarge {
     font-size: var(--font-size-metric-lg);
+  }
+
+  .iconWrapper {
+    width: 28px;
+    height: 28px;
   }
 }
 

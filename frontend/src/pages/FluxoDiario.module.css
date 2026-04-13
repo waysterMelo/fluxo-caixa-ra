@@ -1,6 +1,5 @@
 /*
- * Fluxo Diário — Fluxo de Caixa RA · Bela-Tec
- * Clean Corporate Premium
+ * Fluxo Diário — Ocean Corporate Premium
  */
 
 .container {
@@ -18,42 +17,25 @@
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  background: var(--accent-warning-light);
-  color: var(--accent-warning);
-  border: 1px solid var(--accent-warning-border);
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+  border: 1px solid var(--status-warning-border);
 }
 
-/* Saldo Inicial highlight */
-.saldoInicialValue {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--accent-success);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-}
-
-/* Cards Grid (4 cols) */
+/* Cards Grid */
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-lg);
 }
 
-/* Secondary Grid (4 cols, compact) */
-.secondaryGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-md);
-}
-
 /* Table Section */
 .tableSection {
   background: var(--bg-panel);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
-  min-width: 0;
-  width: 100%;
+  border: 1px solid var(--border-light);
 }
 
 .tableHeader {
@@ -64,6 +46,7 @@
   border-bottom: 1px solid var(--border-light);
   gap: var(--spacing-md);
   flex-wrap: wrap;
+  background: var(--bg-panel);
 }
 
 .tableTitle {
@@ -73,20 +56,18 @@
   margin: 0;
 }
 
+.tableSubtitle {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
-  .cardsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .secondaryGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .cardsGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-  .cardsGrid,
-  .secondaryGrid {
-    grid-template-columns: 1fr;
-  }
+  .cardsGrid { grid-template-columns: 1fr; }
 }

@@ -1,6 +1,6 @@
 /*
- * Dashboard — Fluxo de Caixa RA · Bela-Tec
- * Clean Corporate Premium Dashboard
+ * Dashboard — Ocean Corporate Premium
+ * Hierarquia narrativa: Alertas → Hero KPI → Indicadores → Gráfico → Movimentações
  */
 
 .dashboard {
@@ -9,36 +9,272 @@
   gap: var(--spacing-xl);
 }
 
-/* Skeleton loading grid */
+/* ========================================
+   SKELETON LOADING
+   ======================================== */
+
 .skeletonGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-lg);
 }
 
-/* KPI Rows */
+/* ========================================
+   SEÇÃO 1 — Alertas (prioridade máxima)
+   ======================================== */
+
+.alertsSection {
+  animation: slide-up 0.4s var(--ease-out-expo) forwards;
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.alertsCard {
+  border-color: var(--accent-warning-border);
+  background: linear-gradient(180deg, #FFFBEB 0%, #FFFFFF 100%);
+}
+
+.alertsHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.alertsIcon {
+  color: var(--accent-warning);
+}
+
+.alertsTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.alertsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.alertItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.alertItem:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(4px);
+}
+
+.alertIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.alertIcon svg {
+  color: var(--accent-warning);
+}
+
+.alertText {
+  flex: 1;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+/* ========================================
+   SEÇÃO 2 — Hero KPI (Posição de Caixa)
+   ======================================== */
+
+.heroSection {
+  animation: slide-up 0.4s var(--ease-out-expo) forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.heroCard {
+  padding: 0;
+  overflow: hidden;
+}
+
+.heroContent {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.8fr;
+  gap: var(--spacing-2xl);
+  padding: var(--spacing-2xl);
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.heroLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--ocean-breeze);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.heroValue {
+  font-size: var(--font-size-metric-xl);
+  font-weight: var(--font-weight-bold);
+  color: #FFFFFF;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.heroSubtitle {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: var(--font-weight-medium);
+}
+
+.heroCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg) 0;
+}
+
+.heroStat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+}
+
+.heroStatLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  font-size: var(--font-size-xs);
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.heroStatValue {
+  font-size: var(--font-size-metric-lg);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.textSuccess {
+  color: #34D399;
+}
+
+.textError {
+  color: #F87171;
+}
+
+.heroDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.heroRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+  text-align: right;
+}
+
+.heroTrendLabel {
+  font-size: var(--font-size-xs);
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.heroTrendValue {
+  font-size: var(--font-size-metric);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.heroTrendIcon {
+  color: var(--ocean-sky);
+  display: flex;
+  align-items: center;
+}
+
+/* ========================================
+   SEÇÃO 3 — Indicadores Secundários
+   ======================================== */
+
 .kpiRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-lg);
+  animation: slide-up 0.4s var(--ease-out-expo) forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
 }
 
-.kpiRowSecondary {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--spacing-lg);
-}
+/* ========================================
+   SEÇÃO 4 — Gráfico + Movimentações
+   ======================================== */
 
-/* Content Grid (Chart + Movements) */
 .contentGrid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
   gap: var(--spacing-lg);
+  animation: slide-up 0.4s var(--ease-out-expo) forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
 }
 
-/* Chart Container */
+.chartCard,
+.movCard {
+  animation: fade-in 0.5s var(--ease-out-expo) forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+/* Chart */
 .chartContainer {
   margin: 0 calc(-1 * var(--spacing-sm));
+}
+
+/* See all button */
+.seeAllButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--steel-blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-2xs) var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.seeAllButton:hover {
+  background: var(--accent-blue-50);
 }
 
 /* Movements List */
@@ -53,22 +289,36 @@
   gap: var(--spacing-sm);
   padding: var(--spacing-sm) 0;
   border-bottom: 1px solid var(--border-light);
-  transition: background-color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
 .movItem:last-child {
   border-bottom: none;
 }
 
-.movDot {
-  width: 8px;
-  height: 8px;
+.movItem:hover {
+  transform: translateX(4px);
+}
+
+.movIcon {
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
-.dotGreen { background: var(--status-success); }
-.dotRed { background: var(--status-error); }
+.iconSuccess {
+  background: var(--status-success-bg);
+  color: var(--status-success);
+}
+
+.iconError {
+  background: var(--status-error-bg);
+  color: var(--status-error);
+}
 
 .movInfo {
   display: flex;
@@ -97,93 +347,16 @@
   font-weight: var(--font-weight-semibold);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
 .valuePositive { color: var(--status-success); }
 .valueNegative { color: var(--status-error); }
 
-/* Alerts */
-.alertsList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
 
-.alertItem {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
-  transition: background-color var(--transition-fast);
-}
-
-.alertItem:hover {
-  background: var(--bg-hover);
-}
-
-.alert_warning {
-  background: var(--accent-warning-light);
-}
-
-.alert_warning .alertIcon { color: var(--accent-warning); }
-
-.alert_info {
-  background: var(--accent-blue-50);
-}
-
-.alert_info .alertIcon { color: var(--accent-blue); }
-
-.alert_success {
-  background: var(--accent-success-light);
-}
-
-.alert_success .alertIcon { color: var(--accent-success); }
-
-.alert_error {
-  background: var(--accent-error-light);
-}
-
-.alert_error .alertIcon { color: var(--accent-error); }
-
-.alertIcon {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.alertText {
-  flex: 1;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
-}
-
-/* Loading state */
-.loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  gap: var(--spacing-lg);
-  color: var(--text-tertiary);
-}
-
-.spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--border-light);
-  border-top-color: var(--accent-blue);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Responsive */
 @media (max-width: 1200px) {
   .kpiRow {
     grid-template-columns: repeat(2, 1fr);
@@ -196,15 +369,65 @@
   .contentGrid {
     grid-template-columns: 1fr;
   }
+
+  .heroContent {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .heroRight {
+    grid-column: 1 / -1;
+    align-items: center;
+    text-align: center;
+  }
 }
 
 @media (max-width: 768px) {
   .kpiRow,
-  .kpiRowSecondary {
+  .skeletonGrid {
     grid-template-columns: 1fr;
   }
 
-  .skeletonGrid {
+  .heroContent {
     grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl);
+  }
+
+  .heroCenter {
+    flex-direction: row;
+    gap: var(--spacing-lg);
+    padding: 0;
+  }
+
+  .heroDivider {
+    width: 1px;
+    height: auto;
+    align-self: stretch;
+  }
+
+  .heroRight {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .heroValue {
+    font-size: var(--font-size-metric-lg);
+  }
+
+  .heroStatValue {
+    font-size: var(--font-size-metric);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard {
+    gap: var(--spacing-md);
+  }
+
+  .alertsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2xs);
   }
 }

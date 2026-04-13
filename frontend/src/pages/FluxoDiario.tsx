@@ -10,6 +10,8 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { Skeleton } from '../components/ui/Skeleton';
 import { getDailyFlow, DailyFlowSummary, Movement } from '../services/flowService';
 import { getTodayLocal, formatDateBR } from '../utils/date';
+import { formatCurrency } from '../utils/currency';
+import { AlertTriangle, ArrowUpRight, ArrowDownRight, Wallet, TrendingUp, Download } from 'lucide-react';
 import styles from './FluxoDiario.module.css';
 
 const MESES = [
@@ -91,12 +93,9 @@ export default function FluxoDiario() {
   const totalEntradas = movimentosExibidos.filter(m => m.tipo === 'ENTRADA').reduce((acc, m) => acc + m.valor, 0);
   const totalSaidas = movimentosExibidos.filter(m => m.tipo === 'SAIDA').reduce((acc, m) => acc + m.valor, 0);
 
-  const saldoFinalMes = movimentosExibidos.length > 0 
-    ? movimentosExibidos[movimentosExibidos.length - 1].saldoAcumulado 
+  const saldoFinalMes = movimentosExibidos.length > 0
+    ? movimentosExibidos[movimentosExibidos.length - 1].saldoAcumulado
     : saldoInicialExibido;
-
-  const formatarMoeda = (valor: number) =>
-    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
 
   const colunas = [
     { header: 'DATA', accessor: (row: Movement) => formatDateBR(row.data) },
@@ -120,18 +119,13 @@ export default function FluxoDiario() {
     },
     {
       header: 'A PAGAR',
-      accessor: (row: Movement) => formatarMoeda(row.valor),
+      accessor: (row: Movement) => formatCurrency(row.valor),
       align: 'right' as const
     },
     {
       header: 'SALDO',
-      accessor: (row: any) => formatarMoeda(row.saldoAcumulado),
+      accessor: (row: any) => formatCurrency(row.saldoAcumulado),
       align: 'right' as const,
-      cellStyle: (row: any) => ({
-        backgroundColor: row.saldoAcumulado < 0 ? 'var(--status-error)' : row.saldoAcumulado > 0 ? 'var(--status-success)' : 'inherit',
-        color: row.saldoAcumulado !== 0 ? '#FFFFFF' : 'inherit',
-        fontWeight: 'var(--font-weight-bold)'
-      })
     },
   ];
 
@@ -144,13 +138,13 @@ export default function FluxoDiario() {
           filters={
             <>
               <CompanySelector value={companyId} onChange={setCompanyId} />
-              <Select 
+              <Select
                 label="MÊS"
                 options={MESES}
                 value={mesFiltro}
                 onChange={(e) => setMesFiltro(e.target.value)}
               />
-              <Button variant="primary" onClick={loadFlow} disabled={isLoading}>
+              <Button variant="primary" onClick={loadFlow} disabled={isLoading} icon={<TrendingUp size={16} />}>
                 {isLoading ? 'Carregando...' : 'Atualizar'}
               </Button>
             </>
@@ -159,11 +153,7 @@ export default function FluxoDiario() {
 
         {error && (
           <div className={styles.alertBox}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-              <line x1="12" y1="9" x2="12" y2="13" />
-              <line x1="12" y1="17" x2="12.01" y2="17" />
-            </svg>
+            <AlertTriangle size={16} />
             <span>{error}</span>
           </div>
         )}
@@ -179,28 +169,32 @@ export default function FluxoDiario() {
           <>
             {/* KPIs Principais */}
             <div className={styles.cardsGrid}>
-              <MetricCard 
-                label="SALDO INICIAL" 
-                value={formatarMoeda(saldoInicialExibido)} 
-                subtitle={mesFiltro === 'todos' ? `Cadastrado em: ${resumo?.initial_balance_info ? formatDateBR(resumo.initial_balance_info.date) : '--'}` : `Base do Mês`} 
+              <MetricCard
+                label="Saldo Inicial"
+                value={formatCurrency(saldoInicialExibido)}
+                subtitle={mesFiltro === 'todos' ? `Cadastrado em: ${resumo?.initial_balance_info ? formatDateBR(resumo.initial_balance_info.date) : '--'}` : `Base do Mês`}
+                icon={<Wallet size={18} />}
               />
-              <MetricCard 
-                label="TOTAL DE ENTRADAS" 
-                value={formatarMoeda(totalEntradas)} 
-                subtitle="Deste período" 
-                variant="success" 
+              <MetricCard
+                label="Total de Entradas"
+                value={formatCurrency(totalEntradas)}
+                subtitle="Deste período"
+                variant="success"
+                icon={<ArrowUpRight size={18} />}
               />
-              <MetricCard 
-                label="TOTAL DE SAÍDAS" 
-                value={formatarMoeda(totalSaidas)} 
-                subtitle="Deste período" 
-                variant="error" 
+              <MetricCard
+                label="Total de Saídas"
+                value={formatCurrency(totalSaidas)}
+                subtitle="Deste período"
+                variant="error"
+                icon={<ArrowDownRight size={18} />}
               />
-              <MetricCard 
-                label={mesFiltro === 'todos' ? "SALDO FINAL DO FLUXO" : "SALDO FINAL MÊS"} 
-                value={formatarMoeda(saldoFinalMes)} 
-                subtitle={mesFiltro === 'todos' ? "Acumulado total" : "Projetado para este mês"} 
-                variant="info" 
+              <MetricCard
+                label={mesFiltro === 'todos' ? "Saldo Final do Fluxo" : "Saldo Final Mês"}
+                value={formatCurrency(saldoFinalMes)}
+                subtitle={mesFiltro === 'todos' ? "Acumulado total" : "Projetado para este mês"}
+                variant="info"
+                icon={<TrendingUp size={18} />}
               />
             </div>
 
@@ -209,9 +203,9 @@ export default function FluxoDiario() {
               <div className={styles.tableHeader}>
                 <div>
                   <h3 className={styles.tableTitle}>Movimentações do Período</h3>
-                  <p style={{ margin: 0, fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>Arraste as linhas para reordenar os lançamentos e recalcular o saldo acumulado.</p>
+                  <p className={styles.tableSubtitle}>Arraste as linhas para reordenar os lançamentos e recalcular o saldo acumulado.</p>
                 </div>
-                <Button variant="secondary" size="sm">Exportar CSV</Button>
+                <Button variant="secondary" size="sm" icon={<Download size={14} />}>Exportar CSV</Button>
               </div>
               <SortableTable
                 columns={colunas}

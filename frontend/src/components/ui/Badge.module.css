@@ -1,11 +1,12 @@
 /*
- * Badge — Clean Corporate Premium
+ * Badge — Ocean Corporate Premium
+ * Fundos 10%, dots pulsantes, elegante
  */
 
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--spacing-2xs);
   font-weight: var(--font-weight-semibold);
   border-radius: var(--radius-full);
   white-space: nowrap;
@@ -13,14 +14,19 @@
 }
 
 /* Sizes */
-.default {
-  padding: 4px 10px;
-  font-size: var(--font-size-xs);
+.xs {
+  padding: 2px 6px;
+  font-size: 10px;
 }
 
 .small {
-  padding: 2px 8px;
-  font-size: 10px;
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+.default {
+  padding: 4px 10px;
+  font-size: var(--font-size-xs);
 }
 
 .large {
@@ -28,38 +34,70 @@
   font-size: var(--font-size-sm);
 }
 
-/* Variants */
+/* Variants — fundo 10% da cor, texto 100% */
 .success {
-  background: var(--status-success-bg);
+  background: rgba(16, 185, 129, 0.12);
   color: var(--status-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .warning {
-  background: var(--status-warning-bg);
+  background: rgba(245, 158, 11, 0.12);
   color: var(--status-warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
 }
 
 .error {
-  background: var(--status-error-bg);
+  background: rgba(239, 68, 68, 0.12);
   color: var(--status-error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .info {
-  background: var(--status-info-bg);
-  color: var(--status-info);
+  background: rgba(6, 182, 212, 0.12);
+  color: var(--accent-info);
+  border: 1px solid rgba(6, 182, 212, 0.2);
 }
 
 .neutral {
   background: var(--bg-secondary);
   color: var(--text-secondary);
+  border: 1px solid var(--border-light);
 }
 
-/* Dot indicator */
-.withDot::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background: currentColor;
+/* Dot indicator com animação pulsante */
+.dot {
   flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.dot-success {
+  color: var(--status-success);
+}
+
+.dot-warning {
+  color: var(--status-warning);
+}
+
+.dot-error {
+  color: var(--status-error);
+}
+
+.dot-info {
+  color: var(--accent-info);
+}
+
+.dot-neutral {
+  color: var(--text-muted);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
 }

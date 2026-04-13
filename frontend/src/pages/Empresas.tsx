@@ -16,6 +16,7 @@ import {
   listCompanies,
   updateCompany,
 } from '../services/companyService';
+import { Building2, Edit, Trash2, CheckCircle, XCircle, Landmark } from 'lucide-react';
 import styles from './Empresas.module.css';
 
 interface FormState {
@@ -63,20 +64,16 @@ export default function Empresas() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-
     if (!form.name.trim()) {
       error('Informe o nome da empresa.');
       return;
     }
-
     setIsSubmitting(true);
-
     const payload: CompanyPayload = {
       name: form.name.trim(),
       cnpj: form.cnpj.trim() || null,
       is_active: form.is_active,
     };
-
     try {
       if (editingCompanyId) {
         await updateCompany(editingCompanyId, payload);
@@ -85,7 +82,6 @@ export default function Empresas() {
         await createCompany(payload);
         success('Empresa cadastrada com sucesso.');
       }
-
       resetForm();
       await loadCompanies(showActiveOnly);
     } catch (err: any) {
@@ -127,7 +123,7 @@ export default function Empresas() {
         />
 
         <div className={styles.grid}>
-          {/* Formulário de Criação/Edição */}
+          {/* Formulário */}
           <Card title={editingCompanyId ? 'Editar Empresa' : 'Nova Empresa'}>
             <form className={styles.formForm} onSubmit={handleSubmit}>
               <Input
@@ -136,28 +132,19 @@ export default function Empresas() {
                 onChange={(e) => setForm((current) => ({ ...current, name: e.target.value }))}
                 placeholder="Ex: Empresa Alpha Ltda"
               />
-
               <Input
                 label="CNPJ"
                 value={form.cnpj}
                 onChange={(e) => setForm((current) => ({ ...current, cnpj: e.target.value }))}
                 placeholder="00.000.000/0001-00"
               />
-
               <label className={styles.checkboxRow}>
-                <input
-                  type="checkbox"
-                  checked={form.is_active}
-                  onChange={(event) => setForm((current) => ({ ...current, is_active: event.target.checked }))}
-                />
+                <input type="checkbox" checked={form.is_active} onChange={(event) => setForm((current) => ({ ...current, is_active: event.target.checked }))} />
                 Empresa ativa
               </label>
-
               <div className={styles.actions}>
                 {editingCompanyId && (
-                  <Button type="button" variant="secondary" onClick={resetForm}>
-                    Cancelar
-                  </Button>
+                  <Button type="button" variant="secondary" onClick={resetForm}>Cancelar</Button>
                 )}
                 <Button type="submit" disabled={isSubmitting}>
                   {isSubmitting ? 'Salvando...' : editingCompanyId ? 'Salvar alterações' : 'Cadastrar empresa'}
@@ -169,13 +156,9 @@ export default function Empresas() {
           {/* Listagem */}
           <div>
             <div className={styles.toolbar}>
-              <h3 style={{ margin: 0, fontSize: 'var(--font-size-lg)', fontWeight: 600 }}>Empresas Cadastradas</h3>
+              <h3 className={styles.toolbarTitle}>Empresas Cadastradas</h3>
               <label className={styles.checkboxRow}>
-                <input
-                  type="checkbox"
-                  checked={showActiveOnly}
-                  onChange={(event) => setShowActiveOnly(event.target.checked)}
-                />
+                <input type="checkbox" checked={showActiveOnly} onChange={(event) => setShowActiveOnly(event.target.checked)} />
                 Mostrar apenas ativas
               </label>
             </div>
@@ -196,6 +179,7 @@ export default function Empresas() {
                   <article className={styles.companyItem} key={company.id}>
                     <div className={styles.companyInfo}>
                       <div className={styles.companyName}>
+                        <Building2 size={18} className={styles.companyIcon} />
                         {company.name}
                         <Badge variant={company.is_active ? 'success' : 'error'} size="small" withDot>
                           {company.is_active ? 'Ativa' : 'Inativa'}
@@ -205,12 +189,11 @@ export default function Empresas() {
                         CNPJ: {company.cnpj || 'não informado'}
                       </div>
                     </div>
-
                     <div className={styles.itemActions}>
-                      <Button type="button" variant="secondary" size="sm" onClick={() => setSelectedCompanyForBank({ id: company.id, name: company.name })}>
-                        Contas Bancárias
+                      <Button type="button" variant="secondary" size="sm" onClick={() => setSelectedCompanyForBank({ id: company.id, name: company.name })} icon={<Landmark size={14} />}>
+                        Contas
                       </Button>
-                      <Button type="button" variant="secondary" size="sm" onClick={() => handleEdit(company)}>
+                      <Button type="button" variant="secondary" size="sm" onClick={() => handleEdit(company)} icon={<Edit size={14} />}>
                         Editar
                       </Button>
                       <Button
@@ -218,6 +201,7 @@ export default function Empresas() {
                         variant={company.is_active ? 'danger' : 'primary'}
                         size="sm"
                         onClick={() => handleToggleStatus(company)}
+                        icon={company.is_active ? <XCircle size={14} /> : <CheckCircle size={14} />}
                       >
                         {company.is_active ? 'Inativar' : 'Ativar'}
                       </Button>
@@ -229,12 +213,12 @@ export default function Empresas() {
           </div>
         </div>
       </div>
-      
+
       {selectedCompanyForBank && (
-        <BankAccountsModal 
-          companyId={selectedCompanyForBank.id} 
-          companyName={selectedCompanyForBank.name} 
-          onClose={() => setSelectedCompanyForBank(null)} 
+        <BankAccountsModal
+          companyId={selectedCompanyForBank.id}
+          companyName={selectedCompanyForBank.name}
+          onClose={() => setSelectedCompanyForBank(null)}
         />
       )}
     </Layout>

@@ -8,9 +8,10 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { useToast } from '../components/ui/Toast';
 import { runAutoReconciliation, createManualLink, getReconciliations } from '../services/reconciliationService';
 import { formatDateBR } from '../utils/date';
+import { formatCurrency } from '../utils/currency';
+import { ArrowDownUp, Link, CheckCircle2 } from 'lucide-react';
 import styles from './Conciliacao.module.css';
 
-// Interfaces simplificadas para a demonstração da UI
 interface MockMovement {
   id: number;
   date: string;
@@ -32,11 +33,9 @@ export default function Conciliacao() {
   const [companyId, setCompanyId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Estados de seleção manual
   const [selectedMovement, setSelectedMovement] = useState<MockMovement | null>(null);
   const [selectedErp, setSelectedErp] = useState<MockERP | null>(null);
 
-  // Dados Simulados para interface
   const [unmatchedMovements, setUnmatchedMovements] = useState<MockMovement[]>([
     { id: 101, date: '2023-10-25', description: 'PIX Recebido Cliente A', type: 'CREDIT', amount: 1500.00 },
     { id: 102, date: '2023-10-25', description: 'PGTO Boleto Fornecedor B', type: 'DEBIT', amount: 500.00 },
@@ -50,13 +49,9 @@ export default function Conciliacao() {
 
   useEffect(() => {
     if (!companyId) return;
-    
     const fetchData = async () => {
-      try {
-        await getReconciliations(companyId);
-      } catch (err) {
-        console.error('Erro ao buscar conciliações', err);
-      }
+      try { await getReconciliations(companyId); }
+      catch (err) { console.error('Erro ao buscar conciliações', err); }
     };
     fetchData();
   }, [companyId]);
@@ -74,36 +69,22 @@ export default function Conciliacao() {
       }
     } catch (err: any) {
       error(err.response?.data?.detail || 'Erro ao executar conciliação automática.');
-    } finally {
-      setIsLoading(false);
-    }
+    } finally { setIsLoading(false); }
   };
 
   const handleManualLink = async () => {
     if (!selectedMovement || !selectedErp) return;
-
     setIsLoading(true);
     try {
-      await createManualLink({
-        movement_id: selectedMovement.id,
-        target_type: selectedErp.type,
-        target_id: selectedErp.id
-      });
+      await createManualLink({ movement_id: selectedMovement.id, target_type: selectedErp.type, target_id: selectedErp.id });
       success('Vínculo manual realizado com sucesso!');
-
       setUnmatchedMovements(prev => prev.filter(m => m.id !== selectedMovement.id));
       setUnmatchedErp(prev => prev.filter(e => e.id !== selectedErp.id));
       setSelectedMovement(null);
       setSelectedErp(null);
     } catch (err: any) {
       error(err.response?.data?.detail || 'Erro ao realizar vínculo manual.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const formatarMoeda = (valor: number) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+    } finally { setIsLoading(false); }
   };
 
   const diff = (selectedMovement?.amount || 0) - (selectedErp?.amount || 0);
@@ -117,7 +98,7 @@ export default function Conciliacao() {
           filters={
             <>
               <CompanySelector value={companyId} onChange={setCompanyId} />
-              <Button variant="primary" onClick={handleAutoRun} disabled={isLoading || !companyId}>
+              <Button variant="primary" onClick={handleAutoRun} disabled={isLoading || !companyId} icon={<ArrowDownUp size={16} />}>
                 {isLoading ? 'Processando...' : 'Executar Automática'}
               </Button>
             </>
@@ -130,11 +111,7 @@ export default function Conciliacao() {
           <Card title="Extrato Bancário" subtitle="Movimentos pendentes no banco">
             <div className={styles.itemsList}>
               {unmatchedMovements.map(mov => (
-                <div
-                  key={mov.id}
-                  className={`${styles.itemCard} ${selectedMovement?.id === mov.id ? styles.selected : ''}`}
-                  onClick={() => setSelectedMovement(mov)}
-                >
+                <div key={mov.id} className={`${styles.itemCard} ${selectedMovement?.id === mov.id ? styles.selected : ''}`} onClick={() => setSelectedMovement(mov)}>
                   <div className={styles.itemHeader}>
                     <span className={styles.itemDate}>{formatDateBR(mov.date)}</span>
                     <Badge variant={mov.type === 'CREDIT' ? 'success' : 'error'} size="small" withDot>
@@ -143,13 +120,14 @@ export default function Conciliacao() {
                   </div>
                   <p className={styles.itemDesc}>{mov.description}</p>
                   <span className={`${styles.itemValue} ${mov.type === 'CREDIT' ? styles.itemPositive : styles.itemNegative}`}>
-                    {mov.type === 'CREDIT' ? '+' : '-'} {formatarMoeda(mov.amount)}
+                    {mov.type === 'CREDIT' ? '+' : '-'} {formatCurrency(mov.amount)}
                   </span>
                 </div>
               ))}
               {unmatchedMovements.length === 0 && (
                 <div className={styles.emptyState}>
-                  Nenhum movimento pendente.
+                  <CheckCircle2 size={32} className={styles.emptyIcon} />
+                  <p>Nenhum movimento pendente.</p>
                 </div>
               )}
             </div>
@@ -159,11 +137,7 @@ export default function Conciliacao() {
           <Card title="Sistema (ERP)" subtitle="Títulos em aberto no sistema">
             <div className={styles.itemsList}>
               {unmatchedErp.map(erp => (
-                <div
-                  key={erp.id}
-                  className={`${styles.itemCard} ${selectedErp?.id === erp.id ? styles.selected : ''}`}
-                  onClick={() => setSelectedErp(erp)}
-                >
+                <div key={erp.id} className={`${styles.itemCard} ${selectedErp?.id === erp.id ? styles.selected : ''}`} onClick={() => setSelectedErp(erp)}>
                   <div className={styles.itemHeader}>
                     <span className={styles.itemDate}>{formatDateBR(erp.date)}</span>
                     <Badge variant={erp.type === 'RECEIVABLE' ? 'success' : 'error'} size="small" withDot>
@@ -171,14 +145,13 @@ export default function Conciliacao() {
                     </Badge>
                   </div>
                   <p className={styles.itemDesc}>{erp.description}</p>
-                  <span className={styles.itemValue}>
-                    {formatarMoeda(erp.amount)}
-                  </span>
+                  <span className={styles.itemValue}>{formatCurrency(erp.amount)}</span>
                 </div>
               ))}
               {unmatchedErp.length === 0 && (
                 <div className={styles.emptyState}>
-                  Nenhum título pendente.
+                  <CheckCircle2 size={32} className={styles.emptyIcon} />
+                  <p>Nenhum título pendente.</p>
                 </div>
               )}
             </div>
@@ -190,26 +163,26 @@ export default function Conciliacao() {
           <div className={styles.actionsBar}>
             <div className={styles.matchInfo}>
               <div className={styles.matchItem}>
-                <span className={styles.matchLabel}>Selecionados:</span>
+                <Link size={16} className={styles.matchIcon} />
                 <span className={styles.matchDesc}>{selectedMovement.description}</span>
                 <span className={styles.matchArrow}>↔</span>
                 <span className={styles.matchDesc}>{selectedErp.description}</span>
               </div>
               <div className={styles.matchValues}>
                 <div className={styles.matchValueItem}>
-                  <span className={styles.matchLabel}>Diferença Computada</span>
+                  <span className={styles.matchLabel}>Diferença</span>
                   <span className={`${styles.matchDiff} ${diff === 0 ? styles.diffSuccess : styles.diffWarning}`}>
-                    {formatarMoeda(Math.abs(diff))}
+                    {formatCurrency(Math.abs(diff))}
                   </span>
                 </div>
               </div>
             </div>
-
             <Button
               variant={diff === 0 ? 'primary' : 'warning'}
               onClick={handleManualLink}
               disabled={isLoading}
               size="lg"
+              icon={<Link size={16} />}
             >
               {diff === 0 ? 'Vincular (Valores Iguais)' : 'Vincular com Diferença'}
             </Button>

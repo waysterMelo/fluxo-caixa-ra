@@ -1,4 +1,5 @@
 import { SelectHTMLAttributes, forwardRef } from 'react';
+import { ChevronDown } from 'lucide-react';
 import styles from './Select.module.css';
 
 interface SelectOption {
@@ -18,7 +19,12 @@ interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'siz
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ label, hint, error, options, placeholder, className = '', selectSize = 'default', loading = false, disabled, ...props }, ref) => {
-    const containerClass = `${styles.container} ${styles[selectSize]} ${className}`.trim();
+    const containerClass = `
+      ${styles.container}
+      ${styles[selectSize]}
+      ${error ? styles.hasError : ''}
+      ${className}
+    `.trim();
 
     return (
       <div className={containerClass}>
@@ -42,9 +48,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             ))}
           </select>
           <span className={styles.chevron}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+            <ChevronDown size={16} />
           </span>
         </div>
         {hint && !error && <span className={styles.hint}>{hint}</span>}

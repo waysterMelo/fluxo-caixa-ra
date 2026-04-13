@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { ArrowUpRight, ArrowDownRight, Minus, Circle } from 'lucide-react';
 import styles from './MetricCard.module.css';
 
 interface MetricCardProps {
@@ -36,26 +37,29 @@ export function MetricCard({
   style,
 }: MetricCardProps) {
   const cardClass = `
-    ${styles.metricCard} 
-    ${variant !== 'default' ? styles[variant] : ''} 
-    ${density !== 'default' ? styles[density] : ''} 
+    ${styles.metricCard}
+    ${styles.gradientBg}
+    ${variant !== 'default' ? styles[variant] : ''}
+    ${density !== 'default' ? styles[density] : ''}
     ${className}
   `.trim();
 
   const valueClass = `
-    ${styles.value} 
-    ${styles[size]} 
+    ${styles.value}
+    ${styles[size]}
     ${valueClassName}
   `.trim();
 
   return (
     <div className={cardClass} style={style}>
+      <div className={styles.statusBar} />
+      
       <div className={styles.header}>
-        <span className={styles.label}>{label}</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
-          {badge}
-          {icon && <span className={styles.icon}>{icon}</span>}
+        <div className={styles.headerLeft}>
+          {icon && <span className={styles.iconWrapper}>{icon}</span>}
+          <span className={styles.label}>{label}</span>
         </div>
+        {badge && <div className={styles.badge}>{badge}</div>}
       </div>
 
       <div className={valueClass}>{value}</div>
@@ -64,7 +68,9 @@ export function MetricCard({
 
       {trend && (
         <div className={`${styles.trend} ${styles[trend.direction]}`}>
-          <span>{trend.direction === 'up' ? '↑' : trend.direction === 'down' ? '↓' : '→'}</span>
+          {trend.direction === 'up' && <ArrowUpRight size={14} />}
+          {trend.direction === 'down' && <ArrowDownRight size={14} />}
+          {trend.direction === 'neutral' && <Minus size={14} />}
           <span>{trend.value}</span>
         </div>
       )}
@@ -72,4 +78,9 @@ export function MetricCard({
       {footer && <div className={styles.footer}>{footer}</div>}
     </div>
   );
+}
+
+// Componente auxiliar para dot de status
+export function StatusDot({ variant }: { variant: 'success' | 'warning' | 'error' | 'info' }) {
+  return <Circle className={`${styles.statusDot} ${styles[variant]}`} size={8} fill="currentColor" />;
 }

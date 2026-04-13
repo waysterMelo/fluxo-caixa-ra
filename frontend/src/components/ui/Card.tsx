@@ -8,18 +8,18 @@ interface CardProps {
   footer?: ReactNode;
   headerAction?: ReactNode;
   className?: string;
-  variant?: 'default' | 'metric' | 'statusCard' | 'simple';
+  variant?: 'default' | 'metric' | 'statusCard' | 'simple' | 'elevated' | 'hero';
   status?: 'success' | 'warning' | 'error' | 'info';
   density?: 'compact' | 'default' | 'relaxed';
   onClick?: () => void;
   selected?: boolean;
 }
 
-export function Card({ 
-  title, 
+export function Card({
+  title,
   subtitle,
-  children, 
-  footer, 
+  children,
+  footer,
   headerAction,
   className = '',
   variant = 'default',
@@ -29,14 +29,14 @@ export function Card({
   selected = false,
 }: CardProps) {
   const hasHeader = title || headerAction;
-  
+
   const cardClass = `
-    ${styles.card} 
-    ${variant !== 'default' ? styles[variant] : ''} 
-    ${status ? styles[status] : ''} 
-    ${density !== 'default' ? styles[density] : ''} 
-    ${onClick ? styles.clickable : ''} 
-    ${selected ? styles.selected : ''} 
+    ${styles.card}
+    ${styles[variant]}
+    ${status ? styles[status] : ''}
+    ${density !== 'default' ? styles[density] : ''}
+    ${onClick ? styles.clickable : ''}
+    ${selected ? styles.selected : ''}
     ${className}
   `.trim();
 
@@ -48,6 +48,16 @@ export function Card({
           <div className={styles.metricValue}>{children}</div>
         </div>
         {footer && <div className={styles.footer}>{footer}</div>}
+      </div>
+    );
+  }
+
+  if (variant === 'hero') {
+    return (
+      <div className={cardClass} onClick={onClick}>
+        <div className={styles.heroContent}>
+          {children}
+        </div>
       </div>
     );
   }

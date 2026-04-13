@@ -1,31 +1,38 @@
 import { ReactNode } from 'react';
+import { Circle } from 'lucide-react';
 import styles from './Badge.module.css';
 
 interface BadgeProps {
   children: ReactNode;
   variant?: 'success' | 'warning' | 'error' | 'info' | 'neutral';
-  size?: 'small' | 'default' | 'large';
+  size?: 'xs' | 'small' | 'default' | 'large';
   withDot?: boolean;
   className?: string;
 }
 
-export function Badge({ 
-  children, 
-  variant = 'neutral', 
+export function Badge({
+  children,
+  variant = 'neutral',
   size = 'default',
   withDot = false,
-  className = '' 
+  className = ''
 }: BadgeProps) {
   const badgeClass = `
-    ${styles.badge} 
-    ${styles[variant]} 
-    ${styles[size]} 
-    ${withDot ? styles.withDot : ''} 
+    ${styles.badge}
+    ${styles[variant]}
+    ${styles[size]}
     ${className}
   `.trim();
 
   return (
     <span className={badgeClass}>
+      {withDot && (
+        <Circle 
+          className={`${styles.dot} ${styles[`dot-${variant}`]}`} 
+          size={size === 'xs' ? 5 : size === 'small' ? 6 : 7} 
+          fill="currentColor" 
+        />
+      )}
       {children}
     </span>
   );

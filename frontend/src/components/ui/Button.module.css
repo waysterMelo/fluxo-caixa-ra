@@ -1,6 +1,6 @@
 /*
- * Button — Clean Corporate Premium
- * Subtle shadows, smooth transitions, loading state
+ * Button — Ocean Corporate Premium
+ * Gradientes, micro-interações, loading state elegante
  */
 
 .button {
@@ -17,11 +17,26 @@
   white-space: nowrap;
   position: relative;
   line-height: 1;
+  overflow: hidden;
 }
 
 .button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Ícone e spinner */
+.icon {
+  display: flex;
+  align-items: center;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* Sizes */
@@ -49,68 +64,120 @@
   min-height: 44px;
 }
 
-/* Variants */
+/* ========================================
+   PRIMARY — Gradiente ocean blue
+   ======================================== */
+
 .primary {
-  background: var(--accent-blue);
+  background: var(--gradient-primary);
   color: var(--text-inverse);
-  border-color: var(--accent-blue);
-  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.2);
+  border: none;
+  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.25);
 }
 
 .primary:hover:not(:disabled) {
-  background: var(--accent-blue-hover);
-  border-color: var(--accent-blue-hover);
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+  background: var(--gradient-primary-hover);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.35);
+  transform: translateY(-1px);
 }
 
 .primary:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(59, 130, 246, 0.2);
 }
+
+.primary:focus-visible:not(:disabled) {
+  outline: 2px solid var(--steel-blue);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   SECONDARY — Borda steel blue
+   ======================================== */
 
 .secondary {
   background: var(--bg-panel);
   color: var(--text-secondary);
-  border-color: var(--border-default);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-xs);
 }
 
 .secondary:hover:not(:disabled) {
-  background: var(--bg-hover);
-  border-color: var(--border-strong);
-  color: var(--text-primary);
+  background: var(--accent-blue-50);
+  border-color: var(--steel-blue);
+  color: var(--accent-blue);
+  box-shadow: var(--shadow-sm);
 }
 
+.secondary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ========================================
+   WARNING — Gradiente amber
+   ======================================== */
+
 .warning {
-  background: var(--accent-warning);
+  background: var(--gradient-status-warning);
   color: #FFFFFF;
-  border-color: var(--accent-warning);
+  border: none;
+  box-shadow: 0 1px 3px rgba(245, 158, 11, 0.25);
 }
 
 .warning:hover:not(:disabled) {
-  background: #B45309;
-  border-color: #B45309;
+  background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+  transform: translateY(-1px);
 }
 
+.warning:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ========================================
+   DANGER — Gradiente red
+   ======================================== */
+
 .danger {
-  background: var(--accent-error);
+  background: var(--gradient-status-error);
   color: #FFFFFF;
-  border-color: var(--accent-error);
+  border: none;
+  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.25);
 }
 
 .danger:hover:not(:disabled) {
-  background: #B91C1C;
-  border-color: #B91C1C;
+  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
+  transform: translateY(-1px);
 }
+
+.danger:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ========================================
+   GHOST — Transparente elegante
+   ======================================== */
 
 .ghost {
   background: transparent;
   color: var(--text-secondary);
-  border-color: transparent;
+  border: 1px solid transparent;
 }
 
 .ghost:hover:not(:disabled) {
   background: var(--bg-hover);
   color: var(--text-primary);
+  border-color: var(--border-light);
 }
+
+.ghost:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ========================================
+   MODIFICADORES
+   ======================================== */
 
 /* Full Width */
 .fullWidth {
@@ -122,18 +189,18 @@
   pointer-events: none;
 }
 
-.loading::after {
-  content: '';
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: currentColor;
-  border-radius: 50%;
-  animation: btnSpin 0.6s linear infinite;
-  margin-left: var(--spacing-xs);
-}
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
 
-@keyframes btnSpin {
-  to { transform: rotate(360deg); }
+@media (max-width: 768px) {
+  .md {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    min-height: 36px;
+  }
+  
+  .lg {
+    padding: var(--spacing-xs) var(--spacing-md);
+    min-height: 40px;
+  }
 }

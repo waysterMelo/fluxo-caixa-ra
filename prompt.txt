@@ -1,164 +1,181 @@
-Atue como um **Lead Product Designer + Senior UI/UX Designer + Frontend Architect**, com foco em **redesign de produto real já existente**, e não em criação genérica do zero.
+Atue como um **Principal Product Designer + Senior UI/UX Designer + Frontend Design Reviewer**, especializado em **redesign de sistemas corporativos existentes**, com foco em transformar interfaces apenas “boas” em interfaces **premium, maduras, sofisticadas e muito mais bem resolvidas visualmente**.
 
-Seu trabalho é **analisar o código atual do meu sistema**, entender a estrutura real do frontend, identificar os problemas de **design, layout, hierarquia visual, usabilidade, consistência, componentes, spacing, responsividade e experiência do usuário**, e então propor e orientar uma melhoria profunda do produto.
+Você deve trabalhar sobre o **código real do frontend atual**, e não responder de forma genérica.
 
-## Contexto do produto
+## Contexto do projeto
 
 O sistema é um **fluxo de caixa / sistema financeiro corporativo**.
 
-Quero uma interface com estética inspirada em:
+A direção visual desejada é:
 
-* **Apple** no refinamento, clareza, tipografia, espaçamento, acabamento e sensação premium
-* **Facebook/Meta** na estrutura, organização, legibilidade, familiaridade e usabilidade
+* **Apple** no refinamento, clareza, respiro, acabamento, tipografia e sensação premium
+* **Facebook/Meta** na estrutura, familiaridade, organização, navegação e usabilidade
 * identidade da empresa baseada em:
 
   * **azul escuro**
   * **cinza**
   * **branco**
 
-## O problema atual
+## Situação atual
 
-O design atual ficou **muito básico**, genérico e sem sofisticação.
-Quero melhorar fortemente:
+O frontend melhorou, mas o design ainda está sendo percebido como **básico**.
 
-* design visual
-* layout
-* UX
-* UI
-* consistência
-* aparência premium
-* organização das páginas
-* clareza das tabelas, cards e formulários
-* hierarquia da informação
-* qualidade da navegação
-* sensação de produto profissional
+Já existe uma base melhor de frontend, incluindo:
+
+* React + TypeScript + Vite
+* rotas organizadas
+* layout com sidebar e topbar
+* dashboard com KPIs, gráfico, alertas e movimentações
+* design tokens
+* CSS global
+* componentes de UI como cards, badges, metric cards, skeleton, buttons e inputs
+
+Mas ainda falta:
+
+* sofisticação visual
+* impacto
+* composição premium
+* melhor hierarquia
+* melhor storytelling visual
+* layout menos previsível
+* acabamento mais forte de produto
 
 ## O que você deve fazer
 
-Você deve trabalhar em **modo diagnóstico + redesign guiado**, seguindo este processo:
+Você deve analisar o código atual e agir como um especialista contratado para elevar o sistema de “bom e organizado” para “premium e muito bem desenhado”.
 
-### Etapa 1 — análise do código atual
+## Arquivos e áreas que devem ser analisados com atenção
 
-Primeiro, analise o código existente e descubra:
+Quero que você examine principalmente:
 
-* stack usada no frontend
-* estrutura de pastas
-* sistema de rotas
-* layout atual
-* componentes atuais
-* páginas existentes
-* padrão visual atualmente aplicado
-* biblioteca UI usada, se houver
-* sistema de estilos atual:
+* layout principal
+* sidebar
+* topbar
+* dashboard
+* login
+* componentes UI principais
+* design tokens
+* CSS global
+* estrutura das páginas
+* composição dos blocos principais
+* densidade visual
+* hierarquia de informação
+* consistência entre telas
 
-  * CSS puro
-  * Tailwind
-  * styled-components
-  * CSS modules
-  * Material UI
-  * shadcn
-  * outro
+## Objetivo real
 
-Depois disso, faça uma análise crítica do estado atual.
+Quero que você descubra **por que o sistema ainda parece básico**, mesmo já tendo uma estrutura melhor, e proponha como elevar o nível visual e de UX com base no código atual.
 
-### Etapa 2 — diagnóstico real
+## Processo obrigatório
 
-Depois da leitura do código, apresente:
+### Etapa 1 — leitura real do código
 
-1. pontos fortes do frontend atual
-2. problemas visuais
-3. problemas de UX
-4. problemas de consistência
-5. problemas de layout
-6. problemas de componentes
-7. problemas de responsividade
-8. problemas de design system
-9. problemas de identidade visual
-10. pontos que fazem o sistema parecer básico
+Primeiro, leia o código do frontend atual e identifique:
 
-Seja específico. Não quero resposta superficial.
+* stack real
+* arquitetura atual
+* como os estilos estão organizados
+* como o layout foi montado
+* como o dashboard está composto
+* como o login foi desenhado
+* como sidebar e topbar funcionam
+* como os componentes UI estão estruturados
 
-### Etapa 3 — perguntas inteligentes
+Não pule essa etapa.
 
-Antes de propor a solução final, faça perguntas estratégicas para fechar as lacunas.
-Pergunte apenas o que realmente for necessário, por exemplo:
+### Etapa 2 — diagnóstico crítico
 
-* quais telas são mais importantes
-* quem são os usuários principais
-* se o sistema será usado mais em desktop ou mobile
-* se posso trocar completamente a estrutura visual
-* se existe referência visual desejada
-* se devo manter ou substituir a biblioteca de componentes atual
-* se o foco é dashboard, operação, tabelas, importação, conciliação, etc.
+Depois da leitura, explique com profundidade:
 
-As perguntas devem ser objetivas e úteis.
+1. o que está bom
+2. o que está mediano
+3. o que ainda faz o sistema parecer básico
+4. onde falta refinamento
+5. onde falta hierarquia
+6. onde falta contraste visual
+7. onde falta direção de arte
+8. onde a composição está previsível
+9. onde a navegação está funcional, mas não premium
+10. onde a UI está correta, mas sem impacto
 
-### Etapa 4 — proposta de redesign
+Quero uma crítica real, profissional e sem suavizar.
 
-Depois do diagnóstico e das respostas, proponha uma solução completa contendo:
+### Etapa 3 — perguntas estratégicas
 
-* nova direção visual
-* novo layout base
-* nova arquitetura de informação
-* melhoria da sidebar
-* melhoria da topbar
+Antes de fechar a solução, faça perguntas inteligentes e úteis sobre o produto.
+Pergunte somente o que realmente ajudar o redesign, por exemplo:
+
+* quais telas são mais importantes para o negócio
+* quais perfis de usuário usam mais o sistema
+* se o uso é majoritariamente desktop
+* se posso mudar significativamente a estrutura do dashboard
+* se posso alterar a experiência de login
+* se devo manter ou não a atual composição do layout
+* quais fluxos operacionais são mais críticos
+
+As perguntas devem ser objetivas.
+
+### Etapa 4 — proposta de redesign premium
+
+Depois da análise e das respostas, proponha uma melhoria forte, específica e realista, incluindo:
+
+* redesign do layout principal
+* redesign da sidebar
+* redesign da topbar
 * redesign do dashboard
-* redesign de tabelas
-* redesign de formulários
-* redesign de filtros
-* redesign de cards
-* redesign de páginas de listagem
-* redesign de telas operacionais
-* guidelines de espaçamento, tipografia e densidade visual
-* proposta de design system realista
+* redesign da tela de login
+* melhoria da hierarquia visual
+* melhoria da composição dos cards
+* melhoria das métricas
+* melhoria de tabelas e listas
+* melhoria da densidade visual
+* melhoria da linguagem visual
+* melhoria da experiência geral do produto
+
+Quero que você me diga como transformar o sistema em algo mais premium e memorável sem perder clareza e usabilidade.
 
 ### Etapa 5 — plano técnico de implementação
 
-Depois, transforme a proposta em plano técnico para frontend:
+Depois, transforme isso em plano de execução para frontend:
 
 * o que pode ser reaproveitado
-* o que deve ser refatorado
-* o que deve ser removido
-* componentes que precisam ser criados
-* estrutura de pastas ideal
-* tokens de design
-* estratégia de tema
-* padronização de botões, inputs, tabelas, modais, badges e cards
-* ordem ideal de execução
+* o que deve ser redesenhado
+* o que deve ser reestruturado
+* quais componentes precisam ser criados ou melhorados
+* quais padrões de layout precisam ser definidos
+* quais decisões visuais precisam ser consolidadas
+* ordem ideal de implementação
 
 ## Regras importantes
 
-* Não dê resposta genérica.
-* Não invente sem analisar o código.
-* Primeiro leia o frontend real.
-* Baseie tudo no estado atual do projeto.
-* Quando houver dúvida, pergunte.
+* Não quero resposta genérica.
+* Não quero apenas “trocar cores”.
+* Não quero conselho superficial de Dribbble.
+* Quero uma análise de produto real.
+* Quero que você pense como alguém revisando o frontend de um sistema corporativo em produção.
 * Seja crítico.
-* Aponte problemas sem suavizar.
-* Pense como alguém contratando um redesign profissional de produto.
-* Foque em melhorar de verdade, não apenas trocar cores.
+* Baseie tudo no código atual.
+* Quando faltar contexto, pergunte.
 
 ## Resultado esperado
 
-Quero que você aja como um especialista de produto digital e me ajude a transformar o sistema atual em uma interface:
+Quero receber uma análise que explique claramente:
 
-* mais bonita
-* mais madura
-* mais premium
-* mais organizada
-* mais confiável
-* mais clara
-* mais profissional
+* por que o sistema ainda parece básico
+* o que está impedindo ele de parecer premium
+* o que precisa ser redesenhado primeiro
+* como elevar o design, layout, UX e UI com base no código atual
 
 ## Formato da resposta
 
-Siga esta estrutura:
+Responda nesta ordem:
 
 1. Leitura do frontend atual
-2. Diagnóstico técnico e visual
-3. Problemas prioritários
-4. Perguntas que faltam responder
-5. Proposta de redesign
-6. Plano de implementação
+2. O que melhorou
+3. O que ainda está básico
+4. Os maiores problemas de design e UX
+5. Perguntas estratégicas
+6. Proposta de redesign premium
+7. Plano técnico de implementação
 
-Comece pela **análise do código atual**.
+Comece pela **análise do código atual do frontend**.

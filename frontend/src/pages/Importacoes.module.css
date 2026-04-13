@@ -1,6 +1,5 @@
 /*
- * Importações - Apple + Facebook Style
- * Layout multi-coluna, cards lado a lado
+ * Importacoes — Ocean Corporate Premium
  */
 
 .container {
@@ -9,7 +8,6 @@
   gap: var(--spacing-2xl);
 }
 
-/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -30,38 +28,6 @@
   margin: 0;
 }
 
-/* Company Selector */
-.selectorDescription {
-  font-size: var(--font-size-sm);
-  color: var(--text-tertiary);
-  margin: 0 0 var(--spacing-lg) 0;
-}
-
-.select {
-  width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: var(--font-size-sm);
-  font-family: var(--font-sans);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  background-color: var(--bg-input);
-  color: var(--text-primary);
-  transition: all var(--transition-base);
-  outline: none;
-}
-
-.select:focus {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.select:disabled {
-  background-color: var(--bg-secondary);
-  color: var(--text-tertiary);
-  cursor: not-allowed;
-}
-
-/* Link Button */
 .linkButton {
   display: inline-flex;
   align-items: center;
@@ -81,14 +47,36 @@
   color: var(--text-inverse);
 }
 
-/* Imports Grid - 3 colunas */
+.select {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-sans);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  transition: all var(--transition-base);
+  outline: none;
+}
+
+.select:focus {
+  border-color: var(--steel-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.select:disabled {
+  background-color: var(--bg-secondary);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
 .importsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--spacing-xl);
 }
 
-/* Import Form */
 .importForm {
   display: flex;
   flex-direction: column;
@@ -107,23 +95,41 @@
   color: var(--text-primary);
 }
 
-.fileInput {
-  padding: var(--spacing-md);
+.fileUpload {
+  padding: var(--spacing-xl);
   border: 2px dashed var(--border-default);
   border-radius: var(--radius-md);
   background-color: var(--bg-secondary);
   cursor: pointer;
   transition: all var(--transition-base);
-  font-size: var(--font-size-sm);
-  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  position: relative;
 }
 
-.fileInput:hover {
+.fileUpload:hover {
   background-color: var(--bg-hover);
-  border-color: var(--border-strong);
+  border-color: var(--steel-blue);
 }
 
-/* Checkbox Container */
+.uploadIcon {
+  color: var(--text-muted);
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fileText {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
 .checkboxContainer {
   display: flex;
   align-items: center;
@@ -139,14 +145,12 @@
   cursor: pointer;
 }
 
-/* Actions */
 .actions {
   display: flex;
   justify-content: flex-end;
   margin-top: var(--spacing-md);
 }
 
-/* Info Box */
 .infoBox {
   padding: var(--spacing-md);
   border-radius: var(--radius-md);
@@ -156,13 +160,6 @@
   color: var(--status-info);
   border: 1px solid var(--status-info-border);
   margin-top: var(--spacing-md);
-}
-
-/* Alerts */
-.alerts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
 }
 
 .alert {
@@ -184,20 +181,24 @@
   border: 1px solid var(--status-error-border);
 }
 
-/* Responsive */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.pageInfo {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
 @media (max-width: 1200px) {
-  .importsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .importsGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-  .importsGrid {
-    grid-template-columns: 1fr;
-  }
-  
-  .header {
-    flex-direction: column;
-    gap: var(--spacing-md);
-  }
+  .importsGrid { grid-template-columns: 1fr; }
+  .header { flex-direction: column; gap: var(--spacing-md); }
 }

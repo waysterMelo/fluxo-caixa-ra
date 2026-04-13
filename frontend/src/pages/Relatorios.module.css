@@ -1,8 +1,8 @@
 /*
- * Relatórios — Fluxo de Caixa RA · Bela-Tec
+ * Relatorios — Ocean Corporate Premium
  */
 
- .container {
+.container {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-2xl);
@@ -12,7 +12,32 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.sectionHeader {
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--spacing-xs);
+}
+
+.sectionSubtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 .tableSection {
@@ -22,12 +47,21 @@
   gap: var(--spacing-md);
 }
 
+.tableTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
 .tableContainer {
   background: var(--bg-panel);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
 }
 
 .table {
@@ -40,7 +74,7 @@
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   color: var(--text-tertiary);
-  background: var(--bg-secondary);
+  background: var(--table-header-bg);
   border-bottom: 2px solid var(--border-light);
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -48,9 +82,7 @@
   white-space: nowrap;
 }
 
-.th.textLeft {
-  text-align: left;
-}
+.th.textLeft { text-align: left; }
 
 .td {
   padding: var(--spacing-md) var(--spacing-lg);
@@ -61,14 +93,9 @@
   font-variant-numeric: tabular-nums;
 }
 
-.td.textLeft {
-  text-align: left;
-  font-variant-numeric: normal;
-}
+.td.textLeft { text-align: left; font-variant-numeric: normal; }
 
-.tr:hover .td {
-  background-color: var(--bg-hover);
-}
+.tr:hover .td { background-color: var(--table-row-hover); }
 
 .tfoot .td {
   font-weight: var(--font-weight-bold);
@@ -77,24 +104,28 @@
   border-bottom: none;
 }
 
-.textBold {
-  font-weight: var(--font-weight-bold);
-}
+.textBold { font-weight: var(--font-weight-bold); }
 
-/* Colors for specific indicators */
 .tdPositive { color: var(--status-success); }
 .tdNegative { color: var(--status-error); }
-.tdNeutral { color: var(--accent-cyan); }
-.tdSpecial { color: var(--accent-purple); }
+.tdNeutral { color: var(--accent-info); }
+.tdSpecial { color: var(--ocean-sky); }
 
+.companyCell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.companyCellIcon {
+  color: var(--text-muted);
+}
+
+/* Responsive */
 @media (max-width: 1200px) {
-  .metricsGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .metricsGrid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 768px) {
-  .metricsGrid {
-    grid-template-columns: 1fr;
-  }
+  .metricsGrid { grid-template-columns: 1fr; }
 }

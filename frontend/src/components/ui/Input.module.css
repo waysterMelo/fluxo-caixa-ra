@@ -1,5 +1,6 @@
 /*
- * Input — Clean Corporate Premium
+ * Input — Ocean Corporate Premium
+ * Labels elegantes, focus states refinados, ícones de erro
  */
 
 .container {
@@ -11,10 +12,15 @@
 .label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
   line-height: 1.3;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .input {
@@ -30,7 +36,7 @@
   outline: none;
   transition: all var(--transition-base);
   line-height: 1.5;
-  min-height: 38px;
+  min-height: 40px;
 }
 
 .input::placeholder {
@@ -38,13 +44,13 @@
   font-weight: var(--font-weight-normal);
 }
 
-.input:hover:not(:disabled):not(:read-only) {
+.input:hover:not(:disabled):not(:read-only):not(.error) {
   border-color: var(--border-strong);
 }
 
 .input:focus {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+  border-color: var(--steel-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .input:disabled {
@@ -56,15 +62,36 @@
 
 .input.readOnly {
   background-color: var(--bg-secondary);
+  padding-right: var(--spacing-2xl);
   cursor: default;
 }
 
 .input.error {
-  border-color: var(--border-error);
+  border-color: var(--accent-error);
+  padding-right: var(--spacing-2xl);
 }
 
 .input.error:focus {
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Ícones */
+.iconError {
+  position: absolute;
+  right: var(--spacing-sm);
+  color: var(--accent-error);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.iconReadOnly {
+  position: absolute;
+  right: var(--spacing-sm);
+  color: var(--accent-success);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
 }
 
 /* Mono variant */
@@ -82,7 +109,7 @@
 
 /* Sizes */
 .small .input {
-  min-height: 32px;
+  min-height: 36px;
   padding: var(--spacing-2xs) var(--spacing-xs);
   font-size: var(--font-size-xs);
 }
@@ -102,6 +129,25 @@
 
 .errorMessage {
   font-size: var(--font-size-xs);
-  color: var(--status-error);
+  color: var(--accent-error);
   line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+}
+
+/* Estado com erro no container */
+.hasError .label {
+  color: var(--accent-error);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .input {
+    min-height: 44px;
+  }
+  
+  .small .input {
+    min-height: 40px;
+  }
 }

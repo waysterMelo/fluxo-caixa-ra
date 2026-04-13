@@ -5,13 +5,15 @@ import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { createAdjustment, AdjustmentCreate } from '../services/adjustmentService';
 import { getTodayLocal } from '../utils/date';
+import { formatCurrency } from '../utils/currency';
+import { Card } from '../components/ui/Card';
+import { AlertCircle, PlusCircle, Save, Wallet } from 'lucide-react';
 import styles from './Ajustes.module.css';
 
 export default function Ajustes() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
-  // Form State
   const [companyId, setCompanyId] = useState(1);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [isLoadingCompanies, setIsLoadingCompanies] = useState(true);
@@ -22,11 +24,8 @@ export default function Ajustes() {
         const data = await listCompanies(true);
         setCompanies(data);
         if (data.length > 0) setCompanyId(data[0].id);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoadingCompanies(false);
-      }
+      } catch (e) { console.error(e); }
+      finally { setIsLoadingCompanies(false); }
     };
     loadComps();
   }, []);
@@ -38,27 +37,22 @@ export default function Ajustes() {
   const [categoryId, setCategoryId] = useState('');
   const [reason, setReason] = useState('');
 
-  // Saldo Inicial State
   const [saldoInicialDate, setSaldoInicialDate] = useState(getTodayLocal());
   const [saldoInicialAmount, setSaldoInicialAmount] = useState('');
   const [isSavingSaldo, setIsSavingSaldo] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
       setMessage({ type: 'error', text: 'Informe um valor válido maior que zero.' });
       return;
     }
-
     if (!description.trim() || !reason.trim()) {
       setMessage({ type: 'error', text: 'Descrição e motivo (justificativa) são obrigatórios.' });
       return;
     }
-
     setIsLoading(true);
     setMessage(null);
-
     const payload: AdjustmentCreate = {
       company_id: companyId,
       adjustment_date: adjustmentDate,
@@ -68,21 +62,16 @@ export default function Ajustes() {
       category_id: categoryId || undefined,
       reason
     };
-
     try {
       const response = await createAdjustment(payload);
       setMessage({ type: 'success', text: `${response.detail} (ID: ${response.id})` });
-      
-      // Limpa os campos após sucesso
       setAmount('');
       setDescription('');
       setCategoryId('');
       setReason('');
     } catch (err: any) {
       setMessage({ type: 'error', text: err.response?.data?.detail || 'Erro ao criar ajuste manual.' });
-    } finally {
-      setIsLoading(false);
-    }
+    } finally { setIsLoading(false); }
   };
 
   const handleSaveSaldoInicial = async (e: FormEvent) => {
@@ -91,9 +80,7 @@ export default function Ajustes() {
       setMessage({ type: 'error', text: 'Informe um valor numérico válido para o saldo inicial.' });
       return;
     }
-    
-    if (!window.confirm(`Confirma a definição de R$ ${Number(saldoInicialAmount).toFixed(2)} como saldo inicial para a data selecionada?`)) return;
-
+    if (!window.confirm(`Confirma a definição de ${formatCurrency(Number(saldoInicialAmount))} como saldo inicial?`)) return;
     setIsSavingSaldo(true);
     setMessage(null);
     try {
@@ -109,166 +96,91 @@ export default function Ajustes() {
       setSaldoInicialAmount('');
     } catch (err: any) {
       setMessage({ type: 'error', text: err.response?.data?.detail || 'Erro ao salvar o saldo inicial.' });
-    } finally {
-      setIsSavingSaldo(false);
-    }
+    } finally { setIsSavingSaldo(false); }
   };
 
   return (
     <Layout>
       <div className={styles.container}>
         <div className={styles.header}>
-          <div>
-            <h2>Ajustes Manuais & Saldo</h2>
-            <p>Inclusão de lançamentos financeiros não previstos e definição de saldo inicial de caixa.</p>
-          </div>
+          <h2 className={styles.title}>Ajustes Manuais & Saldo</h2>
+          <p className={styles.subtitle}>Inclusão de lançamentos financeiros não previstos e definição de saldo inicial.</p>
         </div>
 
         {message && (
           <div className={`${styles.alert} ${message.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-            {message.text}
+            <AlertCircle size={16} />
+            <span>{message.text}</span>
           </div>
         )}
 
-        <div style={{ marginBottom: 'var(--spacing-lg)' }}>
-          <label className={styles.label} style={{ display: 'block', marginBottom: 'var(--spacing-xs)' }}>EMPRESA DE REFERÊNCIA</label>
+        <div className={styles.companySelector}>
+          <label className={styles.label}>Empresa de Referência</label>
           <select
             value={companyId}
             onChange={(e) => setCompanyId(Number(e.target.value))}
             disabled={isLoadingCompanies || companies.length === 0}
             className={styles.select}
-            style={{ maxWidth: '400px' }}
           >
-              {companies.length === 0 ? (
-                <option value="">Carregando...</option>
-              ) : (
-                companies.map(c => <option key={c.id} value={c.id}>{c.name}</option>)
-              )}
+            {companies.length === 0 ? (
+              <option value="">Carregando...</option>
+            ) : (
+              companies.map(c => <option key={c.id} value={c.id}>{c.name}</option>)
+            )}
           </select>
         </div>
 
-        <div style={{ display: 'grid', gap: 'var(--spacing-xl)' }}>
-          {/* Sessão: Saldo Inicial */}
-          <section style={{ background: 'var(--bg-panel)', padding: 'var(--spacing-xl)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)' }}>
-            <h3 style={{ fontSize: 'var(--font-size-xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-tertiary)', marginBottom: 'var(--spacing-md)', paddingBottom: 'var(--spacing-sm)', borderBottom: '2px solid var(--border-strong)' }}>
-              DEFINIÇÃO DE SALDO INICIAL
-            </h3>
+        <div className={styles.sections}>
+          {/* Saldo Inicial */}
+          <Card title="Definição de Saldo Inicial" headerAction={<Wallet size={18} className={styles.sectionIcon} />}>
+            <div className={styles.infoBox}>
+              <AlertCircle size={16} />
+              <div><strong>Primeiro Lançamento:</strong> Utilize este quadro para registrar o saldo real no momento de implantação do sistema.</div>
+            </div>
             <form onSubmit={handleSaveSaldoInicial}>
-              <div className={styles.infoBox} style={{ marginBottom: 'var(--spacing-md)' }}>
-                <span className={styles.infoIcon}>💡</span>
-                <div>
-                  <strong>Primeiro Lançamento:</strong> Utilize este quadro exclusivamente para registrar o saldo real em conta no momento de implantação do sistema.
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: 'var(--spacing-md)', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-                <div style={{ flex: 1, minWidth: '200px' }}>
-                  <Input
-                    type="date"
-                    label="DATA DE REFERÊNCIA"
-                    value={saldoInicialDate}
-                    onChange={(e) => setSaldoInicialDate(e.target.value)}
-                    required
-                    variant="date"
-                  />
-                </div>
-                <div style={{ flex: 1, minWidth: '200px' }}>
-                  <Input
-                    type="number"
-                    label="SALDO INICIAL (R$)"
-                    step="0.01"
-                    value={saldoInicialAmount}
-                    onChange={(e) => setSaldoInicialAmount(e.target.value)}
-                    placeholder="Ex: 50000.00"
-                    required
-                  />
-                </div>
-                <div>
-                  <Button type="submit" variant="secondary" disabled={isSavingSaldo || isLoading}>
-                    {isSavingSaldo ? 'SALVANDO...' : 'SALVAR SALDO INICIAL'}
-                  </Button>
-                </div>
-              </div>
-            </form>
-          </section>
-
-          <hr style={{ border: 'none', borderTop: '1px solid var(--border-default)', margin: '0' }} />
-
-          {/* Sessão: Ajustes Manuais */}
-          <section>
-            <h3 style={{ marginBottom: 'var(--spacing-md)', fontSize: 'var(--font-size-xs)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-tertiary)' }}>NOVO AJUSTE AVULSO</h3>
-            <form className={styles.content} onSubmit={handleSubmit} style={{ margin: 0 }}>
-              <div className={styles.infoBox}>
-                <span className={styles.infoIcon}>ℹ️</span>
-                <div>
-                  <strong>Atenção:</strong> Todo ajuste manual gera um registro de auditoria inalterável.
-                  Por favor, seja claro na justificativa. Não é possível lançar em dias já fechados.
-                </div>
-              </div>
-
-              <div className={styles.formGrid}>
-                <Input
-                  type="date"
-                  label="DATA DO AJUSTE"
-                  value={adjustmentDate}
-                  onChange={(e) => setAdjustmentDate(e.target.value)}
-                  required
-                  variant="date"
-                />
-
-                <div className={styles.formGroup}>
-                  <label className={styles.label}>TIPO DE LANÇAMENTO</label>
-                  <select
-                    value={kind}
-                    onChange={(e) => setKind(e.target.value as 'IN' | 'OUT')}
-                    className={styles.select}
-                  >
-                    <option value="IN">ENTRADA (CRÉDITO)</option>
-                    <option value="OUT">SAÍDA (DÉBITO)</option>
-                  </select>
-                </div>
-
-                <Input
-                  type="number"
-                  label="VALOR (R$)"
-                  step="0.01"
-                  min="0.01"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder="0,00"
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup} style={{ marginTop: 'var(--spacing-md)' }}>
-                <label className={styles.label}>DESCRIÇÃO DO LANÇAMENTO</label>
-                <Input
-                  type="text"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Ex: Pagamento extra fornecedor X"
-                  required
-                />
-              </div>
-
-              <div className={styles.formGroup} style={{ marginTop: 'var(--spacing-md)' }}>
-                <label className={styles.label}>JUSTIFICATIVA (AUDITORIA)</label>
-                <textarea
-                  className={styles.textarea}
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  placeholder="Motivo detalhado para este lançamento manual não vir do ERP..."
-                  required
-                />
-              </div>
-
-              <div className={styles.actions}>
-                <Button type="submit" variant="primary" disabled={isLoading || isSavingSaldo}>
-                  {isLoading ? 'REGISTRANDO...' : 'REGISTRAR AJUSTE MANUAL'}
+              <div className={styles.formRow}>
+                <Input type="date" label="Data de Referência" value={saldoInicialDate} onChange={(e) => setSaldoInicialDate(e.target.value)} required variant="date" />
+                <Input type="number" label="Saldo Inicial (R$)" step="0.01" value={saldoInicialAmount} onChange={(e) => setSaldoInicialAmount(e.target.value)} placeholder="Ex: 50000.00" required />
+                <Button type="submit" variant="secondary" disabled={isSavingSaldo || isLoading} icon={<Save size={16} />}>
+                  {isSavingSaldo ? 'Salvando...' : 'Salvar Saldo'}
                 </Button>
               </div>
             </form>
-          </section>
+          </Card>
 
+          {/* Ajustes Manuais */}
+          <Card title="Novo Ajuste Avulso" headerAction={<PlusCircle size={18} className={styles.sectionIcon} />}>
+            <div className={styles.infoBox}>
+              <AlertCircle size={16} />
+              <div><strong>Atenção:</strong> Todo ajuste manual gera um registro de auditoria inalterável. Seja claro na justificativa.</div>
+            </div>
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div className={styles.formGrid}>
+                <Input type="date" label="Data do Ajuste" value={adjustmentDate} onChange={(e) => setAdjustmentDate(e.target.value)} required variant="date" />
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Tipo de Lançamento</label>
+                  <select value={kind} onChange={(e) => setKind(e.target.value as 'IN' | 'OUT')} className={styles.select}>
+                    <option value="IN">Entrada (Crédito)</option>
+                    <option value="OUT">Saída (Débito)</option>
+                  </select>
+                </div>
+                <Input type="number" label="Valor (R$)" step="0.01" min="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="0,00" required />
+              </div>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Descrição do Lançamento</label>
+                <Input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Ex: Pagamento extra fornecedor X" required />
+              </div>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Justificativa (Auditoria)</label>
+                <textarea className={styles.textarea} value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Motivo detalhado para este lançamento manual..." required />
+              </div>
+              <div className={styles.actions}>
+                <Button type="submit" variant="primary" disabled={isLoading || isSavingSaldo} icon={<PlusCircle size={16} />}>
+                  {isLoading ? 'Registrando...' : 'Registrar Ajuste Manual'}
+                </Button>
+              </div>
+            </form>
+          </Card>
         </div>
       </div>
     </Layout>

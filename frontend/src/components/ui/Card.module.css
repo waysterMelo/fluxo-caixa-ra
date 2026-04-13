@@ -1,31 +1,124 @@
 /*
- * Card — Clean Corporate Premium
- * No visible border, shadow-based, hover elevation
+ * Card — Ocean Corporate Premium
+ * Bordas sutis, sombras premium, hover elevation, variantes
  */
 
 .card {
   background-color: var(--bg-panel);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: box-shadow var(--transition-base), transform var(--transition-base);
-  border: none;
+  transition: all var(--transition-base);
+  border: 1px solid var(--border-light);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-card-hover);
 }
 
-/* Header */
+/* ========================================
+   VARIANTES
+   ======================================== */
+
+/* Default */
+.default {
+  composes: card;
+}
+
+/* Elevated — sombra maior desde o início */
+.elevated {
+  composes: card;
+  box-shadow: var(--shadow-elevated);
+}
+
+/* Hero — card grande com fundo ocean deep */
+.hero {
+  composes: card;
+  background: var(--gradient-hero);
+  border-color: var(--ocean-blue);
+  padding: var(--spacing-2xl);
+}
+
+.hero .title {
+  color: var(--text-inverse);
+}
+
+.hero .subtitle {
+  color: var(--ocean-breeze);
+}
+
+/* Metric — para KPIs */
+.metric {
+  composes: card;
+}
+
+.metric .content {
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.metricValue {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-metric);
+  line-height: 1.1;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* StatusCard — barra lateral colorida */
+.statusCard {
+  composes: card;
+  position: relative;
+}
+
+.statusBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+}
+
+.statusCard.success .statusBar {
+  background: var(--gradient-status-success);
+}
+
+.statusCard.warning .statusBar {
+  background: var(--gradient-status-warning);
+}
+
+.statusCard.error .statusBar {
+  background: var(--gradient-status-error);
+}
+
+.statusCard.info .statusBar {
+  background: linear-gradient(180deg, #06B6D4 0%, #0891B2 100%);
+}
+
+/* Simple — sem header/footer, padding direto */
+.simple {
+  composes: card;
+  padding: var(--spacing-xl);
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-lg) var(--spacing-xl);
   border-bottom: 1px solid var(--border-light);
-  min-height: 52px;
+  min-height: 56px;
+  background: var(--bg-panel);
 }
 
 .headerLeft {
@@ -53,7 +146,10 @@
   gap: var(--spacing-sm);
 }
 
-/* Content */
+/* ========================================
+   CONTENT
+   ======================================== */
+
 .content {
   padding: var(--spacing-xl);
   font-size: var(--font-size-base);
@@ -64,9 +160,18 @@
   padding: var(--spacing-md) var(--spacing-lg);
 }
 
-/* Footer */
+/* Hero content */
+.heroContent {
+  padding: var(--spacing-2xl);
+  color: var(--text-inverse);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
 .footer {
-  padding: var(--spacing-sm) var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-xl);
   border-top: 1px solid var(--border-light);
   background-color: var(--bg-secondary);
   font-size: var(--font-size-xs);
@@ -74,63 +179,72 @@
   line-height: 1.5;
 }
 
-/* Variants */
-.metric {
-  composes: card;
-}
+/* ========================================
+   STATES
+   ======================================== */
 
-.metric .content {
-  padding: var(--spacing-xl);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.metricValue {
-  font-family: var(--font-sans);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-metric);
-  line-height: 1.1;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-}
-
-.statusCard {
-  composes: card;
-  border-left: 3px solid;
-}
-
-.statusCard.success { border-left-color: var(--status-success); }
-.statusCard.warning { border-left-color: var(--status-warning); }
-.statusCard.error { border-left-color: var(--status-error); }
-.statusCard.info { border-left-color: var(--status-info); }
-
-.simple {
-  composes: card;
-  padding: var(--spacing-xl);
-}
-
-/* States */
 .clickable {
   cursor: pointer;
 }
 
 .clickable:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
 }
 
 .selected {
-  box-shadow: 0 0 0 2px var(--accent-blue);
+  box-shadow: 0 0 0 2px var(--steel-blue);
   background-color: var(--accent-blue-50);
+  border-color: var(--steel-blue);
 }
 
-/* Density */
-.dense .content {
+/* ========================================
+   DENSITY
+   ======================================== */
+
+.compact .content {
   padding: var(--spacing-sm) var(--spacing-md);
 }
 
 .relaxed .content {
   padding: var(--spacing-2xl);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .header {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .content {
+    padding: var(--spacing-lg);
+  }
+
+  .footer {
+    padding: var(--spacing-sm) var(--spacing-lg);
+  }
+
+  .heroContent {
+    padding: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    border-radius: var(--radius-md);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+
+  .headerRight {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }

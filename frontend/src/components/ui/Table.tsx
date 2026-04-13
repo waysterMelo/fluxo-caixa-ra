@@ -5,6 +5,7 @@ interface Column<T> {
   header: string;
   accessor: keyof T | ((row: T) => ReactNode);
   align?: 'left' | 'center' | 'right';
+  width?: string;
 }
 
 interface TableProps<T> {
@@ -17,18 +18,20 @@ interface TableProps<T> {
   bordered?: boolean;
   noHover?: boolean;
   selectedKey?: string | number | null;
+  className?: string;
 }
 
-export function Table<T>({ 
-  columns, 
-  data, 
-  keyExtractor, 
+export function Table<T>({
+  columns,
+  data,
+  keyExtractor,
   emptyMessage = 'Nenhum registro encontrado.',
   compact = false,
   striped = true,
   bordered = false,
   noHover = false,
   selectedKey = null,
+  className = '',
 }: TableProps<T>) {
   const containerClass = `
     ${styles.container}
@@ -36,6 +39,7 @@ export function Table<T>({
     ${striped ? styles.stripe : ''}
     ${bordered ? styles.bordered : ''}
     ${noHover ? styles.noHover : ''}
+    ${className}
   `.trim();
 
   return (
@@ -47,6 +51,7 @@ export function Table<T>({
               <th
                 key={index}
                 className={`${styles.th} ${col.align === 'right' ? styles.right : ''} ${col.align === 'center' ? styles.center : ''}`}
+                style={col.width ? { width: col.width } : undefined}
               >
                 {col.header}
               </th>
@@ -58,7 +63,7 @@ export function Table<T>({
             data.map((row) => {
               const key = keyExtractor(row);
               const isSelected = selectedKey !== null && key === selectedKey;
-              
+
               return (
                 <tr key={key} className={`${styles.tr} ${isSelected ? styles.selected : ''}`}>
                   {columns.map((col, index) => (

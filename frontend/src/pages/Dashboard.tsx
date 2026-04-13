@@ -6,6 +6,19 @@ import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Skeleton } from '../components/ui/Skeleton';
+import { 
+  ArrowUpRight, 
+  ArrowDownRight, 
+  Wallet, 
+  TrendingUp, 
+  AlertTriangle, 
+  CheckCircle2,
+  Info,
+  XCircle,
+  ChevronRight,
+  Sparkles,
+} from 'lucide-react';
+import { formatCurrency, formatCurrencyCompact, getValueColorClass } from '../utils/currency';
 import styles from './Dashboard.module.css';
 
 interface DashboardData {
@@ -29,36 +42,6 @@ interface DashboardData {
     tipo: 'warning' | 'error' | 'info' | 'success';
   }>;
 }
-
-// Ícones para KPIs
-const KpiIcons = {
-  wallet: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 12V7H5a2 2 0 010-4h14v4" />
-      <path d="M3 5v14a2 2 0 002 2h16v-5" />
-      <path d="M18 12a2 2 0 100 4 2 2 0 000-4z" />
-    </svg>
-  ),
-  arrowUp: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="19" x2="12" y2="5" />
-      <polyline points="5 12 12 5 19 12" />
-    </svg>
-  ),
-  arrowDown: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <polyline points="19 12 12 19 5 12" />
-    </svg>
-  ),
-  target: (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="6" />
-      <circle cx="12" cy="12" r="2" />
-    </svg>
-  ),
-};
 
 export default function Dashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
@@ -99,37 +82,18 @@ export default function Dashboard() {
     }, 600);
   }, []);
 
-  const formatCurrency = (value: number) =>
-    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-
-  const formatCurrencyShort = (value: number) => {
-    if (value >= 1000) return `R$ ${(value / 1000).toFixed(1)}k`;
-    return formatCurrency(value);
+  const alertIcons: Record<string, React.ReactNode> = {
+    warning: <AlertTriangle size={16} />,
+    info: <Info size={16} />,
+    success: <CheckCircle2 size={16} />,
+    error: <XCircle size={16} />,
   };
 
-  const alertIcons: Record<string, React.ReactNode> = {
-    warning: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-        <line x1="12" y1="9" x2="12" y2="13" />
-        <line x1="12" y1="17" x2="12.01" y2="17" />
-      </svg>
-    ),
-    info: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
-      </svg>
-    ),
-    success: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-      </svg>
-    ),
-    error: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" />
-      </svg>
-    ),
+  const alertLabels: Record<string, string> = {
+    warning: 'Atenção',
+    info: 'Info',
+    success: 'OK',
+    error: 'Erro',
   };
 
   return (
@@ -146,77 +110,129 @@ export default function Dashboard() {
           </div>
         ) : data ? (
           <>
-            {/* KPIs Principais */}
+            {/* SEÇÃO 1 — Alertas Críticos (prioridade máxima) */}
+            {data.alertas.length > 0 && (
+              <section className={styles.alertsSection}>
+                <Card variant="simple" className={styles.alertsCard}>
+                  <div className={styles.alertsHeader}>
+                    <AlertTriangle size={18} className={styles.alertsIcon} />
+                    <h3 className={styles.alertsTitle}>Atenção — {data.alertas.length} alerta{data.alertas.length > 1 ? 's' : ''}</h3>
+                  </div>
+                  <div className={styles.alertsList}>
+                    {data.alertas.map((alerta) => (
+                      <div key={alerta.id} className={styles.alertItem}>
+                        <span className={styles.alertIcon}>{alertIcons[alerta.tipo]}</span>
+                        <span className={styles.alertText}>{alerta.mensagem}</span>
+                        <Badge variant={alerta.tipo} size="small" withDot>
+                          {alertLabels[alerta.tipo]}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              </section>
+            )}
+
+            {/* SEÇÃO 2 — Posição de Caixa (KPI Hero) */}
+            <section className={styles.heroSection}>
+              <Card variant="hero" className={styles.heroCard}>
+                <div className={styles.heroContent}>
+                  <div className={styles.heroLeft}>
+                    <div className={styles.heroLabel}>
+                      <Wallet size={16} />
+                      <span>Posição de Caixa</span>
+                    </div>
+                    <div className={styles.heroValue}>{formatCurrency(data.saldoAtual)}</div>
+                    <div className={styles.heroSubtitle}>Saldo consolidado hoje</div>
+                  </div>
+                  
+                  <div className={styles.heroCenter}>
+                    <div className={styles.heroStat}>
+                      <div className={styles.heroStatLabel}>
+                        <ArrowUpRight size={14} />
+                        Entradas
+                      </div>
+                      <div className={`${styles.heroStatValue} ${styles.textSuccess}`}>
+                        {formatCurrency(data.entradas)}
+                      </div>
+                    </div>
+                    <div className={styles.heroDivider} />
+                    <div className={styles.heroStat}>
+                      <div className={styles.heroStatLabel}>
+                        <ArrowDownRight size={14} />
+                        Saídas
+                      </div>
+                      <div className={`${styles.heroStatValue} ${styles.textError}`}>
+                        {formatCurrency(data.saidas)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className={styles.heroRight}>
+                    <div className={styles.heroTrendLabel}>Saldo do período</div>
+                    <div className={`${styles.heroTrendValue} ${getValueColorClass(data.entradas - data.saidas)}`}>
+                      {formatCurrency(data.entradas - data.saidas)}
+                    </div>
+                    <div className={styles.heroTrendIcon}>
+                      <Sparkles size={14} />
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </section>
+
+            {/* SEÇÃO 3 — Indicadores Secundários (grid 4 colunas) */}
             <section className={styles.kpiRow}>
-              <MetricCard
-                label="Saldo Atual"
-                value={formatCurrency(data.saldoAtual)}
-                subtitle="Posição consolidada hoje"
-                size="large"
-                variant="info"
-                icon={KpiIcons.wallet}
-              />
-              <MetricCard
-                label="Entradas"
-                value={formatCurrency(data.entradas)}
-                subtitle="Recebimentos realizados"
-                size="large"
-                variant="success"
-                icon={KpiIcons.arrowUp}
-                trend={{ value: '+12.5%', direction: 'up' }}
-              />
-              <MetricCard
-                label="Saídas"
-                value={formatCurrency(data.saidas)}
-                subtitle="Pagamentos efetuados"
-                size="large"
-                variant="error"
-                icon={KpiIcons.arrowDown}
-                trend={{ value: '-8.2%', direction: 'down' }}
-              />
               <MetricCard
                 label="Saldo Previsto"
                 value={formatCurrency(data.saldoPrevisto)}
                 subtitle="Projeção para 30 dias"
                 size="large"
-                variant="success"
-                icon={KpiIcons.target}
+                variant="info"
+                icon={<TrendingUp size={18} />}
+                trend={{ value: '+9.8%', direction: 'up' }}
               />
-            </section>
-
-            {/* KPIs Secundários */}
-            <section className={styles.kpiRowSecondary}>
               <MetricCard
                 label="Contas a Pagar"
                 value={formatCurrency(data.contasPagar)}
                 subtitle="Próximos 30 dias"
                 variant="warning"
-                density="compact"
+                icon={<ArrowDownRight size={18} />}
               />
               <MetricCard
                 label="Contas a Receber"
                 value={formatCurrency(data.contasReceber)}
                 subtitle="Próximos 30 dias"
                 variant="success"
-                density="compact"
+                icon={<ArrowUpRight size={18} />}
+              />
+              <MetricCard
+                label="Saldo Líquido"
+                value={formatCurrency(data.contasReceber - data.contasPagar)}
+                subtitle="A receber - a pagar"
+                variant={data.contasReceber - data.contasPagar >= 0 ? 'success' : 'error'}
+                icon={<Wallet size={18} />}
               />
             </section>
 
-            {/* Gráfico + Movimentações */}
+            {/* SEÇÃO 4 — Gráfico de Fluxo */}
             <section className={styles.contentGrid}>
-              {/* Gráfico de Fluxo Semanal */}
-              <Card title="Fluxo da Semana" subtitle="Entradas vs Saídas (últimos 7 dias)">
+              <Card 
+                title="Evolução — Últimos 7 Dias" 
+                subtitle="Entradas vs Saídas diárias"
+                className={styles.chartCard}
+              >
                 <div className={styles.chartContainer}>
-                  <ResponsiveContainer width="100%" height={260}>
-                    <AreaChart data={data.fluxoSemanal} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+                  <ResponsiveContainer width="100%" height={280}>
+                    <AreaChart data={data.fluxoSemanal} margin={{ top: 12, right: 12, left: -16, bottom: 4 }}>
                       <defs>
                         <linearGradient id="gradEntradas" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#16A34A" stopOpacity={0.2} />
-                          <stop offset="100%" stopColor="#16A34A" stopOpacity={0} />
+                          <stop offset="0%" stopColor="#10B981" stopOpacity={0.25} />
+                          <stop offset="100%" stopColor="#10B981" stopOpacity={0} />
                         </linearGradient>
                         <linearGradient id="gradSaidas" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#DC2626" stopOpacity={0.15} />
-                          <stop offset="100%" stopColor="#DC2626" stopOpacity={0} />
+                          <stop offset="0%" stopColor="#EF4444" stopOpacity={0.2} />
+                          <stop offset="100%" stopColor="#EF4444" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" vertical={false} />
@@ -224,46 +240,47 @@ export default function Dashboard() {
                         dataKey="dia"
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fontSize: 11, fill: '#94A3B8' }}
+                        tick={{ fontSize: 12, fill: '#64748B', fontWeight: 500 }}
                         dy={8}
                       />
                       <YAxis
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fontSize: 11, fill: '#94A3B8' }}
-                        tickFormatter={formatCurrencyShort}
+                        tick={{ fontSize: 11, fill: '#64748B' }}
+                        tickFormatter={formatCurrencyCompact}
                       />
                       <Tooltip
                         contentStyle={{
                           background: '#FFFFFF',
-                          border: 'none',
-                          borderRadius: '10px',
-                          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                          border: '1px solid #E2E8F0',
+                          borderRadius: '12px',
+                          boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
                           fontSize: '13px',
                           padding: '12px 16px',
                         }}
                         formatter={(value: any) => [formatCurrency(Number(value))]}
-                        labelStyle={{ color: '#64748B', fontWeight: 600, marginBottom: 4 }}
+                        labelStyle={{ color: '#475569', fontWeight: 600, marginBottom: 6, fontSize: '12px' }}
+                        itemStyle={{ fontWeight: 500 }}
                       />
                       <Area
                         type="monotone"
                         dataKey="entradas"
-                        stroke="#16A34A"
-                        strokeWidth={2}
+                        stroke="#10B981"
+                        strokeWidth={2.5}
                         fill="url(#gradEntradas)"
                         name="Entradas"
                         dot={false}
-                        activeDot={{ r: 4, strokeWidth: 0, fill: '#16A34A' }}
+                        activeDot={{ r: 5, strokeWidth: 2, stroke: '#FFFFFF', fill: '#10B981' }}
                       />
                       <Area
                         type="monotone"
                         dataKey="saidas"
-                        stroke="#DC2626"
-                        strokeWidth={2}
+                        stroke="#EF4444"
+                        strokeWidth={2.5}
                         fill="url(#gradSaidas)"
                         name="Saídas"
                         dot={false}
-                        activeDot={{ r: 4, strokeWidth: 0, fill: '#DC2626' }}
+                        activeDot={{ r: 5, strokeWidth: 2, stroke: '#FFFFFF', fill: '#EF4444' }}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -271,11 +288,21 @@ export default function Dashboard() {
               </Card>
 
               {/* Movimentações Recentes */}
-              <Card title="Movimentações Recentes" subtitle="Últimas 5 operações">
+              <Card 
+                title="Últimas Movimentações" 
+                headerAction={
+                  <button className={styles.seeAllButton}>
+                    Ver todas <ChevronRight size={14} />
+                  </button>
+                }
+                className={styles.movCard}
+              >
                 <div className={styles.movList}>
                   {data.movimentacoesRecentes.map((mov) => (
                     <div key={mov.id} className={styles.movItem}>
-                      <div className={`${styles.movDot} ${mov.tipo === 'entrada' ? styles.dotGreen : styles.dotRed}`} />
+                      <div className={`${styles.movIcon} ${mov.tipo === 'entrada' ? styles.iconSuccess : styles.iconError}`}>
+                        {mov.tipo === 'entrada' ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
+                      </div>
                       <div className={styles.movInfo}>
                         <span className={styles.movDesc}>{mov.descricao}</span>
                         <span className={styles.movDate}>
@@ -290,23 +317,6 @@ export default function Dashboard() {
                 </div>
               </Card>
             </section>
-
-            {/* Alertas */}
-            {data.alertas.length > 0 && (
-              <section>
-                <Card title="Alertas e Notificações">
-                  <div className={styles.alertsList}>
-                    {data.alertas.map((alerta) => (
-                      <div key={alerta.id} className={`${styles.alertItem} ${styles[`alert_${alerta.tipo}`]}`}>
-                        <span className={styles.alertIcon}>{alertIcons[alerta.tipo]}</span>
-                        <span className={styles.alertText}>{alerta.mensagem}</span>
-                        <Badge variant={alerta.tipo} size="small">{alerta.tipo === 'warning' ? 'Atenção' : alerta.tipo === 'info' ? 'Info' : alerta.tipo === 'success' ? 'OK' : 'Erro'}</Badge>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-              </section>
-            )}
           </>
         ) : (
           <Card>
