@@ -1,8 +1,8 @@
 @import './tokens.css';
 
 /* ========================================
-   RESET E BASE - Mission Finance Console
-   Estilo: técnico, operacional, limpo
+   RESET E BASE - Apple + Facebook Style
+   Estilo: premium, limpo, elegante
    ======================================== */
 
 *, *::before, *::after {
@@ -30,13 +30,13 @@ body {
 
 /* Links */
 a {
-  color: var(--accent-cyan);
+  color: var(--text-link);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 a:hover {
-  color: var(--cyan-dark);
+  color: var(--accent-blue-hover);
   text-decoration: underline;
 }
 
@@ -75,7 +75,7 @@ code, pre, kbd {
   font-size: 0.875em;
 }
 
-/* Scrollbar técnica e discreta */
+/* Scrollbar elegante e discreta */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -86,12 +86,12 @@ code, pre, kbd {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
+  background: var(--gray-400);
   border-radius: var(--radius-sm);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-tertiary);
+  background: var(--gray-500);
 }
 
 /* Root */
@@ -103,33 +103,15 @@ code, pre, kbd {
    UTILITÁRIOS DE TEXTO
    ======================================== */
 
-.text-mono {
-  font-family: var(--font-mono);
-}
-
-.text-technical {
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
 .text-label {
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-weight: var(--font-weight-medium);
   color: var(--text-tertiary);
 }
 
 .text-value {
-  font-family: var(--font-mono);
   font-weight: var(--font-weight-semibold);
-}
-
-.text-status {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ========================================
@@ -159,19 +141,17 @@ code, pre, kbd {
 }
 
 /* ========================================
-   BADGES DE STATUS OPERACIONAL
+   BADGES DE STATUS
    ======================================== */
 
 .badge {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-2xs);
-  padding: 2px var(--spacing-sm);
+  padding: 4px var(--spacing-sm);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  border-radius: var(--radius-sm);
+  border-radius: 9999px;
   white-space: nowrap;
 }
 

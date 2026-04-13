@@ -1,88 +1,65 @@
-/* 
- * Badge - Status Pills Operacionais
- * Estilo: técnico, compacto, claro
+/*
+ * Badge — Clean Corporate Premium
  */
 
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-2xs);
-  padding: 2px var(--spacing-sm);
-  font-size: var(--font-size-xs);
+  gap: 4px;
   font-weight: var(--font-weight-semibold);
-  font-family: var(--font-mono);
-  letter-spacing: 0.03em;
-  border-radius: var(--radius-sm);
-  border: 1px solid transparent;
+  border-radius: var(--radius-full);
   white-space: nowrap;
-  line-height: 1.4;
+  line-height: 1;
 }
 
-/* ========================================
-   VARIAÇÕES DE ESTADO
-   ======================================== */
-
-.success {
-  background-color: var(--status-success-bg);
-  color: var(--status-success);
-  border-color: var(--status-success-border);
+/* Sizes */
+.default {
+  padding: 4px 10px;
+  font-size: var(--font-size-xs);
 }
-
-.warning {
-  background-color: var(--status-warning-bg);
-  color: var(--status-warning);
-  border-color: var(--status-warning-border);
-}
-
-.error {
-  background-color: var(--status-error-bg);
-  color: var(--status-error);
-  border-color: var(--status-error-border);
-}
-
-.info {
-  background-color: var(--status-info-bg);
-  color: var(--status-info);
-  border-color: var(--status-info-border);
-}
-
-.neutral {
-  background-color: var(--bg-secondary);
-  color: var(--text-secondary);
-  border-color: var(--border-default);
-}
-
-/* ========================================
-   TAMANHOS
-   ======================================== */
 
 .small {
-  padding: 1px var(--spacing-xs);
+  padding: 2px 8px;
   font-size: 10px;
 }
 
 .large {
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: 6px 14px;
   font-size: var(--font-size-sm);
 }
 
-/* ========================================
-   COM PONTO INDICADOR
-   ======================================== */
-
-.withDot {
-  position: relative;
-  padding-left: var(--spacing-md);
+/* Variants */
+.success {
+  background: var(--status-success-bg);
+  color: var(--status-success);
 }
 
+.warning {
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+}
+
+.error {
+  background: var(--status-error-bg);
+  color: var(--status-error);
+}
+
+.info {
+  background: var(--status-info-bg);
+  color: var(--status-info);
+}
+
+.neutral {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+/* Dot indicator */
 .withDot::before {
   content: '';
-  position: absolute;
-  left: var(--spacing-xs);
-  top: 50%;
-  transform: translateY(-50%);
   width: 6px;
   height: 6px;
-  border-radius: 50%;
-  background-color: currentColor;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  flex-shrink: 0;
 }

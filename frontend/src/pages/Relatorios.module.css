@@ -1,168 +1,100 @@
-/* 
- * Relatorios - Relatório Técnico Consolidado
- * Estilo: relatório financeiro, tabela forte
+/*
+ * Relatórios — Fluxo de Caixa RA · Bela-Tec
  */
 
-.container {
+ .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-2xl);
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: var(--spacing-lg);
-  padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--border-default);
-}
-
-.header h2 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-  line-height: 1.2;
-}
-
-.header p {
-  color: var(--text-tertiary);
-  font-size: var(--font-size-sm);
-  margin-top: var(--spacing-2xs);
-}
-
-.filters {
-  display: flex;
-  gap: var(--spacing-md);
-  align-items: flex-end;
-}
-
-/* ========================================
-   SEÇÕES
-   ======================================== */
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  background: var(--bg-panel);
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-sm);
-}
-
-.sectionTitle {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-  border-bottom: 2px solid var(--border-strong);
-  padding-bottom: var(--spacing-sm);
-}
-
-/* ========================================
-   CARDS DE MÉTRICAS
-   ======================================== */
-
-.cardsGrid {
+.metricsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--spacing-md);
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
 }
 
-/* ========================================
-   TABELA DE BREAKDOWN
-   ======================================== */
+.tableSection {
+  margin-top: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
 
 .tableContainer {
   background: var(--bg-panel);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  text-align: right;
 }
 
 .th {
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-lg);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
+  color: var(--text-tertiary);
+  background: var(--bg-secondary);
+  border-bottom: 2px solid var(--border-light);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-tertiary);
-  background-color: var(--table-header-bg);
-  border-bottom: 2px solid var(--border-strong);
+  text-align: right;
   white-space: nowrap;
 }
 
+.th.textLeft {
+  text-align: left;
+}
+
 .td {
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
   font-size: var(--font-size-sm);
   color: var(--text-primary);
-  border-bottom: 1px solid var(--table-border);
-  font-family: var(--font-mono);
+  border-bottom: 1px solid var(--border-light);
+  text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-.tr:last-child .td {
-  border-bottom: none;
+.td.textLeft {
+  text-align: left;
+  font-variant-numeric: normal;
 }
 
 .tr:hover .td {
-  background-color: var(--table-row-hover);
+  background-color: var(--bg-hover);
 }
 
-.textLeft {
-  text-align: left;
-  font-family: var(--font-sans);
+.tfoot .td {
+  font-weight: var(--font-weight-bold);
+  background-color: var(--bg-secondary);
+  border-top: 2px solid var(--border-default);
+  border-bottom: none;
 }
 
 .textBold {
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
 }
 
-/* ========================================
-   ALERTAS
-   ======================================== */
+/* Colors for specific indicators */
+.tdPositive { color: var(--status-success); }
+.tdNegative { color: var(--status-error); }
+.tdNeutral { color: var(--accent-cyan); }
+.tdSpecial { color: var(--accent-purple); }
 
-.alert {
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  background-color: var(--status-error-bg);
-  color: var(--status-error);
-  border: 1px solid var(--status-error-border);
+@media (max-width: 1200px) {
+  .metricsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
-
-/* ========================================
-   RESPONSIVO
-   ======================================== */
 
 @media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .filters {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .cardsGrid {
+  .metricsGrid {
     grid-template-columns: 1fr;
-  }
-
-  .tableContainer {
-    overflow-x: auto;
   }
 }

@@ -17,6 +17,7 @@ interface MetricCardProps {
   density?: 'compact' | 'default' | 'relaxed';
   valueClassName?: string;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export function MetricCard({
@@ -32,6 +33,7 @@ export function MetricCard({
   density = 'default',
   valueClassName = '',
   className = '',
+  style,
 }: MetricCardProps) {
   const cardClass = `
     ${styles.metricCard} 
@@ -47,7 +49,7 @@ export function MetricCard({
   `.trim();
 
   return (
-    <div className={cardClass}>
+    <div className={cardClass} style={style}>
       <div className={styles.header}>
         <span className={styles.label}>{label}</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>

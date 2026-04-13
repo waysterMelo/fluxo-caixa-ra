@@ -1,59 +1,42 @@
-/* 
- * Ajustes - Formulário Técnico Limpo
- * Estilo: operacional, claro, objetivo
+/*
+ * Ajustes Manuais - Apple + Facebook Style
+ * Limpo, organizado, premium
  */
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-2xl);
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: var(--spacing-lg);
-  padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--border-default);
-}
-
-.header h2 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-  line-height: 1.2;
-}
-
-.header p {
-  color: var(--text-tertiary);
-  font-size: var(--font-size-sm);
-  margin-top: var(--spacing-2xs);
-}
-
-/* ========================================
-   CONTEÚDO PRINCIPAL
-   ======================================== */
-
-.content {
-  display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
-  background: var(--bg-panel);
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-sm);
-  max-width: 900px;
-  margin: 0 auto;
-  width: 100%;
+  gap: var(--spacing-xs);
 }
 
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* Content Card */
+.content {
+  max-width: 900px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-2xl);
+}
+
+/* Form Grid */
 .formGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-md);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
 }
 
 .formGroup {
@@ -63,105 +46,99 @@
 }
 
 .label {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-secondary);
-}
-
-.select {
-  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-sm);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
-  background-color: var(--bg-input);
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
-  outline: none;
-  transition: all var(--transition-base);
-  width: 100%;
-  font-family: var(--font-mono);
 }
 
-.select:focus {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 2px var(--cyan-light);
-}
-
+.input,
+.select,
 .textarea {
   padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-sm);
+  font-family: var(--font-sans);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background-color: var(--bg-input);
   color: var(--text-primary);
-  outline: none;
   transition: all var(--transition-base);
-  min-height: 80px;
-  font-family: inherit;
+  outline: none;
+  line-height: 1.5;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.textarea {
+  min-height: 100px;
   resize: vertical;
 }
 
-.textarea:focus {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 2px var(--cyan-light);
+/* Full Width */
+.fullWidth {
+  grid-column: 1 / -1;
 }
 
+/* Actions */
 .actions {
   display: flex;
+  gap: var(--spacing-sm);
   justify-content: flex-end;
-  margin-top: var(--spacing-lg);
-  padding-top: var(--spacing-lg);
-  border-top: 1px solid var(--border-default);
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid var(--border-light);
 }
 
-/* ========================================
-   ALERTAS E INFOBOX
-   ======================================== */
-
-.alert {
-  padding: var(--spacing-md) var(--spacing-lg);
+/* Info Box */
+.infoBox {
+  padding: var(--spacing-md);
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  border: 1px solid;
 }
 
-.alertSuccess {
-  background-color: var(--status-success-bg);
+.infoBox.success {
+  background: var(--status-success-bg);
   color: var(--status-success);
-  border-color: var(--status-success-border);
+  border: 1px solid var(--status-success-border);
 }
 
-.alertError {
-  background-color: var(--status-error-bg);
+.infoBox.error {
+  background: var(--status-error-bg);
   color: var(--status-error);
-  border-color: var(--status-error-border);
+  border: 1px solid var(--status-error-border);
 }
 
-.infoBox {
-  background-color: var(--status-info-bg);
+.infoBox.warning {
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+  border: 1px solid var(--status-warning-border);
+}
+
+.infoBox.info {
+  background: var(--status-info-bg);
   color: var(--status-info);
-  padding: var(--spacing-md);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-sm);
   border: 1px solid var(--status-info-border);
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-sm);
 }
 
-.infoIcon {
-  font-size: 1.2rem;
-  line-height: 1;
-}
-
-/* ========================================
-   RESPONSIVO
-   ======================================== */
-
-@media (max-width: 768px) {
+@media (max-width: 640px) {
+  .content {
+    padding: var(--spacing-lg);
+  }
+  
   .formGrid {
     grid-template-columns: 1fr;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .actions button {
+    width: 100%;
   }
 }

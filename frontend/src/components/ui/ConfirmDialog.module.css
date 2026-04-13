@@ -1,0 +1,39 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  text-align: center;
+  padding: var(--spacing-md) 0;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon.danger {
+  background: var(--accent-error-light);
+  color: var(--accent-error);
+}
+
+.icon.warning {
+  background: var(--accent-warning-light);
+  color: var(--accent-warning);
+}
+
+.icon.primary {
+  background: var(--accent-blue-light);
+  color: var(--accent-blue);
+}
+
+.message {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}

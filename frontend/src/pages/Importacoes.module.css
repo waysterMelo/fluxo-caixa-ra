@@ -1,155 +1,99 @@
-/* 
- * Importacoes - Console de Ingestão de Dados
- * Estilo: pipeline de processamento, status operacional
+/*
+ * Importações - Apple + Facebook Style
+ * Layout multi-coluna, cards lado a lado
  */
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
+  gap: var(--spacing-2xl);
 }
 
+/* Header */
 .header {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--border-default);
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .title {
   font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
   color: var(--text-primary);
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--spacing-xs) 0;
 }
 
 .subtitle {
   color: var(--text-tertiary);
   font-size: var(--font-size-sm);
+  margin: 0;
 }
 
-/* ========================================
-   SELETOR DE EMPRESA
-   ======================================== */
-
-.selectorCard {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  background: var(--bg-panel);
-  padding: var(--spacing-lg);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-sm);
-}
-
-.selectorHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--spacing-md);
-  flex-wrap: wrap;
-}
-
-.selectorTitle {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-}
-
-.selectorText {
+/* Company Selector */
+.selectorDescription {
   font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-  margin-top: var(--spacing-2xs);
+  color: var(--text-tertiary);
+  margin: 0 0 var(--spacing-lg) 0;
 }
 
 .select {
   width: 100%;
   padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-default);
-  background: var(--bg-input);
-  color: var(--text-primary);
-  font-family: var(--font-mono);
   font-size: var(--font-size-sm);
+  font-family: var(--font-sans);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  transition: all var(--transition-base);
+  outline: none;
 }
 
-.helpText {
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
-  margin-top: var(--spacing-xs);
+.select:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
+.select:disabled {
+  background-color: var(--bg-secondary);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+/* Link Button */
 .linkButton {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: var(--spacing-xs) var(--spacing-md);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-default);
-  color: var(--text-secondary);
-  background: var(--bg-elevated);
-  font-size: var(--font-size-xs);
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  color: var(--accent-blue);
   text-decoration: none;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border: 1px solid var(--accent-blue);
+  border-radius: var(--radius-md);
   transition: all var(--transition-base);
 }
 
 .linkButton:hover {
-  background: var(--bg-hover);
-  border-color: var(--border-strong);
-  color: var(--text-primary);
+  background-color: var(--accent-blue);
+  color: var(--text-inverse);
 }
 
-.infoBox {
-  padding: var(--spacing-md);
-  border-radius: var(--radius-sm);
-  background: var(--amber-light);
-  border: 1px solid var(--status-warning-border);
-  color: var(--status-warning);
-  font-size: var(--font-size-sm);
-}
-
-/* ========================================
-   GRID DE IMPORTACAO
-   ======================================== */
-
-.grid {
+/* Imports Grid - 3 colunas */
+.importsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-xl);
 }
 
-.cardSection {
+/* Import Form */
+.importForm {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
-  background: var(--bg-panel);
-  padding: var(--spacing-xl);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-sm);
-  position: relative;
+  gap: var(--spacing-lg);
 }
-
-.cardTitle {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-  border-bottom: 2px solid var(--border-strong);
-  padding-bottom: var(--spacing-sm);
-  margin-bottom: var(--spacing-xs);
-}
-
-/* ========================================
-   FORMULARIO E ARQUIVOS
-   ======================================== */
 
 .formGroup {
   display: flex;
@@ -158,120 +102,102 @@
 }
 
 .label {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-secondary);
-}
-
-.fileInputContainer {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
 }
 
 .fileInput {
-  display: block;
-  width: 100%;
   padding: var(--spacing-md);
-  font-size: var(--font-size-sm);
-  color: var(--text-primary);
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius-sm);
-  background: var(--bg-elevated);
+  border: 2px dashed var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-secondary);
   cursor: pointer;
   transition: all var(--transition-base);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
 }
 
 .fileInput:hover {
-  border-color: var(--border-focus);
-  background: var(--cyan-light);
-}
-
-.fileInput::file-selector-button {
-  margin-right: var(--spacing-md);
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
-  background: var(--bg-panel);
-  color: var(--text-secondary);
-  cursor: pointer;
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  transition: all var(--transition-base);
-}
-
-.fileInput::file-selector-button:hover {
-  background: var(--bg-hover);
+  background-color: var(--bg-hover);
   border-color: var(--border-strong);
-  color: var(--text-primary);
 }
 
+/* Checkbox Container */
 .checkboxContainer {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  margin-top: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-}
-
-.checkboxContainer input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
 }
 
 .checkboxLabel {
   font-size: var(--font-size-sm);
-  color: var(--text-secondary);
+  color: var(--text-primary);
   cursor: pointer;
 }
 
+/* Actions */
 .actions {
-  margin-top: var(--spacing-md);
   display: flex;
   justify-content: flex-end;
-  padding-top: var(--spacing-md);
-  border-top: 1px solid var(--border-light);
+  margin-top: var(--spacing-md);
 }
 
-/* ========================================
-   ALERTAS E STATUS
-   ======================================== */
+/* Info Box */
+.infoBox {
+  padding: var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  background: var(--status-info-bg);
+  color: var(--status-info);
+  border: 1px solid var(--status-info-border);
+  margin-top: var(--spacing-md);
+}
+
+/* Alerts */
+.alerts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
 
 .alert {
   padding: var(--spacing-md);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  margin-top: var(--spacing-sm);
-  border: 1px solid;
 }
 
 .alertSuccess {
-  background-color: var(--status-success-bg);
+  background: var(--status-success-bg);
   color: var(--status-success);
-  border-color: var(--status-success-border);
+  border: 1px solid var(--status-success-border);
 }
 
 .alertError {
-  background-color: var(--status-error-bg);
+  background: var(--status-error-bg);
   color: var(--status-error);
-  border-color: var(--status-error-border);
+  border: 1px solid var(--status-error-border);
 }
 
-/* ========================================
-   RESPONSIVO
-   ======================================== */
+/* Responsive */
+@media (max-width: 1200px) {
+  .importsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 @media (max-width: 768px) {
-  .grid {
+  .importsGrid {
     grid-template-columns: 1fr;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: var(--spacing-md);
   }
 }

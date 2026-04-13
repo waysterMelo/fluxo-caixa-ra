@@ -1,6 +1,13 @@
 import { FormEvent, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { Button } from '../components/ui/Button';
+import { Input } from '../components/ui/Input';
+import { Card } from '../components/ui/Card';
+import { Badge } from '../components/ui/Badge';
+import { PageHeader } from '../components/ui/PageHeader';
+import { useToast } from '../components/ui/Toast';
+import { EmptyState } from '../components/ui/EmptyState';
+import { Skeleton } from '../components/ui/Skeleton';
 import BankAccountsModal from '../components/BankAccountsModal';
 import {
   Company,
@@ -24,13 +31,13 @@ const initialFormState: FormState = {
 };
 
 export default function Empresas() {
+  const { success, error } = useToast();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [showActiveOnly, setShowActiveOnly] = useState(false);
   const [editingCompanyId, setEditingCompanyId] = useState<number | null>(null);
   const [form, setForm] = useState<FormState>(initialFormState);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [selectedCompanyForBank, setSelectedCompanyForBank] = useState<{id: number, name: string} | null>(null);
 
   useEffect(() => {
@@ -43,10 +50,7 @@ export default function Empresas() {
       const data = await listCompanies(activeOnly);
       setCompanies(data);
     } catch (err: any) {
-      setMessage({
-        type: 'error',
-        text: err.response?.data?.detail || 'Erro ao carregar empresas.',
-      });
+      error(err.response?.data?.detail || 'Erro ao carregar empresas.');
     } finally {
       setIsLoading(false);
     }
@@ -61,12 +65,11 @@ export default function Empresas() {
     event.preventDefault();
 
     if (!form.name.trim()) {
-      setMessage({ type: 'error', text: 'Informe o nome da empresa.' });
+      error('Informe o nome da empresa.');
       return;
     }
 
     setIsSubmitting(true);
-    setMessage(null);
 
     const payload: CompanyPayload = {
       name: form.name.trim(),
@@ -77,19 +80,16 @@ export default function Empresas() {
     try {
       if (editingCompanyId) {
         await updateCompany(editingCompanyId, payload);
-        setMessage({ type: 'success', text: 'Empresa atualizada com sucesso.' });
+        success('Empresa atualizada com sucesso.');
       } else {
         await createCompany(payload);
-        setMessage({ type: 'success', text: 'Empresa cadastrada com sucesso.' });
+        success('Empresa cadastrada com sucesso.');
       }
 
       resetForm();
       await loadCompanies(showActiveOnly);
     } catch (err: any) {
-      setMessage({
-        type: 'error',
-        text: err.response?.data?.detail || 'Não foi possível salvar a empresa.',
-      });
+      error(err.response?.data?.detail || 'Não foi possível salvar a empresa.');
     } finally {
       setIsSubmitting(false);
     }
@@ -102,82 +102,50 @@ export default function Empresas() {
       cnpj: company.cnpj || '',
       is_active: company.is_active,
     });
-    setMessage(null);
   };
 
   const handleToggleStatus = async (company: Company) => {
-    setMessage(null);
     try {
       await updateCompany(company.id, {
         name: company.name,
         cnpj: company.cnpj,
         is_active: !company.is_active,
       });
-      setMessage({
-        type: 'success',
-        text: `Empresa ${!company.is_active ? 'ativada' : 'inativada'} com sucesso.`,
-      });
+      success(`Empresa ${!company.is_active ? 'ativada' : 'inativada'} com sucesso.`);
       await loadCompanies(showActiveOnly);
     } catch (err: any) {
-      setMessage({
-        type: 'error',
-        text: err.response?.data?.detail || 'Não foi possível alterar o status da empresa.',
-      });
+      error(err.response?.data?.detail || 'Não foi possível alterar o status da empresa.');
     }
   };
 
   return (
     <Layout>
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>Empresas</h2>
-          <p className={styles.subtitle}>
-            Cadastre, edite e organize as empresas usadas nas importações e nas demais rotinas do sistema.
-          </p>
-        </div>
-
-        {message && (
-          <div className={`${styles.alert} ${message.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-            {message.text}
-          </div>
-        )}
+        <PageHeader
+          title="Empresas"
+          subtitle="Cadastre, edite e organize as empresas usadas nas importações e nas demais rotinas do sistema."
+        />
 
         <div className={styles.grid}>
-          <section className={styles.card}>
-            <h3 className={styles.cardTitle}>
-              {editingCompanyId ? 'Editar empresa' : 'Nova empresa'}
-            </h3>
+          {/* Formulário de Criação/Edição */}
+          <Card title={editingCompanyId ? 'Editar Empresa' : 'Nova Empresa'}>
+            <form className={styles.formForm} onSubmit={handleSubmit}>
+              <Input
+                label="Nome"
+                value={form.name}
+                onChange={(e) => setForm((current) => ({ ...current, name: e.target.value }))}
+                placeholder="Ex: Empresa Alpha Ltda"
+              />
 
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.field}>
-                <label className={styles.label} htmlFor="company-name">
-                  Nome
-                </label>
-                <input
-                  id="company-name"
-                  className={styles.input}
-                  value={form.name}
-                  onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-                  placeholder="Ex: Empresa Alpha Ltda"
-                />
-              </div>
+              <Input
+                label="CNPJ"
+                value={form.cnpj}
+                onChange={(e) => setForm((current) => ({ ...current, cnpj: e.target.value }))}
+                placeholder="00.000.000/0001-00"
+              />
 
-              <div className={styles.field}>
-                <label className={styles.label} htmlFor="company-cnpj">
-                  CNPJ
-                </label>
+              <label className={styles.checkboxRow}>
                 <input
-                  id="company-cnpj"
-                  className={styles.input}
-                  value={form.cnpj}
-                  onChange={(event) => setForm((current) => ({ ...current, cnpj: event.target.value }))}
-                  placeholder="00.000.000/0001-00"
-                />
-              </div>
-
-              <label className={styles.checkboxRow} htmlFor="company-active">
-                <input
-                  id="company-active"
                   type="checkbox"
                   checked={form.is_active}
                   onChange={(event) => setForm((current) => ({ ...current, is_active: event.target.checked }))}
@@ -196,14 +164,14 @@ export default function Empresas() {
                 </Button>
               </div>
             </form>
-          </section>
+          </Card>
 
-          <section className={styles.card}>
+          {/* Listagem */}
+          <div>
             <div className={styles.toolbar}>
-              <h3 className={styles.cardTitle}>Empresas cadastradas</h3>
-              <label className={styles.checkboxRow} htmlFor="filter-active">
+              <h3 style={{ margin: 0, fontSize: 'var(--font-size-lg)', fontWeight: 600 }}>Empresas Cadastradas</h3>
+              <label className={styles.checkboxRow}>
                 <input
-                  id="filter-active"
                   type="checkbox"
                   checked={showActiveOnly}
                   onChange={(event) => setShowActiveOnly(event.target.checked)}
@@ -214,49 +182,51 @@ export default function Empresas() {
 
             <div className={styles.list}>
               {isLoading ? (
-                <div className={styles.emptyState}>Carregando empresas...</div>
+                <>
+                  <Skeleton height="100px" style={{ borderRadius: 'var(--radius-md)' }} />
+                  <Skeleton height="100px" style={{ borderRadius: 'var(--radius-md)' }} />
+                </>
               ) : companies.length === 0 ? (
-                <div className={styles.emptyState}>
-                  Nenhuma empresa cadastrada. Crie a primeira para começar a usar as importações.
-                </div>
+                <EmptyState
+                  title="Nenhuma empresa encontrada"
+                  description="Comece criando uma nova empresa para utilizar as rotinas do sistema."
+                />
               ) : (
-                <div className={styles.companyList}>
-                  {companies.map((company) => (
-                    <article className={styles.companyItem} key={company.id}>
-                      <div className={styles.companyInfo}>
-                        <div className={styles.companyName}>{company.name}</div>
-                        <div className={styles.companyMeta}>
-                          CNPJ: {company.cnpj || 'não informado'}
-                        </div>
-                        <span
-                          className={`${styles.badge} ${company.is_active ? styles.badgeActive : styles.badgeInactive}`}
-                        >
+                companies.map((company) => (
+                  <article className={styles.companyItem} key={company.id}>
+                    <div className={styles.companyInfo}>
+                      <div className={styles.companyName}>
+                        {company.name}
+                        <Badge variant={company.is_active ? 'success' : 'error'} size="small" withDot>
                           {company.is_active ? 'Ativa' : 'Inativa'}
-                        </span>
+                        </Badge>
                       </div>
+                      <div className={styles.companyMeta}>
+                        CNPJ: {company.cnpj || 'não informado'}
+                      </div>
+                    </div>
 
-                      <div className={styles.itemActions}>
-                        <Button type="button" variant="secondary" size="sm" onClick={() => setSelectedCompanyForBank({ id: company.id, name: company.name })}>
-                          Contas Bancárias
-                        </Button>
-                        <Button type="button" variant="secondary" size="sm" onClick={() => handleEdit(company)}>
-                          Editar
-                        </Button>
-                        <Button
-                          type="button"
-                          variant={company.is_active ? 'danger' : 'primary'}
-                          size="sm"
-                          onClick={() => handleToggleStatus(company)}
-                        >
-                          {company.is_active ? 'Inativar' : 'Ativar'}
-                        </Button>
-                      </div>
-                    </article>
-                  ))}
-                </div>
+                    <div className={styles.itemActions}>
+                      <Button type="button" variant="secondary" size="sm" onClick={() => setSelectedCompanyForBank({ id: company.id, name: company.name })}>
+                        Contas Bancárias
+                      </Button>
+                      <Button type="button" variant="secondary" size="sm" onClick={() => handleEdit(company)}>
+                        Editar
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={company.is_active ? 'danger' : 'primary'}
+                        size="sm"
+                        onClick={() => handleToggleStatus(company)}
+                      >
+                        {company.is_active ? 'Inativar' : 'Ativar'}
+                      </Button>
+                    </div>
+                  </article>
+                ))
               )}
             </div>
-          </section>
+          </div>
         </div>
       </div>
       

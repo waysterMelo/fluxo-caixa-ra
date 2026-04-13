@@ -1,6 +1,6 @@
-/* 
- * FluxoDiario - Centro de Comando Financeiro
- * Estilo: NASA Mission Control / Console Operacional
+/*
+ * Fluxo Diário — Fluxo de Caixa RA · Bela-Tec
+ * Clean Corporate Premium
  */
 
 .container {
@@ -9,136 +9,84 @@
   gap: var(--spacing-xl);
 }
 
-/* ========================================
-   HEADER DA PÁGINA
-   ======================================== */
-
-.header {
+/* Alert Box */
+.alertBox {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: var(--spacing-lg);
-  padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--border-default);
-}
-
-.header h2 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-  line-height: 1.2;
-}
-
-.header p {
-  color: var(--text-tertiary);
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
-  margin-top: var(--spacing-2xs);
+  font-weight: var(--font-weight-medium);
+  background: var(--accent-warning-light);
+  color: var(--accent-warning);
+  border: 1px solid var(--accent-warning-border);
 }
 
-.filters {
-  display: flex;
-  gap: var(--spacing-md);
-  align-items: flex-end;
-  flex-wrap: wrap;
+/* Saldo Inicial highlight */
+.saldoInicialValue {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--accent-success);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
-/* ========================================
-   CARDS DE MÉTRICAS (KPIs)
-   ======================================== */
-
+/* Cards Grid (4 cols) */
 .cardsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+}
+
+/* Secondary Grid (4 cols, compact) */
+.secondaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--spacing-md);
 }
 
-/* ========================================
-   SEÇÃO DE TABELA
-   ======================================== */
-
+/* Table Section */
 .tableSection {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
   background: var(--bg-panel);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
+  min-width: 0;
+  width: 100%;
 }
 
 .tableHeader {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-sm) var(--spacing-lg);
-  background: var(--bg-elevated);
-  border-bottom: 1px solid var(--border-default);
+  justify-content: space-between;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-bottom: 1px solid var(--border-light);
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
 }
 
 .tableTitle {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-}
-
-/* ========================================
-   ALERTAS E MENSAGENS
-   ======================================== */
-
-.alertBox {
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: var(--radius-md);
-  border: 1px solid;
   font-size: var(--font-size-sm);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
 }
 
-.alertBox.success {
-  background: var(--status-success-bg);
-  border-color: var(--status-success-border);
-  color: var(--status-success);
-}
+/* Responsive */
+@media (max-width: 1200px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-.alertBox.error {
-  background: var(--status-error-bg);
-  border-color: var(--status-error-border);
-  color: var(--status-error);
+  .secondaryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-
-.alertBox.warning {
-  background: var(--status-warning-bg);
-  border-color: var(--status-warning-border);
-  color: var(--status-warning);
-}
-
-.alertBox.info {
-  background: var(--status-info-bg);
-  border-color: var(--status-info-border);
-  color: var(--status-info);
-}
-
-/* ========================================
-   RESPONSIVO
-   ======================================== */
 
 @media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .filters {
-    width: 100%;
-    flex-direction: column;
-  }
-
-  .cardsGrid {
+  .cardsGrid,
+  .secondaryGrid {
     grid-template-columns: 1fr;
   }
 }

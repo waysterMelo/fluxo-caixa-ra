@@ -2,10 +2,14 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
 import { useAuth } from '../context/AuthContext';
 import { Company, listCompanies } from '../services/companyService';
-import { importBank, importErpPayable, importErpReceivable } from '../services/importService';
+import { importBank, importErpPayable, importErpReceivable, getImportHistory, ImportHistoryRow } from '../services/importService';
 import { BankAccount, bankAccountService } from '../services/bankAccountService';
+import { Table } from '../components/ui/Table';
+import { Badge } from '../components/ui/Badge';
+import { formatDateBR } from '../utils/date';
 import styles from './Importacoes.module.css';
 
 type Message = { type: 'success' | 'error'; text: string } | null;
@@ -14,10 +18,10 @@ export default function Importacoes() {
   const { user } = useAuth();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [companyId, setCompanyId] = useState<number | null>(null);
-  
+
   const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
   const [bankAccountId, setBankAccountId] = useState<number | null>(null);
-  
+
   const [replacePeriod, setReplacePeriod] = useState(false);
   const [isLoadingCompanies, setIsLoadingCompanies] = useState(true);
   const [isLoadingBankAccounts, setIsLoadingBankAccounts] = useState(false);
@@ -35,6 +39,12 @@ export default function Importacoes() {
   const [msgReceivable, setMsgReceivable] = useState<Message>(null);
   const [msgBank, setMsgBank] = useState<Message>(null);
 
+  // History State
+  const [importHistory, setImportHistory] = useState<ImportHistoryRow[]>([]);
+  const [historyPage, setHistoryPage] = useState(1);
+  const [historyTotalPages, setHistoryTotalPages] = useState(1);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+
   useEffect(() => {
     void loadCompanies();
   }, []);
@@ -42,11 +52,32 @@ export default function Importacoes() {
   useEffect(() => {
     if (companyId) {
       void loadBankAccounts(companyId);
+      void loadHistory(companyId, 1);
     } else {
       setBankAccounts([]);
       setBankAccountId(null);
+      setImportHistory([]);
     }
   }, [companyId]);
+
+  useEffect(() => {
+    if (companyId) {
+      void loadHistory(companyId, historyPage);
+    }
+  }, [historyPage]);
+
+  const loadHistory = async (compId: number, page: number) => {
+    setIsLoadingHistory(true);
+    try {
+      const resp = await getImportHistory(compId, page);
+      setImportHistory(resp.data);
+      setHistoryTotalPages(resp.totalPages);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoadingHistory(false);
+    }
+  };
 
   const loadCompanies = async () => {
     setIsLoadingCompanies(true);
@@ -59,7 +90,7 @@ export default function Importacoes() {
     } catch (err: any) {
       setCompanyMessage({
         type: 'error',
-        text: err.response?.data?.detail || 'Nao foi possivel carregar as empresas.',
+        text: err.response?.data?.detail || 'Não foi possível carregar as empresas.',
       });
     } finally {
       setIsLoadingCompanies(false);
@@ -160,7 +191,7 @@ export default function Importacoes() {
     }
 
     if (bankAccountId === null) {
-      setMsgBank({ type: 'error', text: 'Cadastre e selecione uma conta bancaria antes de importar.' });
+      setMsgBank({ type: 'error', text: 'Cadastre e selecione uma conta bancária antes de importar.' });
       return;
     }
 
@@ -183,35 +214,54 @@ export default function Importacoes() {
     } catch (err: any) {
       setMsgBank({
         type: 'error',
-        text: err.response?.data?.detail || 'Erro ao importar extrato bancario.',
+        text: err.response?.data?.detail || 'Erro ao importar extrato bancário.',
       });
     } finally {
       setIsLoadingBank(false);
     }
   };
 
+  const historyColumns = [
+    { header: 'DATA', accessor: (row: ImportHistoryRow) => formatDateBR(row.date) },
+    { header: 'TIPO', accessor: 'type' as keyof ImportHistoryRow },
+    {
+      header: 'STATUS',
+      accessor: (row: ImportHistoryRow) => (
+        <Badge variant={row.status === 'Sucesso' ? 'success' : row.status.includes('Erro') ? 'error' : 'warning'} size="small">
+          {row.status}
+        </Badge>
+      )
+    },
+    { header: 'REGISTROS', accessor: 'records' as keyof ImportHistoryRow, align: 'center' as const },
+    { header: 'USUÁRIO', accessor: 'user' as keyof ImportHistoryRow },
+  ];
+
   return (
     <Layout>
       <div className={styles.container}>
+        {/* Header */}
         <div className={styles.header}>
-          <h2 className={styles.title}>Importacoes</h2>
-          <p className={styles.subtitle}>
-            Importe arquivos do ERP e extratos bancarios para atualizar o sistema.
-          </p>
+          <div>
+            <h2 className={styles.title}>Importações</h2>
+            <p className={styles.subtitle}>
+              Importe arquivos do ERP e extratos bancários para atualizar o sistema.
+            </p>
+          </div>
         </div>
 
-        <div className={styles.selectorCard}>
-          <div className={styles.selectorHeader}>
-            <div>
-              <div className={styles.selectorTitle}>Empresa atual</div>
-              <div className={styles.selectorText}>
-                Escolha a empresa cadastrada que recebera a importacao.
-              </div>
-            </div>
-            <Link className={styles.linkButton} to="/empresas">
-              Gerenciar empresas
-            </Link>
-          </div>
+        {/* Company Selector */}
+        <Card title="Empresa Atual" headerAction={
+          <Link to="/empresas" className={styles.linkButton}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+            </svg>
+            Gerenciar empresas
+          </Link>
+        }>
+          <p className={styles.selectorDescription}>
+            Escolha a empresa cadastrada que receberá a importação.
+          </p>
 
           {companyMessage && (
             <div className={`${styles.alert} ${companyMessage.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
@@ -238,18 +288,18 @@ export default function Importacoes() {
 
           {companies.length === 0 && !isLoadingCompanies && (
             <div className={styles.infoBox}>
-              Cadastre pelo menos uma empresa no modulo de empresas antes de executar importacoes.
+              Cadastre pelo menos uma empresa no módulo de empresas antes de executar importações.
             </div>
           )}
-        </div>
+        </Card>
 
-        <div className={styles.grid}>
-          <form className={styles.cardSection} onSubmit={handleImportReceivable}>
-            <h3 className={styles.cardTitle}>ERP - Contas a Receber</h3>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Arquivo CSV ou XLSX (Recebimentos)</label>
-              <div className={styles.fileInputContainer}>
+        {/* Import Cards Grid */}
+        <div className={styles.importsGrid}>
+          {/* ERP - Contas a Receber */}
+          <Card title="ERP - Contas a Receber" subtitle="Importe os títulos previstos para o contas a receber">
+            <form onSubmit={handleImportReceivable} className={styles.importForm}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Arquivo CSV ou XLSX</label>
                 <input
                   type="file"
                   accept=".csv,.xlsx"
@@ -257,30 +307,26 @@ export default function Importacoes() {
                   className={styles.fileInput}
                 />
               </div>
-              <span className={styles.helpText}>
-                Importe os titulos previstos para o contas a receber.
-              </span>
-            </div>
 
-            {msgReceivable && (
-              <div className={`${styles.alert} ${msgReceivable.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-                {msgReceivable.text}
+              {msgReceivable && (
+                <div className={`${styles.alert} ${msgReceivable.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
+                  {msgReceivable.text}
+                </div>
+              )}
+
+              <div className={styles.actions}>
+                <Button type="submit" variant="primary" disabled={isLoadingReceivable || selectedCompanyUnavailable}>
+                  {isLoadingReceivable ? 'Importando...' : 'Importar recebíveis'}
+                </Button>
               </div>
-            )}
+            </form>
+          </Card>
 
-            <div className={styles.actions}>
-              <Button type="submit" disabled={isLoadingReceivable || selectedCompanyUnavailable}>
-                {isLoadingReceivable ? 'Importando...' : 'Importar recebiveis'}
-              </Button>
-            </div>
-          </form>
-
-          <form className={styles.cardSection} onSubmit={handleImportPayable}>
-            <h3 className={styles.cardTitle}>ERP - Contas a Pagar</h3>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Arquivo CSV ou XLSX (Pagamentos)</label>
-              <div className={styles.fileInputContainer}>
+          {/* ERP - Contas a Pagar */}
+          <Card title="ERP - Contas a Pagar" subtitle="Importe os títulos previstos para o contas a pagar">
+            <form onSubmit={handleImportPayable} className={styles.importForm}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Arquivo CSV ou XLSX</label>
                 <input
                   type="file"
                   accept=".csv,.xlsx"
@@ -288,50 +334,46 @@ export default function Importacoes() {
                   className={styles.fileInput}
                 />
               </div>
-              <span className={styles.helpText}>
-                Importe os titulos previstos para o contas a pagar.
-              </span>
-            </div>
 
-            {msgPayable && (
-              <div className={`${styles.alert} ${msgPayable.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-                {msgPayable.text}
+              {msgPayable && (
+                <div className={`${styles.alert} ${msgPayable.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
+                  {msgPayable.text}
+                </div>
+              )}
+
+              <div className={styles.actions}>
+                <Button type="submit" variant="primary" disabled={isLoadingPayable || selectedCompanyUnavailable}>
+                  {isLoadingPayable ? 'Importando...' : 'Importar pagáveis'}
+                </Button>
               </div>
-            )}
+            </form>
+          </Card>
 
-            <div className={styles.actions}>
-              <Button type="submit" disabled={isLoadingPayable || selectedCompanyUnavailable}>
-                {isLoadingPayable ? 'Importando...' : 'Importar pagaveis'}
-              </Button>
-            </div>
-          </form>
+          {/* Extrato Bancário */}
+          <Card title="Extrato Bancário" subtitle="Importe extratos bancários para conciliação">
+            <form onSubmit={handleImportBank} className={styles.importForm}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Conta Bancária</label>
+                <select
+                  value={bankAccountId ?? ''}
+                  onChange={(event) => setBankAccountId(Number(event.target.value))}
+                  className={styles.select}
+                  disabled={isLoadingBankAccounts || bankAccounts.length === 0}
+                >
+                  {bankAccounts.length === 0 ? (
+                    <option value="">Nenhuma conta bancária cadastrada</option>
+                  ) : (
+                    bankAccounts.map((account) => (
+                      <option key={account.id} value={account.id}>
+                        {account.bank_name} - {account.agency} / {account.account_number}
+                      </option>
+                    ))
+                  )}
+                </select>
+              </div>
 
-          <form className={styles.cardSection} onSubmit={handleImportBank}>
-            <h3 className={styles.cardTitle}>Extrato Bancario</h3>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Conta bancaria</label>
-              <select
-                value={bankAccountId ?? ''}
-                onChange={(event) => setBankAccountId(Number(event.target.value))}
-                className={styles.select}
-                disabled={isLoadingBankAccounts || bankAccounts.length === 0}
-              >
-                {bankAccounts.length === 0 ? (
-                  <option value="">Nenhuma conta bancaria cadastrada para esta empresa</option>
-                ) : (
-                  bankAccounts.map((account) => (
-                    <option key={account.id} value={account.id}>
-                      {account.bank_name} - {account.agency} / {account.account_number}
-                    </option>
-                  ))
-                )}
-              </select>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Arquivo PDF, CSV ou XLSX</label>
-              <div className={styles.fileInputContainer}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Arquivo PDF, CSV ou XLSX</label>
                 <input
                   type="file"
                   accept=".pdf,.csv,.xlsx"
@@ -339,35 +381,66 @@ export default function Importacoes() {
                   className={styles.fileInput}
                 />
               </div>
-            </div>
 
-            {user?.is_admin && (
-              <div className={styles.checkboxContainer}>
-                <input
-                  type="checkbox"
-                  id="replacePeriod"
-                  checked={replacePeriod}
-                  onChange={(event) => setReplacePeriod(event.target.checked)}
-                />
-                <label htmlFor="replacePeriod" className={styles.checkboxLabel}>
-                  Forcar substituicao de periodo (Admin)
-                </label>
+              {user?.is_admin && (
+                <div className={styles.checkboxContainer}>
+                  <input
+                    type="checkbox"
+                    id="replacePeriod"
+                    checked={replacePeriod}
+                    onChange={(event) => setReplacePeriod(event.target.checked)}
+                  />
+                  <label htmlFor="replacePeriod" className={styles.checkboxLabel}>
+                    Forçar substituição de período (Admin)
+                  </label>
+                </div>
+              )}
+
+              {msgBank && (
+                <div className={`${styles.alert} ${msgBank.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
+                  {msgBank.text}
+                </div>
+              )}
+
+              <div className={styles.actions}>
+                <Button type="submit" variant="primary" disabled={isLoadingBank || selectedCompanyUnavailable || bankAccounts.length === 0}>
+                  {isLoadingBank ? 'Importando...' : 'Importar extrato'}
+                </Button>
               </div>
-            )}
+            </form>
+          </Card>
+        </div>
 
-            {msgBank && (
-              <div className={`${styles.alert} ${msgBank.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-                {msgBank.text}
-              </div>
-            )}
-
-            <div className={styles.actions}>
-              <Button type="submit" disabled={isLoadingBank || selectedCompanyUnavailable || bankAccounts.length === 0}>
-                {isLoadingBank ? 'Importando...' : 'Importar extrato'}
+        {/* History Section */}
+        <Card title="Histórico de Importações" subtitle="Acompanhe o status dos últimos arquivos processados">
+          <Table
+            columns={historyColumns}
+            data={importHistory}
+            keyExtractor={(row) => row.id}
+            compact
+          />
+          {historyTotalPages > 1 && (
+            <div className={styles.pagination}>
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={historyPage === 1 || isLoadingHistory}
+                onClick={() => setHistoryPage(p => p - 1)}
+              >
+                Anterior
+              </Button>
+              <span className={styles.pageInfo}>Página {historyPage} de {historyTotalPages}</span>
+              <Button
+                variant="secondary"
+                size="sm"
+                disabled={historyPage === historyTotalPages || isLoadingHistory}
+                onClick={() => setHistoryPage(p => p + 1)}
+              >
+                Próxima
               </Button>
             </div>
-          </form>
-        </div>
+          )}
+        </Card>
       </div>
     </Layout>
   );

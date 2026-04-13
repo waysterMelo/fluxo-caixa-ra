@@ -1,35 +1,31 @@
-/* 
- * Card - Estilo Painel de Controle Técnico
- * Características: cabeçalho técnico, bordas firmes, aparência industrial
+/*
+ * Card — Clean Corporate Premium
+ * No visible border, shadow-based, hover elevation
  */
 
 .card {
   background-color: var(--bg-panel);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-default);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: box-shadow var(--transition-base);
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+  border: none;
 }
 
 .card:hover {
   box-shadow: var(--shadow-md);
 }
 
-/* ========================================
-   CABEÇALHO TÉCNICO
-   ======================================== */
-
+/* Header */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
   border-bottom: 1px solid var(--border-light);
-  background-color: var(--bg-elevated);
-  min-height: 40px;
+  min-height: 52px;
 }
 
 .headerLeft {
@@ -39,18 +35,16 @@
 }
 
 .title {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-  line-height: 1.2;
+  color: var(--text-primary);
+  line-height: 1.3;
 }
 
 .subtitle {
   font-size: var(--font-size-xs);
   color: var(--text-muted);
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 .headerRight {
@@ -59,12 +53,9 @@
   gap: var(--spacing-sm);
 }
 
-/* ========================================
-   CONTEÚDO
-   ======================================== */
-
+/* Content */
 .content {
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
   font-size: var(--font-size-base);
   color: var(--text-primary);
 }
@@ -73,108 +64,73 @@
   padding: var(--spacing-md) var(--spacing-lg);
 }
 
-/* ========================================
-   RODAPÉ
-   ======================================== */
-
+/* Footer */
 .footer {
-  padding: var(--spacing-sm) var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-xl);
   border-top: 1px solid var(--border-light);
-  background-color: var(--bg-elevated);
+  background-color: var(--bg-secondary);
   font-size: var(--font-size-xs);
   color: var(--text-tertiary);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
-/* ========================================
-   VARIAÇÕES DE CARD
-   ======================================== */
-
-/* Card métrica (para KPIs e números de destaque) */
+/* Variants */
 .metric {
   composes: card;
 }
 
 .metric .content {
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
 }
 
 .metricValue {
-  font-family: var(--font-mono);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-size-metric);
-  line-height: 1.2;
+  line-height: 1.1;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
 }
 
-.metricValue.small {
-  font-size: var(--font-size-metric-sm);
-}
-
-.metricValue.large {
-  font-size: var(--font-size-metric-lg);
-}
-
-.metricValue.xlarge {
-  font-size: var(--font-size-metric-xl);
-}
-
-/* Card de estado */
 .statusCard {
   composes: card;
-  border-left-width: 3px;
-  border-left-style: solid;
+  border-left: 3px solid;
 }
 
-.statusCard.success {
-  border-left-color: var(--status-success);
-}
+.statusCard.success { border-left-color: var(--status-success); }
+.statusCard.warning { border-left-color: var(--status-warning); }
+.statusCard.error { border-left-color: var(--status-error); }
+.statusCard.info { border-left-color: var(--status-info); }
 
-.statusCard.warning {
-  border-left-color: var(--status-warning);
-}
-
-.statusCard.error {
-  border-left-color: var(--status-error);
-}
-
-.statusCard.info {
-  border-left-color: var(--status-info);
-}
-
-/* Card simples (sem header) */
 .simple {
   composes: card;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
 }
 
-/* ========================================
-   UTILITÁRIOS
-   ======================================== */
-
+/* States */
 .clickable {
   cursor: pointer;
-  transition: all var(--transition-base);
 }
 
 .clickable:hover {
-  background-color: var(--bg-hover);
   box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
 }
 
 .selected {
-  border-color: var(--border-focus);
-  background-color: var(--cyan-light);
+  box-shadow: 0 0 0 2px var(--accent-blue);
+  background-color: var(--accent-blue-50);
 }
 
-/* Densidade */
+/* Density */
 .dense .content {
   padding: var(--spacing-sm) var(--spacing-md);
 }
 
 .relaxed .content {
-  padding: var(--spacing-xl);
+  padding: var(--spacing-2xl);
 }

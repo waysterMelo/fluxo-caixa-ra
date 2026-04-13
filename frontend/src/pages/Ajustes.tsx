@@ -87,8 +87,8 @@ export default function Ajustes() {
 
   const handleSaveSaldoInicial = async (e: FormEvent) => {
     e.preventDefault();
-    if (!saldoInicialAmount || isNaN(Number(saldoInicialAmount)) || Number(saldoInicialAmount) <= 0) {
-      setMessage({ type: 'error', text: 'Informe um saldo inicial maior que zero.' });
+    if (!saldoInicialAmount || isNaN(Number(saldoInicialAmount))) {
+      setMessage({ type: 'error', text: 'Informe um valor numérico válido para o saldo inicial.' });
       return;
     }
     
@@ -174,9 +174,8 @@ export default function Ajustes() {
                 <div style={{ flex: 1, minWidth: '200px' }}>
                   <Input
                     type="number"
-                    label="SALDO OFICIAL (R$)"
+                    label="SALDO INICIAL (R$)"
                     step="0.01"
-                    min="0.01"
                     value={saldoInicialAmount}
                     onChange={(e) => setSaldoInicialAmount(e.target.value)}
                     placeholder="Ex: 50000.00"

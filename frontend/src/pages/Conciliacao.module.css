@@ -1,226 +1,177 @@
-/* 
- * Conciliacao - Tela de Validação Crítica
- * Estilo: revisão operacional, comparação lado a lado
+/*
+ * Conciliação — Fluxo de Caixa RA · Bela-Tec
  */
 
-.container {
+ .container {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: var(--spacing-lg);
-  padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--border-default);
-}
-
-.header h2 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
-  line-height: 1.2;
-}
-
-.header p {
-  color: var(--text-tertiary);
-  font-size: var(--font-size-sm);
-  margin-top: var(--spacing-2xs);
-}
-
-.filters {
-  display: flex;
-  gap: var(--spacing-md);
-  align-items: flex-end;
-}
-
-/* ========================================
-   CONTEÚDO PRINCIPAL
-   ======================================== */
-
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
-.sectionHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-bottom: 2px solid var(--border-strong);
-  background: var(--bg-elevated);
-  margin-bottom: var(--spacing-md);
-}
-
-.sectionTitle {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-tertiary);
-}
-
-/* ========================================
-   GRID DE PAINÉIS
-   ======================================== */
-
-.grid {
+/* Panels Grid - 2 colunas */
+.panelsGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xl);
 }
 
-.panel {
-  background: var(--bg-panel);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-md);
+/* Items List */
+.itemsList {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
-  box-shadow: var(--shadow-sm);
+  gap: var(--spacing-md);
   max-height: 500px;
   overflow-y: auto;
+  padding-right: var(--spacing-xs);
 }
 
-/* ========================================
-   CARDS DE ITENS
-   ======================================== */
-
+/* Item Card */
 .itemCard {
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
   padding: var(--spacing-md);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--bg-elevated);
-  transition: all var(--transition-base);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  background: var(--bg-panel);
+  transition: all var(--transition-fast);
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
 }
 
 .itemCard:hover {
   border-color: var(--border-focus);
-  background-color: var(--cyan-light);
+  box-shadow: var(--shadow-md);
 }
 
 .itemCard.selected {
-  border-color: var(--accent-cyan);
-  background-color: var(--cyan-light);
-  box-shadow: 0 0 0 2px var(--cyan-light);
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-50);
+  box-shadow: 0 0 0 1px var(--accent-blue);
 }
 
-.itemInfo {
+.itemHeader {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-2xs);
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
 }
 
 .itemDate {
   font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  font-family: var(--font-mono);
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-medium);
 }
 
 .itemDesc {
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
-}
-
-.itemSubtext {
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  margin: 0 0 var(--spacing-xs) 0;
+  line-height: 1.4;
 }
 
 .itemValue {
-  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-base);
-  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  display: block;
+  margin-top: var(--spacing-xs);
 }
 
-.itemPositive {
-  color: var(--status-success);
+.itemPositive { color: var(--status-success); }
+.itemNegative { color: var(--status-error); }
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-2xl);
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
 }
 
-.itemNegative {
-  color: var(--status-error);
-}
-
-/* ========================================
-   BARRA DE AÇÃO DE CONCILIAÇÃO
-   ======================================== */
-
+/* Actions Bar */
 .actionsBar {
+  position: sticky;
+  bottom: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--spacing-md) var(--spacing-lg);
-  background: var(--bg-panel);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-focus);
-  gap: var(--spacing-md);
-  position: sticky;
-  bottom: var(--spacing-md);
-  box-shadow: var(--shadow-md);
+  gap: var(--spacing-xl);
   z-index: 10;
 }
 
 .matchInfo {
   display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.matchItem {
+  display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.matchLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.matchDesc {
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.matchArrow {
+  font-size: var(--font-size-lg);
+  color: var(--text-muted);
+}
+
+.matchValues {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.matchValueItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
 }
 
 .matchDiff {
-  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-lg);
-  font-family: var(--font-mono);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
 }
 
-/* ========================================
-   ALERTAS
-   ======================================== */
+.diffSuccess { color: var(--status-success); }
+.diffWarning { color: var(--accent-warning); }
 
-.alert {
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  border: 1px solid;
+/* Responsive */
+@media (max-width: 1024px) {
+  .panelsGrid { grid-template-columns: 1fr; }
 }
 
-.alertSuccess {
-  background-color: var(--status-success-bg);
-  color: var(--status-success);
-  border-color: var(--status-success-border);
-}
-
-.alertError {
-  background-color: var(--status-error-bg);
-  color: var(--status-error);
-  border-color: var(--status-error-border);
-}
-
-/* ========================================
-   RESPONSIVO
-   ======================================== */
-
-@media (max-width: 900px) {
-  .grid {
-    grid-template-columns: 1fr;
+@media (max-width: 768px) {
+  .actionsBar {
+    flex-direction: column;
+    align-items: stretch;
+    bottom: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
-
-  .panel {
-    max-height: none;
+  
+  .matchItem {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
