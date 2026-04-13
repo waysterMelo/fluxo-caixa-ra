@@ -1,0 +1,226 @@
+/* 
+ * Conciliacao - Tela de Validação Crítica
+ * Estilo: revisão operacional, comparação lado a lado
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.header h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.header p {
+  color: var(--text-tertiary);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-2xs);
+}
+
+.filters {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-end;
+}
+
+/* ========================================
+   CONTEÚDO PRINCIPAL
+   ======================================== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 2px solid var(--border-strong);
+  background: var(--bg-elevated);
+  margin-bottom: var(--spacing-md);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+}
+
+/* ========================================
+   GRID DE PAINÉIS
+   ======================================== */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-lg);
+}
+
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* ========================================
+   CARDS DE ITENS
+   ======================================== */
+
+.itemCard {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-elevated);
+  transition: all var(--transition-base);
+  cursor: pointer;
+}
+
+.itemCard:hover {
+  border-color: var(--border-focus);
+  background-color: var(--cyan-light);
+}
+
+.itemCard.selected {
+  border-color: var(--accent-cyan);
+  background-color: var(--cyan-light);
+  box-shadow: 0 0 0 2px var(--cyan-light);
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+}
+
+.itemDate {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+.itemDesc {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+.itemSubtext {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.itemValue {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  font-family: var(--font-mono);
+}
+
+.itemPositive {
+  color: var(--status-success);
+}
+
+.itemNegative {
+  color: var(--status-error);
+}
+
+/* ========================================
+   BARRA DE AÇÃO DE CONCILIAÇÃO
+   ======================================== */
+
+.actionsBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--bg-panel);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-focus);
+  gap: var(--spacing-md);
+  position: sticky;
+  bottom: var(--spacing-md);
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+}
+
+.matchInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.matchDiff {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+  font-family: var(--font-mono);
+}
+
+/* ========================================
+   ALERTAS
+   ======================================== */
+
+.alert {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid;
+}
+
+.alertSuccess {
+  background-color: var(--status-success-bg);
+  color: var(--status-success);
+  border-color: var(--status-success-border);
+}
+
+.alertError {
+  background-color: var(--status-error-bg);
+  color: var(--status-error);
+  border-color: var(--status-error-border);
+}
+
+/* ========================================
+   RESPONSIVO
+   ======================================== */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    max-height: none;
+  }
+}

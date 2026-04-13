@@ -1,0 +1,135 @@
+/* 
+ * Input - Estilo Sistema Operacional Técnico
+ * Características: fundo escuro secundário, borda visível, foco ciano/verde
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  line-height: 1.2;
+}
+
+.hint {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.input {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-sans);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  transition: all var(--transition-base);
+  outline: none;
+  line-height: 1.5;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.input:hover:not(:disabled):not(:focus) {
+  border-color: var(--border-strong);
+  background-color: var(--bg-panel);
+}
+
+.input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px var(--cyan-light);
+  background-color: var(--bg-panel);
+}
+
+.input:disabled {
+  background-color: var(--bg-secondary);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+  border-color: var(--border-light);
+}
+
+.input.readOnly {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-light);
+  cursor: default;
+}
+
+/* Estado de erro */
+.error {
+  border-color: var(--border-error);
+}
+
+.error:focus {
+  border-color: var(--border-error);
+  box-shadow: 0 0 0 2px var(--red-light);
+}
+
+.errorMessage {
+  font-size: var(--font-size-xs);
+  color: var(--status-error);
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+}
+
+/* ========================================
+   VARIAÇÕES DE TAMANHO
+   ======================================== */
+
+.small .input {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+}
+
+.large .input {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-base);
+}
+
+/* ========================================
+   TIPOS ESPECIAIS
+   ======================================== */
+
+/* Input monoespaçado (para valores, códigos) */
+.mono .input {
+  font-family: var(--font-mono);
+}
+
+/* Input com ícone */
+.withIcon {
+  position: relative;
+}
+
+.withIcon .input {
+  padding-left: var(--spacing-2xl);
+}
+
+.icon {
+  position: absolute;
+  left: var(--spacing-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Input de data */
+.date .input {
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}

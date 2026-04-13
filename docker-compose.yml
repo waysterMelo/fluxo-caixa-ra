@@ -14,5 +14,18 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
+  backend:
+    build: ./backend
+    container_name: fluxo_backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_SERVER=db
+    depends_on:
+      - db
+    restart: unless-stopped
+
 volumes:
   postgres_data:

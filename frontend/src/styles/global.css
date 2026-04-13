@@ -1,25 +1,46 @@
-@import './variables.css';
+@import './tokens.css';
 
-* {
+/* ========================================
+   RESET E BASE - Mission Finance Console
+   Estilo: técnico, operacional, limpo
+   ======================================== */
+
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-base);
-  color: var(--color-text);
-  background-color: var(--color-bg);
+html {
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+}
+
+/* Links */
 a {
+  color: var(--accent-cyan);
   text-decoration: none;
-  color: inherit;
+  transition: color var(--transition-fast);
 }
 
+a:hover {
+  color: var(--cyan-dark);
+  text-decoration: underline;
+}
+
+/* Botões */
 button {
   font-family: inherit;
   cursor: pointer;
@@ -27,16 +48,186 @@ button {
   background: none;
 }
 
+/* Formulários */
 input, select, textarea {
   font-family: inherit;
   font-size: inherit;
+  line-height: inherit;
 }
 
+/* Tabelas */
 table {
   border-collapse: collapse;
   width: 100%;
+  border-spacing: 0;
 }
 
+/* Imagens */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Código */
+code, pre, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+/* Scrollbar técnica e discreta */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Root */
 #root {
   min-height: 100vh;
 }
+
+/* ========================================
+   UTILITÁRIOS DE TEXTO
+   ======================================== */
+
+.text-mono {
+  font-family: var(--font-mono);
+}
+
+.text-technical {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+}
+
+.text-value {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+}
+
+.text-status {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ========================================
+   PADRÕES DE SEÇÃO
+   ======================================== */
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border-default);
+  background: var(--bg-elevated);
+}
+
+.section-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.section-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+}
+
+/* ========================================
+   BADGES DE STATUS OPERACIONAL
+   ======================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  padding: 2px var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.badge-success {
+  background: var(--status-success-bg);
+  color: var(--status-success);
+  border: 1px solid var(--status-success-border);
+}
+
+.badge-warning {
+  background: var(--status-warning-bg);
+  color: var(--status-warning);
+  border: 1px solid var(--status-warning-border);
+}
+
+.badge-error {
+  background: var(--status-error-bg);
+  color: var(--status-error);
+  border: 1px solid var(--status-error-border);
+}
+
+.badge-info {
+  background: var(--status-info-bg);
+  color: var(--status-info);
+  border: 1px solid var(--status-info-border);
+}
+
+.badge-neutral {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
+}
+
+/* ========================================
+   CLASSES UTILITÁRIAS
+   ======================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.text-success { color: var(--status-success); }
+.text-warning { color: var(--status-warning); }
+.text-error { color: var(--status-error); }
+.text-info { color: var(--status-info); }
+.text-muted { color: var(--text-muted); }
+
+.bg-success { background-color: var(--status-success-bg); }
+.bg-warning { background-color: var(--status-warning-bg); }
+.bg-error { background-color: var(--status-error-bg); }
+.bg-info { background-color: var(--status-info-bg); }

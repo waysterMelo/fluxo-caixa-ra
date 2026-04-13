@@ -1,15 +1,16 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import FluxoDiario from './pages/FluxoDiario';
-import Fechamento from './pages/Fechamento';
-import Importacoes from './pages/Importacoes';
-import Conciliacao from './pages/Conciliacao';
-import Ajustes from './pages/Ajustes';
-import Relatorios from './pages/Relatorios';
-import './styles/global.css';
+import { AuthProvider } from '../context/AuthContext';
+import ProtectedRoute from '../components/ProtectedRoute';
+import Login from '../pages/Login';
+import Dashboard from '../pages/Dashboard';
+import FluxoDiario from '../pages/FluxoDiario';
+import Fechamento from '../pages/Fechamento';
+import Importacoes from '../pages/Importacoes';
+import Conciliacao from '../pages/Conciliacao';
+import Ajustes from '../pages/Ajustes';
+import Empresas from '../pages/Empresas';
+import Relatorios from '../pages/Relatorios';
+import '../styles/global.css';
 
 export default function AppRoutes() {
   return (
@@ -46,6 +47,14 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <Importacoes />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/empresas"
+            element={
+              <ProtectedRoute>
+                <Empresas />
               </ProtectedRoute>
             }
           />

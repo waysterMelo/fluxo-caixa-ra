@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Fluxo de Caixa Diário"
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
+    TIMEZONE: str = os.getenv("TIMEZONE", "America/Sao_Paulo")
 
     POSTGRES_SERVER: str = os.getenv("POSTGRES_SERVER", "localhost")
     POSTGRES_USER: str = os.getenv("POSTGRES_USER", "postgres")

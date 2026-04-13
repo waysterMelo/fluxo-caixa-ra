@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 import hashlib
 from datetime import datetime
 from sqlalchemy.orm import Session
@@ -12,6 +13,20 @@ from app.models.company import Company
 
 def calculate_file_hash(file_contents: bytes) -> str:
     return hashlib.sha256(file_contents).hexdigest()
+
+def _clean_raw_data(row: pd.Series) -> dict:
+    import math
+    cleaned = {}
+    for k, v in row.to_dict().items():
+        if pd.isna(v):
+            continue
+        if isinstance(v, float) and math.isnan(v):
+            continue
+        if isinstance(v, (datetime, pd.Timestamp)):
+            cleaned[k] = v.isoformat()
+        else:
+            cleaned[k] = v
+    return cleaned
 
 def process_erp_import(
     db: Session, 
@@ -36,11 +51,13 @@ def process_erp_import(
 
     # Ler com Pandas
     try:
-        # Suporta xlsx, caso falhe tentamos csv
-        if file.filename.endswith('.csv'):
-            df = pd.read_csv(file.file)
+        import io
+        if file.filename.lower().endswith('.csv'):
+            df = pd.read_csv(io.BytesIO(contents))
+        elif file.filename.lower().endswith(('.xls', '.xlsx')):
+            df = pd.read_excel(io.BytesIO(contents))
         else:
-            df = pd.read_excel(contents)
+            raise HTTPException(status_code=400, detail="Formato de arquivo não suportado. Use CSV ou XLSX.")
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Erro ao ler arquivo: {str(e)}")
 
@@ -80,14 +97,21 @@ def process_erp_import(
     for _, row in df.iterrows():
         # Valores básicos
         try:
-            vencimento = pd.to_datetime(row[col_vencimento]).date()
-            if pd.isna(vencimento): continue
-            
+            venc_ts = pd.to_datetime(row[col_vencimento], errors='coerce', dayfirst=True)
+            if pd.isna(venc_ts): continue
+            vencimento = venc_ts.date()
+
             valor = float(row[col_valor]) if not pd.isna(row[col_valor]) else 0.0
             nome = str(row[col_nome])
             docto = str(row[col_docto]) if col_docto and not pd.isna(row[col_docto]) else None
             status = str(row[col_status]).upper() if col_status and not pd.isna(row[col_status]) else 'ABERTO'
-            venc_real = pd.to_datetime(row[col_venc_real]).date() if col_venc_real and not pd.isna(row[col_venc_real]) else vencimento
+
+            venc_real = vencimento
+            if col_venc_real and not pd.isna(row[col_venc_real]):
+                venc_real_ts = pd.to_datetime(row[col_venc_real], errors='coerce', dayfirst=True)
+                if not pd.isna(venc_real_ts):
+                    venc_real = venc_real_ts.date()
+                    
             historico = str(row[col_historico]) if col_historico and not pd.isna(row[col_historico]) else None
             
             # Controle de período do batch
@@ -105,7 +129,7 @@ def process_erp_import(
                     amount=valor,
                     status=status,
                     history=historico,
-                    raw_data=row.to_dict()
+                    raw_data=_clean_raw_data(row)
                 )
             else:
                 title = AccountReceivable(
@@ -118,7 +142,7 @@ def process_erp_import(
                     amount=valor,
                     status=status,
                     history=historico,
-                    raw_data=row.to_dict()
+                    raw_data=_clean_raw_data(row)
                 )
             
             db.add(title)
@@ -128,18 +152,20 @@ def process_erp_import(
             if col_baixa and col_valor_pago:
                 baixa_data_val = row[col_baixa]
                 if not pd.isna(baixa_data_val):
-                    baixa_data = pd.to_datetime(baixa_data_val).date()
-                    valor_pago = float(row[col_valor_pago]) if not pd.isna(row[col_valor_pago]) else 0.0
-                    
-                    if valor_pago > 0:
-                        settlement = TitleSettlement(
-                            title_type="PAYABLE" if is_payable else "RECEIVABLE",
-                            title_id=title.id,
-                            settlement_date=baixa_data,
-                            amount_paid=valor_pago,
-                            source_batch_id=batch.id
-                        )
-                        db.add(settlement)
+                    baixa_ts = pd.to_datetime(baixa_data_val, errors='coerce', dayfirst=True)
+                    if not pd.isna(baixa_ts):
+                        baixa_data = baixa_ts.date()
+                        valor_pago = float(row[col_valor_pago]) if not pd.isna(row[col_valor_pago]) else 0.0
+                        
+                        if valor_pago > 0:
+                            settlement = TitleSettlement(
+                                title_type="PAYABLE" if is_payable else "RECEIVABLE",
+                                title_id=title.id,
+                                settlement_date=baixa_data,
+                                amount_paid=valor_pago,
+                                source_batch_id=batch.id
+                            )
+                            db.add(settlement)
 
         except Exception as e:
             # Em prod, faríamos um log específico para linha, por hora rollback total ou skip

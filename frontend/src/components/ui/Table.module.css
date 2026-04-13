@@ -1,0 +1,157 @@
+/* 
+ * Table - Estilo Tabela Financeira Técnica
+ * Prioridade máxima: cabeçalho forte, grid visível, mono para números
+ */
+
+.container {
+  width: 100%;
+  overflow-x: auto;
+  background: var(--bg-panel);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+/* ========================================
+   CABEÇALHO
+   ======================================== */
+
+.th {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  border-bottom: 2px solid var(--border-strong);
+  background-color: var(--table-header-bg);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Colunas alinhadas à direita (valores financeiros) */
+.th.right {
+  text-align: right;
+}
+
+.th.center {
+  text-align: center;
+}
+
+/* ========================================
+   CÉLULAS
+   ======================================== */
+
+.td {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--table-border);
+  line-height: 1.4;
+}
+
+.td.right {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.td.center {
+  text-align: center;
+}
+
+/* Números em colunas financeiras */
+.td.numeric {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================================
+   LINHAS
+   ======================================== */
+
+.tr:hover .td {
+  background-color: var(--table-row-hover);
+}
+
+/* Zebra muito sutil */
+.stripe .tr:nth-child(even) .td {
+  background-color: var(--table-row-stripe);
+}
+
+/* Linha selecionada */
+.selected .td {
+  background-color: var(--cyan-light);
+  border-color: var(--border-focus);
+}
+
+.tr:last-child .td {
+  border-bottom: none;
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+
+.emptyState {
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  background-color: var(--bg-elevated);
+}
+
+/* ========================================
+   VARIAÇÕES
+   ======================================== */
+
+/* Tabela compacta */
+.compact .th,
+.compact .td {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+}
+
+/* Tabela com hover desabilitado */
+.noHover .tr:hover .td {
+  background-color: transparent;
+}
+
+/* Bordas verticais (estilo grid forte) */
+.bordered .th,
+.bordered .td {
+  border-right: 1px solid var(--table-border);
+}
+
+.bordered .th:last-child,
+.bordered .td:last-child {
+  border-right: none;
+}
+
+/* ========================================
+   DESTAQUES DE ESTADO
+   ======================================== */
+
+.rowSuccess .td {
+  background-color: var(--status-success-bg);
+}
+
+.rowWarning .td {
+  background-color: var(--status-warning-bg);
+}
+
+.rowError .td {
+  background-color: var(--status-error-bg);
+}
+
+.rowInfo .td {
+  background-color: var(--status-info-bg);
+}

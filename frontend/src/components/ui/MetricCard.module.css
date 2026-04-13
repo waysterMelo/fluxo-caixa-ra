@@ -1,0 +1,175 @@
+/* 
+ * MetricCard - KPI estilo Centro de Comando
+ * Valores grandes em mono, labels técnicas em caixa alta
+ */
+
+.metricCard {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+}
+
+.metricCard:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
+/* Barra lateral de estado */
+.metricCard.success {
+  border-left-width: 3px;
+  border-left-color: var(--status-success);
+}
+
+.metricCard.warning {
+  border-left-width: 3px;
+  border-left-color: var(--status-warning);
+}
+
+.metricCard.error {
+  border-left-width: 3px;
+  border-left-color: var(--status-error);
+}
+
+.metricCard.info {
+  border-left-width: 3px;
+  border-left-color: var(--status-info);
+}
+
+/* ========================================
+   HEADER (Label Técnica)
+   ======================================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  line-height: 1.2;
+}
+
+.icon {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+
+/* ========================================
+   VALOR PRINCIPAL
+   ======================================== */
+
+.value {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-metric);
+  line-height: 1.2;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.value.small {
+  font-size: var(--font-size-metric-sm);
+}
+
+.value.large {
+  font-size: var(--font-size-metric-lg);
+}
+
+.value.xlarge {
+  font-size: var(--font-size-metric-xl);
+}
+
+.value.positive {
+  color: var(--status-success);
+}
+
+.value.negative {
+  color: var(--status-error);
+}
+
+/* ========================================
+   SUBTÍTULO / INFO ADICIONAL
+   ======================================== */
+
+.subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.trend {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.trend.up {
+  color: var(--status-success);
+}
+
+.trend.down {
+  color: var(--status-error);
+}
+
+.trend.neutral {
+  color: var(--text-muted);
+}
+
+/* ========================================
+   RODAPÉ
+   ======================================== */
+
+.footer {
+  margin-top: auto;
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid var(--border-light);
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footerStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+}
+
+/* ========================================
+   DENSIDADE
+   ======================================== */
+
+.compact {
+  padding: var(--spacing-md);
+}
+
+.compact .value {
+  font-size: var(--font-size-metric-sm);
+}
+
+.relaxed {
+  padding: var(--spacing-xl);
+}
+
+.relaxed .value {
+  font-size: var(--font-size-metric-lg);
+}

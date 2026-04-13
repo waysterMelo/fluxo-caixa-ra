@@ -40,12 +40,74 @@ def process_bank_import(
     if existing_batch and not replace_period:
         raise HTTPException(status_code=400, detail="Arquivo já importado anteriormente.")
 
-    # Ler com Pandas
+    # Ler arquivo
     try:
-        if file.filename.endswith('.csv'):
-            df = pd.read_csv(file.file)
+        import io
+        filename_lower = file.filename.lower()
+        if filename_lower.endswith('.csv'):
+            df = pd.read_csv(io.BytesIO(contents))
+        elif filename_lower.endswith(('.xls', '.xlsx')):
+            df = pd.read_excel(io.BytesIO(contents))
+        elif filename_lower.endswith('.pdf'):
+            import pdfplumber
+            import tempfile
+            
+            # Write bytes to a temp file for pdfplumber
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+                tmp.write(contents)
+                tmp_path = tmp.name
+                
+            all_text = ""
+            with pdfplumber.open(tmp_path) as pdf:
+                for page in pdf.pages:
+                    text = page.extract_text()
+                    if text:
+                        all_text += text + "\n"
+            
+            import os
+            os.remove(tmp_path)
+            
+            # Extremely basic parsing of PDF text into DataFrame assuming standard bank statement layout
+            # For a real-world scenario, this needs complex regex parsing per bank.
+            # Here we try to find lines that look like: DD/MM/YYYY Description Value
+            import re
+            lines = all_text.split('\n')
+            parsed_data = []
+            
+            # Generic regex for DD/MM/YYYY or DD/MM
+            date_pattern = re.compile(r'^(\d{2}/\d{2}(?:/\d{4})?)')
+            
+            for line in lines:
+                match = date_pattern.search(line)
+                if match:
+                    date_str = match.group(1)
+                    rest_of_line = line[match.end():].strip()
+                    
+                    # Try to extract the last number as value
+                    value_match = re.search(r'(-?[\d\.]+,\d{2})\s*$', rest_of_line)
+                    if value_match:
+                        value_str = value_match.group(1)
+                        desc = rest_of_line[:value_match.start()].strip()
+                        
+                        # Standardize value string to float
+                        val_float = float(value_str.replace('.', '').replace(',', '.'))
+                        
+                        parsed_data.append({
+                            'data': date_str,
+                            'descrição': desc,
+                            'valor_bruto': val_float
+                        })
+            
+            if not parsed_data:
+                 raise HTTPException(status_code=400, detail="Não foi possível extrair dados estruturados deste PDF.")
+                 
+            df = pd.DataFrame(parsed_data)
+            # Create artificial debito/credito columns to match expected schema
+            df['crédito'] = df['valor_bruto'].apply(lambda x: x if x > 0 else 0)
+            df['débito'] = df['valor_bruto'].apply(lambda x: abs(x) if x < 0 else 0)
+            
         else:
-            df = pd.read_excel(contents)
+            raise HTTPException(status_code=400, detail="Formato de arquivo não suportado. Use PDF, CSV ou XLSX.")
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Erro ao ler arquivo: {str(e)}")
 

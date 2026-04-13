@@ -1,0 +1,709 @@
+INSTRUÇÃO OFICIAL PARA O FRONTEND
+Projeto: Fluxo de Caixa RA
+Direção visual: NASA Mission Control / ERP retrô técnico / terminal financeiro 80s-90s com execução moderna
+Objetivo
+
+Redesenhar completamente o visual do sistema para transmitir a sensação de:
+
+painel de controle técnico
+centro de comando financeiro
+software corporativo antigo refinado
+interface inspirada em NASA / sistemas industriais / monitores de operação
+nostalgia 80s/90s sem comprometer usabilidade moderna
+
+O sistema não deve parecer “velho e mal feito”.
+Ele deve parecer retro-técnico, robusto, confiável, funcional e memorável.
+
+A sensação desejada é:
+
+“um sistema financeiro que parece operar uma missão crítica”
+
+1. PRINCÍPIO GERAL DE DESIGN
+O que queremos
+
+Criar uma interface com identidade forte, misturando:
+
+estética de sistemas antigos
+dashboards de missão
+terminais técnicos
+linguagem visual de monitoramento
+UX moderna e limpa
+O que não queremos
+
+Não fazer:
+
+visual caricatural
+pixel art exagerado
+efeito CRT pesado em tudo
+interface desconfortável
+fonte difícil de ler
+excesso de glow
+excesso de nostalgia sem função
+UI “trash” ou “velha de propósito”
+Regra principal
+
+A estética retrô entra em:
+
+paleta
+tipografia secundária
+grids
+bordas
+cabeçalhos
+nomenclatura
+estados
+microdetalhes
+
+A usabilidade moderna entra em:
+
+hierarquia visual
+spacing
+responsividade
+navegação
+consistência
+acessibilidade
+contraste
+clareza de ações
+2. CONCEITO VISUAL
+Nome interno do tema
+
+Mission Finance / Control Console
+
+Referências conceituais
+
+A equipe deve se inspirar em:
+
+NASA Mission Control
+terminais corporativos dos anos 80 e 90
+monitores de operação industrial
+software de contabilidade legado
+consoles de comando
+telas de radar, telemetria e monitoramento
+painéis de controle técnico
+Sensações obrigatórias
+
+A interface final deve transmitir:
+
+precisão
+controle
+operação crítica
+confiabilidade
+densidade informacional
+sofisticação técnica
+caráter industrial / operacional
+3. PALETA DE CORES
+Base principal
+
+Usar fundo escuro técnico. Nada de preto puro absoluto.
+Queremos um escuro levemente esverdeado/azulado.
+
+Cores base
+#0A0F0D → fundo principal
+#101917 → superfícies secundárias
+#15211E → cards / painéis
+#1C2A27 → divisórias / blocos
+Texto
+#E6F1EC → texto principal
+#B7C8C0 → texto secundário
+#7E948A → texto discreto / metadados
+Cores de destaque
+#1AFF66 → sucesso / ativo / destaque terminal
+#7FDBFF → informativo / dados / links / gráficos secundários
+#FFB347 → alerta / atenção / status de revisão
+#FF6B6B → erro / crítico / negativo
+Cores auxiliares
+#22342F → bordas internas
+#2C4740 → hover discreto
+#314C72 → áreas informativas frias
+#3D3324 → fundo leve para alertas âmbar
+Regras de uso
+verde terminal deve ser usado com moderação, em pontos de alto valor
+não usar glow forte constante
+não usar saturação alta em massa
+o sistema deve parecer técnico, não gamer
+4. TIPOGRAFIA
+Fonte principal de interface
+
+Usar uma sans moderna, limpa e legível.
+
+Preferência:
+
+Inter
+ou IBM Plex Sans
+Fonte secundária técnica
+
+Usar monoespaçada em pontos estratégicos.
+
+Preferência:
+
+IBM Plex Mono
+ou JetBrains Mono
+Regras
+Sans:
+
+usar para
+
+menus
+labels principais
+formulários
+navegação
+títulos de seção
+Mono:
+
+usar para
+
+valores monetários
+saldos
+datas técnicas
+timestamps
+códigos
+status
+cabeçalhos de widgets técnicos
+referências de importação e logs
+Escala tipográfica
+Título principal: 24–32px
+Título de bloco: 16–20px
+Texto padrão: 14–16px
+Texto técnico / label / tabela: 12–14px
+Números de destaque: 24–40px
+Regras adicionais
+evitar peso excessivamente fino
+privilegiar 500 e 600 para UI
+usar caixa alta apenas em labels e headers técnicos
+5. LINGUAGEM DOS COMPONENTES
+Bordas
+
+Todos os componentes devem ter bordas bem definidas.
+
+radius baixo: 4px ou 6px
+nada muito arredondado
+aparência mais industrial/técnica
+evitar estilo “app mobile fofinho”
+Sombras
+sombras discretas
+profundidade baixa
+nada flutuante demais
+foco em separação estrutural, não efeito decorativo
+Cards
+
+Cards devem parecer painéis de controle.
+
+Cada card precisa ter:
+
+cabeçalho técnico
+título objetivo
+possível subtítulo/status
+corpo limpo
+divisão clara entre header e conteúdo
+Tabelas
+
+As tabelas são elemento central do sistema.
+
+Devem ter:
+
+cabeçalho forte
+grid visível porém discreto
+boa densidade
+linhas com hover claro
+valores alinhados
+tipografia mono para números
+colunas financeiras bem delimitadas
+Inputs
+
+Os campos devem passar sensação de sistema operacional técnico.
+
+Regras:
+
+fundo escuro secundário
+borda visível
+foco com cor ciano ou verde
+placeholder discreto
+nada transparente demais
+estados bem claros: normal, foco, erro, desabilitado
+Botões
+
+Os botões devem parecer ações operacionais.
+
+Estilo
+formato reto
+borda aparente
+peso visual firme
+sem degradês exagerados
+Hierarquia
+Primário: verde técnico
+Secundário: cinza técnico
+Atenção: âmbar
+Perigo: vermelho técnico
+6. ESTRUTURA DE LAYOUT
+Layout geral
+
+O sistema deve parecer uma estação de operação.
+
+Estrutura recomendada
+sidebar fixa
+topbar técnica
+área principal em grid
+cards organizados por prioridade operacional
+Sidebar
+
+A sidebar deve lembrar um painel de sistema.
+
+Deve conter
+nome do sistema
+ambiente / empresa ativa
+menu principal
+seção administrativa
+status geral
+Visual
+fundo mais fechado
+separadores
+tipografia forte
+item ativo muito claro
+ícones discretos e técnicos
+Topbar
+
+A topbar deve funcionar como barra de controle e contexto.
+
+Deve conter
+nome da tela atual
+contexto da empresa/período
+status do sistema
+perfil do usuário
+ações rápidas
+possivelmente relógio técnico
+Visual
+baixa altura
+informativa
+elegante
+com cara de console
+7. DASHBOARD PRINCIPAL
+Objetivo visual
+
+O dashboard deve parecer um centro de comando financeiro.
+
+Estrutura sugerida
+Linha 1
+saldo atual
+saldo previsto
+entradas do período
+saídas do período
+Linha 2
+gráfico de fluxo
+gráfico por categoria
+status de conciliação
+Linha 3
+contas a pagar próximas
+contas a receber próximas
+alertas/importações recentes
+Regras de visual
+números de destaque em mono
+labels técnicas em caixa alta
+subtítulos discretos
+usar microtexto operacional:
+STATUS
+ATUALIZADO EM
+PERÍODO
+EMPRESA
+CONCILIAÇÃO
+PROCESSAMENTO
+Cards de indicador
+
+Cada KPI deve ter:
+
+título técnico pequeno
+valor grande
+variação percentual / tendência
+status textual curto
+
+Exemplo de linguagem:
+
+SALDO OPERACIONAL
+ENTRADAS CONSOLIDADAS
+SAÍDAS PROGRAMADAS
+STATUS DE FECHAMENTO
+8. TELA DE IMPORTAÇÃO
+Importância
+
+Essa tela deve parecer um módulo de ingestão/processamento de dados.
+
+Visual desejado
+área de upload com cara de console
+status por etapa
+feedback claro
+progressão do processo
+visual de pipeline
+Elementos recomendados
+dropzone com borda tracejada técnica
+lista de arquivos processados
+badges de status:
+LIDO
+NORMALIZADO
+DUPLICIDADE
+ERRO
+PENDENTE
+resumo do processamento
+log técnico opcional expansível
+Linguagem visual
+
+Pode usar:
+
+verde para sucesso operacional
+âmbar para inconsistência
+vermelho para falha
+ciano para processamento/informação
+9. TELA DE CONCILIAÇÃO
+Direção
+
+Essa deve ser uma das telas mais fortes visualmente.
+
+Ela deve parecer uma tela de validação crítica.
+
+Componentes sugeridos
+resumo no topo
+duas colunas principais:
+lançamentos internos
+extrato bancário
+área central ou lateral de correspondência
+filtros técnicos
+status de divergência
+Estados
+conciliado
+pendente
+divergente
+ignorado
+duplicado
+Visual
+comparação lado a lado
+cores de estado muito claras
+destaque moderado para diferenças
+tipografia mono para datas e valores
+sensação de revisão operacional
+10. FORMULÁRIOS E CADASTROS
+Regra
+
+Nessas telas, reduzir o “efeito temático” e priorizar clareza.
+
+Estrutura
+cabeçalho forte
+seções em blocos
+labels objetivos
+hints discretos
+botões bem evidentes
+Não fazer
+poluir formulário com efeitos
+usar muito brilho
+inventar microinterações desnecessárias
+11. TABELAS FINANCEIRAS
+São prioridade máxima
+
+A tabela precisa ser excelente.
+
+Regras obrigatórias
+cabeçalho sticky quando necessário
+números alinhados à direita
+datas com largura previsível
+colunas importantes com destaque
+zebra muito sutil
+hover claro
+seleção bem perceptível
+Tipografia
+números: mono
+descrições: sans
+cabeçalho: sans forte ou mono leve
+Colunas financeiras
+
+Destacar visualmente:
+
+valor
+saldo
+tipo
+situação
+vencimento
+Cores
+entradas: verde técnico
+saídas: vermelho técnico ou âmbar quente
+saldo positivo: verde/ciano
+saldo negativo: vermelho
+12. ÍCONES
+Estilo
+
+Usar ícones simples, lineares, técnicos.
+
+Preferência:
+
+sem excesso de preenchimento
+sem estilo cartoon
+sem rounded exagerado
+Temas possíveis
+grid
+file
+database
+radar
+chart
+terminal
+upload
+alert
+settings
+wallet
+banknote
+receipt
+activity
+13. MICROINTERAÇÕES
+Devem ser discretas
+
+Nada espalhafatoso.
+
+Permitido
+hover suave
+transição curta
+destaque de foco
+loading com aparência técnica
+skeletons discretos
+Não permitido
+bounce
+animações longas
+glow piscando
+efeitos “cyberpunk”
+excesso de motion
+14. EFEITOS VISUAIS TEMÁTICOS
+Permitidos com moderação
+leve grid no fundo de algumas áreas
+linhas finas de separação
+pequenos indicadores de status
+glow muito sutil em elementos ativos
+scanline extremamente discreta apenas em hero/login, se usada
+Proibido em excesso
+ruído visual
+textura pesada
+vinheta forte
+overlay de CRT em todas as telas
+desfoques desnecessários
+15. NOMENCLATURA VISUAL E TEXTO DE INTERFACE
+A linguagem do sistema pode ser levemente técnica
+
+Usar títulos e labels com caráter operacional.
+
+Exemplos bons
+Painel Financeiro
+Console de Importação
+Status de Conciliação
+Operações Recentes
+Processamento de Arquivos
+Fluxo Consolidado
+Centro de Controle
+Monitor de Caixa
+Fechamento Operacional
+Evitar
+termos muito lúdicos
+frases longas
+linguagem rebuscada
+excesso de jargão sem função
+16. DARK MODE COMO PADRÃO
+O tema principal deve ser dark
+
+Esse projeto precisa ter como experiência principal o tema escuro.
+
+Light mode
+
+Só criar se houver necessidade futura.
+Não é prioridade.
+
+17. RESPONSIVIDADE
+Regras
+
+O sistema deve funcionar bem em:
+
+desktop widescreen
+notebook
+tablets maiores
+Prioridade
+
+Como é sistema operacional/financeiro, o foco principal é desktop.
+
+Em mobile
+
+Adaptar o essencial, sem comprometer as tabelas.
+Se necessário:
+
+esconder colunas secundárias
+usar cartões responsivos
+permitir scroll horizontal controlado
+18. ACESSIBILIDADE
+Obrigatório
+
+Mesmo com estética retrô, manter:
+
+contraste adequado
+foco visível
+tamanho de texto legível
+estados distinguíveis sem depender só de cor
+áreas clicáveis confortáveis
+Não sacrificar acessibilidade pela estética
+19. DIRETRIZES DE IMPLEMENTAÇÃO
+Stack visual recomendada
+
+Se estiverem usando React:
+
+Tailwind CSS ou CSS Modules
+design tokens centralizados
+componentes reutilizáveis
+tema configurado por variáveis CSS
+Criar obrigatoriamente
+1. tokens de design
+cores
+spacing
+radius
+shadows
+border colors
+typography scale
+2. biblioteca de componentes internos
+Button
+Input
+Select
+Card
+MetricCard
+Table
+Badge
+Modal
+SidebarItem
+SectionHeader
+StatusPill
+EmptyState
+3. padrões de tela
+dashboard
+listagem
+formulário
+conciliação
+importação
+20. ESTRUTURA DE TEMA
+Criar variáveis CSS ou tema central
+
+Exemplo conceitual:
+
+--bg-primary
+--bg-panel
+--bg-elevated
+--border-default
+--text-primary
+--text-secondary
+--accent-green
+--accent-cyan
+--accent-amber
+--accent-red
+--font-sans
+--font-mono
+
+Toda estilização deve sair desse sistema.
+Nada de cores hardcoded espalhadas.
+
+21. TELAS PRIORITÁRIAS PARA REDESIGN
+
+Executar nesta ordem:
+
+Fase 1
+login
+layout base
+sidebar
+topbar
+dashboard principal
+Fase 2
+listagem de lançamentos
+contas a pagar
+contas a receber
+tabela consolidada
+Fase 3
+importação de arquivos
+conciliação bancária
+relatórios
+Fase 4
+configurações
+cadastros auxiliares
+usuários/perfis
+22. LOGIN
+Conceito
+
+A tela de login deve parecer entrada de console de operação.
+
+Elementos
+marca do sistema
+título forte
+subtítulo técnico
+formulário simples
+fundo escuro sofisticado
+possibilidade de grid sutil ou linhas técnicas
+Deve parecer
+
+“acesso a sistema crítico”, não “app genérico”
+
+23. REGRAS DE QUALIDADE VISUAL
+
+A equipe deve validar cada tela com estas perguntas:
+
+Parece um painel de controle técnico?
+Continua fácil de usar?
+Está limpo ou tem efeito demais?
+Os dados financeiros estão claros?
+A interface transmite confiança?
+Existe coerência entre telas?
+O retrô está elegante ou caricato?
+
+Se alguma resposta falhar, ajustar.
+
+24. O QUE A EQUIPE NÃO DEVE FAZER
+não transformar em cyberpunk
+não transformar em videogame
+não usar neon em excesso
+não arredondar demais os componentes
+não esconder informação importante por estética
+não usar fontes decorativas
+não fazer interface “engraçadinha”
+não usar visual genérico de dashboard SaaS moderno demais
+não copiar template comum de admin panel
+25. RESULTADO FINAL ESPERADO
+
+O sistema final deve parecer:
+
+um ERP financeiro diferenciado
+um console de missão para operações de caixa
+uma ferramenta séria de controle
+uma interface com identidade própria
+um produto profissional e memorável
+
+Em uma frase:
+
+Construir um sistema de fluxo de caixa com estética NASA/terminal corporativo retrô, porém com UX moderna, limpa, densa e confiável.
+
+26. ENTREGA ESPERADA DA EQUIPE
+
+A equipe deve produzir:
+
+Primeiro
+moodboard visual
+paleta final
+sistema tipográfico
+design tokens
+layout base
+1 tela de dashboard pronta
+Depois
+biblioteca de componentes
+telas prioritárias
+padronização completa
+27. RESUMO EXECUTIVO PARA A EQUIPE
+
+Tema: NASA mission control + ERP retrô técnico
+Base: dark mode
+Tom: operacional, robusto, técnico, elegante
+UX: moderna e limpa
+Componentes: quadrados, firmes, bem definidos
+Tabelas: prioridade máxima
+Tipografia: sans + mono
+Cores: escuro técnico, verde terminal, ciano, âmbar
+Evitar: caricatura, exagero, cyberpunk, poluição visual
+
+Se você quiser, no próximo passo eu posso transformar isso em um documento técnico ainda mais prático para desenvolvedor, já no formato de:
+
+arquitetura de componentes React
+tokens prontos
+Tailwind config
+nomes de classes
+estrutura de pastas
+checklist de implementação.

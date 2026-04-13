@@ -1,0 +1,88 @@
+/* 
+ * Badge - Status Pills Operacionais
+ * Estilo: técnico, compacto, claro
+ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  padding: 2px var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+/* ========================================
+   VARIAÇÕES DE ESTADO
+   ======================================== */
+
+.success {
+  background-color: var(--status-success-bg);
+  color: var(--status-success);
+  border-color: var(--status-success-border);
+}
+
+.warning {
+  background-color: var(--status-warning-bg);
+  color: var(--status-warning);
+  border-color: var(--status-warning-border);
+}
+
+.error {
+  background-color: var(--status-error-bg);
+  color: var(--status-error);
+  border-color: var(--status-error-border);
+}
+
+.info {
+  background-color: var(--status-info-bg);
+  color: var(--status-info);
+  border-color: var(--status-info-border);
+}
+
+.neutral {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  border-color: var(--border-default);
+}
+
+/* ========================================
+   TAMANHOS
+   ======================================== */
+
+.small {
+  padding: 1px var(--spacing-xs);
+  font-size: 10px;
+}
+
+.large {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+/* ========================================
+   COM PONTO INDICADOR
+   ======================================== */
+
+.withDot {
+  position: relative;
+  padding-left: var(--spacing-md);
+}
+
+.withDot::before {
+  content: '';
+  position: absolute;
+  left: var(--spacing-xs);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
