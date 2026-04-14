@@ -8,10 +8,11 @@ import { MetricCard } from '../components/ui/MetricCard';
 import { Badge } from '../components/ui/Badge';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Skeleton } from '../components/ui/Skeleton';
+import { useToast } from '../components/ui/Toast';
 import { getDailyFlow, DailyFlowSummary, Movement } from '../services/flowService';
 import { getTodayLocal, formatDateBR } from '../utils/date';
 import { formatCurrency } from '../utils/currency';
-import { AlertTriangle, ArrowUpRight, ArrowDownRight, Wallet, TrendingUp, Download } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, Wallet, TrendingUp, Download } from 'lucide-react';
 import styles from './FluxoDiario.module.css';
 
 const MESES = [
@@ -31,24 +32,23 @@ const MESES = [
 ];
 
 export default function FluxoDiario() {
+  const { error } = useToast();
   const [companyId, setCompanyId] = useState<number | null>(null);
   const [mesFiltro, setMesFiltro] = useState<string>('todos');
   const [resumo, setResumo] = useState<DailyFlowSummary | null>(null);
   const [orderedMovements, setOrderedMovements] = useState<Movement[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
 
   const loadFlow = async () => {
     if (!companyId) return;
     setIsLoading(true);
-    setError('');
     try {
       const data = await getDailyFlow(companyId, getTodayLocal());
       setResumo(data);
       setOrderedMovements(data.movements || []);
     } catch (err: any) {
       console.error(err);
-      setError('Não foi possível carregar o fluxo diário.');
+      error('Não foi possível carregar o fluxo diário.');
     } finally {
       setIsLoading(false);
     }
@@ -150,13 +150,6 @@ export default function FluxoDiario() {
             </>
           }
         />
-
-        {error && (
-          <div className={styles.alertBox}>
-            <AlertTriangle size={16} />
-            <span>{error}</span>
-          </div>
-        )}
 
         {isLoading ? (
           <>

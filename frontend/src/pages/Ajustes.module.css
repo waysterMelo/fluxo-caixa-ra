@@ -133,28 +133,6 @@
   border-top: 1px solid var(--border-light);
 }
 
-.alert {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-md);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-}
-
-.alertSuccess {
-  background: var(--status-success-bg);
-  color: var(--status-success);
-  border: 1px solid var(--status-success-border);
-}
-
-.alertError {
-  background: var(--status-error-bg);
-  color: var(--status-error);
-  border: 1px solid var(--status-error-border);
-}
-
 @media (max-width: 640px) {
   .formGrid { grid-template-columns: 1fr; }
   .formRow { flex-direction: column; align-items: stretch; }

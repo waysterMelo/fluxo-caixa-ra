@@ -16,7 +16,7 @@ import {
   listCompanies,
   updateCompany,
 } from '../services/companyService';
-import { Building2, Edit, Trash2, CheckCircle, XCircle, Landmark } from 'lucide-react';
+import { Building2, Edit, CheckCircle, XCircle, Landmark } from 'lucide-react';
 import styles from './Empresas.module.css';
 
 interface FormState {

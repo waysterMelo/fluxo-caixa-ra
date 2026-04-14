@@ -7,12 +7,14 @@ import { createAdjustment, AdjustmentCreate } from '../services/adjustmentServic
 import { getTodayLocal } from '../utils/date';
 import { formatCurrency } from '../utils/currency';
 import { Card } from '../components/ui/Card';
+import { ConfirmDialog } from '../components/ui/ConfirmDialog';
+import { useToast } from '../components/ui/Toast';
 import { AlertCircle, PlusCircle, Save, Wallet } from 'lucide-react';
 import styles from './Ajustes.module.css';
 
 export default function Ajustes() {
+  const { success, error } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
   const [companyId, setCompanyId] = useState(1);
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -24,7 +26,10 @@ export default function Ajustes() {
         const data = await listCompanies(true);
         setCompanies(data);
         if (data.length > 0) setCompanyId(data[0].id);
-      } catch (e) { console.error(e); }
+      } catch (e) {
+        console.error(e);
+        error('Não foi possível carregar as empresas.');
+      }
       finally { setIsLoadingCompanies(false); }
     };
     loadComps();
@@ -40,19 +45,19 @@ export default function Ajustes() {
   const [saldoInicialDate, setSaldoInicialDate] = useState(getTodayLocal());
   const [saldoInicialAmount, setSaldoInicialAmount] = useState('');
   const [isSavingSaldo, setIsSavingSaldo] = useState(false);
+  const [showConfirmSaldo, setShowConfirmSaldo] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-      setMessage({ type: 'error', text: 'Informe um valor válido maior que zero.' });
+      error('Informe um valor válido maior que zero.');
       return;
     }
     if (!description.trim() || !reason.trim()) {
-      setMessage({ type: 'error', text: 'Descrição e motivo (justificativa) são obrigatórios.' });
+      error('Descrição e motivo (justificativa) são obrigatórios.');
       return;
     }
     setIsLoading(true);
-    setMessage(null);
     const payload: AdjustmentCreate = {
       company_id: companyId,
       adjustment_date: adjustmentDate,
@@ -64,25 +69,28 @@ export default function Ajustes() {
     };
     try {
       const response = await createAdjustment(payload);
-      setMessage({ type: 'success', text: `${response.detail} (ID: ${response.id})` });
+      success(`${response.detail} (ID: ${response.id})`);
       setAmount('');
       setDescription('');
       setCategoryId('');
       setReason('');
     } catch (err: any) {
-      setMessage({ type: 'error', text: err.response?.data?.detail || 'Erro ao criar ajuste manual.' });
+      error(err.response?.data?.detail || 'Erro ao criar ajuste manual.');
     } finally { setIsLoading(false); }
   };
 
-  const handleSaveSaldoInicial = async (e: FormEvent) => {
+  const handleRequestSaveSaldo = (e: FormEvent) => {
     e.preventDefault();
     if (!saldoInicialAmount || isNaN(Number(saldoInicialAmount))) {
-      setMessage({ type: 'error', text: 'Informe um valor numérico válido para o saldo inicial.' });
+      error('Informe um valor numérico válido para o saldo inicial.');
       return;
     }
-    if (!window.confirm(`Confirma a definição de ${formatCurrency(Number(saldoInicialAmount))} como saldo inicial?`)) return;
+    setShowConfirmSaldo(true);
+  };
+
+  const handleConfirmSaveSaldo = async () => {
+    setShowConfirmSaldo(false);
     setIsSavingSaldo(true);
-    setMessage(null);
     try {
       const response = await createAdjustment({
         company_id: companyId,
@@ -92,10 +100,10 @@ export default function Ajustes() {
         description: 'Saldo Inicial Lançado',
         reason: 'Registro de Saldo Inicial'
       });
-      setMessage({ type: 'success', text: `Saldo inicial salvo com sucesso (ID: ${response.id})` });
+      success(`Saldo inicial salvo com sucesso (ID: ${response.id})`);
       setSaldoInicialAmount('');
     } catch (err: any) {
-      setMessage({ type: 'error', text: err.response?.data?.detail || 'Erro ao salvar o saldo inicial.' });
+      error(err.response?.data?.detail || 'Erro ao salvar o saldo inicial.');
     } finally { setIsSavingSaldo(false); }
   };
 
@@ -106,13 +114,6 @@ export default function Ajustes() {
           <h2 className={styles.title}>Ajustes Manuais & Saldo</h2>
           <p className={styles.subtitle}>Inclusão de lançamentos financeiros não previstos e definição de saldo inicial.</p>
         </div>
-
-        {message && (
-          <div className={`${styles.alert} ${message.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-            <AlertCircle size={16} />
-            <span>{message.text}</span>
-          </div>
-        )}
 
         <div className={styles.companySelector}>
           <label className={styles.label}>Empresa de Referência</label>
@@ -137,7 +138,7 @@ export default function Ajustes() {
               <AlertCircle size={16} />
               <div><strong>Primeiro Lançamento:</strong> Utilize este quadro para registrar o saldo real no momento de implantação do sistema.</div>
             </div>
-            <form onSubmit={handleSaveSaldoInicial}>
+            <form onSubmit={handleRequestSaveSaldo}>
               <div className={styles.formRow}>
                 <Input type="date" label="Data de Referência" value={saldoInicialDate} onChange={(e) => setSaldoInicialDate(e.target.value)} required variant="date" />
                 <Input type="number" label="Saldo Inicial (R$)" step="0.01" value={saldoInicialAmount} onChange={(e) => setSaldoInicialAmount(e.target.value)} placeholder="Ex: 50000.00" required />
@@ -183,6 +184,15 @@ export default function Ajustes() {
           </Card>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={showConfirmSaldo}
+        onClose={() => setShowConfirmSaldo(false)}
+        onConfirm={handleConfirmSaveSaldo}
+        title="Confirmar Saldo Inicial"
+        message={`Confirma a definição de ${formatCurrency(Number(saldoInicialAmount))} como saldo inicial?`}
+        variant="warning"
+      />
     </Layout>
   );
 }

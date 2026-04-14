@@ -12,28 +12,23 @@ from app.models.daily_closing import DailyClosing
 from app.models.audit_log import AuditLog
 
 def get_company_flow(db: Session, company_id: int, target_date: date):
-    # 1. Obter o saldo de abertura (do fechamento do dia anterior)
-    last_closing = db.query(DailyClosing).filter(
-        DailyClosing.company_id == company_id,
-        DailyClosing.closing_date < target_date,
-        DailyClosing.status == 'CLOSED'
-    ).order_by(DailyClosing.closing_date.desc()).first()
-    
-    opening_balance = float(last_closing.flow_balance) if last_closing else 0.0
-
-    movements = []
-    
+    # 1. Obter o saldo inicial (do ajuste manual de Registro de Saldo Inicial)
+    # Busca sempre o ÚLTIMO cadastro de saldo inicial
     initial_balance_adj = db.query(ManualAdjustment).filter(
         ManualAdjustment.company_id == company_id,
         ManualAdjustment.reason == 'Registro de Saldo Inicial'
-    ).order_by(ManualAdjustment.adjustment_date.asc()).first()
+    ).order_by(ManualAdjustment.adjustment_date.desc()).first()
     
     initial_balance_info = None
+    opening_balance = 0.0
     if initial_balance_adj:
+        opening_balance = float(initial_balance_adj.amount)
         initial_balance_info = {
-            "amount": float(initial_balance_adj.amount),
+            "amount": opening_balance,
             "date": initial_balance_adj.adjustment_date.isoformat()
         }
+
+    movements = []
 
     # 2. Entradas e Saídas Planejadas (Títulos não baixados/conciliados até a data)
     # Na prática, num fluxo diário, "planejado" no dia corrente seria o que vence hoje e não foi pago.
@@ -104,7 +99,8 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
             })
 
     adjs = db.query(ManualAdjustment).filter(
-        ManualAdjustment.company_id == company_id
+        ManualAdjustment.company_id == company_id,
+        ManualAdjustment.reason != 'Registro de Saldo Inicial'
     ).all()
     adj_in = 0.0
     adj_out = 0.0

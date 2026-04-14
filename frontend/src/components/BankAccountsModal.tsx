@@ -1,6 +1,8 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { BankAccount, bankAccountService } from '../services/bankAccountService';
 import { Button } from './ui/Button';
+import { ConfirmDialog } from './ui/ConfirmDialog';
+import { useToast } from './ui/Toast';
 import styles from './BankAccountsModal.module.css';
 
 interface BankAccountsModalProps {
@@ -10,10 +12,10 @@ interface BankAccountsModalProps {
 }
 
 export default function BankAccountsModal({ companyId, companyName, onClose }: BankAccountsModalProps) {
+  const { success, error } = useToast();
   const [accounts, setAccounts] = useState<BankAccount[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const [form, setForm] = useState({
     bank_code: '',
@@ -21,6 +23,9 @@ export default function BankAccountsModal({ companyId, companyName, onClose }: B
     agency: '',
     account_number: '',
   });
+
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
 
   useEffect(() => {
     loadAccounts();
@@ -32,7 +37,7 @@ export default function BankAccountsModal({ companyId, companyName, onClose }: B
       const data = await bankAccountService.getBankAccounts(companyId);
       setAccounts(data);
     } catch (err) {
-      setMessage({ type: 'error', text: 'Erro ao carregar contas bancárias.' });
+      error('Erro ao carregar contas bancárias.');
     } finally {
       setIsLoading(false);
     }
@@ -41,12 +46,11 @@ export default function BankAccountsModal({ companyId, companyName, onClose }: B
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!form.bank_code || !form.bank_name || !form.agency || !form.account_number) {
-      setMessage({ type: 'error', text: 'Preencha todos os campos.' });
+      error('Preencha todos os campos.');
       return;
     }
 
     setIsSubmitting(true);
-    setMessage(null);
     try {
       await bankAccountService.createBankAccount({
         company_id: companyId,
@@ -56,24 +60,32 @@ export default function BankAccountsModal({ companyId, companyName, onClose }: B
         account_number: form.account_number,
         is_active: true,
       });
-      setMessage({ type: 'success', text: 'Conta bancária adicionada com sucesso!' });
+      success('Conta bancária adicionada com sucesso!');
       setForm({ bank_code: '', bank_name: '', agency: '', account_number: '' });
       await loadAccounts();
     } catch (err: any) {
-      setMessage({ type: 'error', text: err.response?.data?.detail || 'Erro ao adicionar conta.' });
+      error(err.response?.data?.detail || 'Erro ao adicionar conta.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!window.confirm('Tem certeza que deseja excluir esta conta?')) return;
+  const handleRequestDelete = (id: number) => {
+    setPendingDeleteId(id);
+    setShowConfirmDelete(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    setShowConfirmDelete(false);
+    if (pendingDeleteId === null) return;
     try {
-      await bankAccountService.deleteBankAccount(id);
-      setMessage({ type: 'success', text: 'Conta excluída com sucesso.' });
+      await bankAccountService.deleteBankAccount(pendingDeleteId);
+      success('Conta excluída com sucesso.');
       await loadAccounts();
     } catch (err: any) {
-      setMessage({ type: 'error', text: err.response?.data?.detail || 'Erro ao excluir conta.' });
+      error(err.response?.data?.detail || 'Erro ao excluir conta.');
+    } finally {
+      setPendingDeleteId(null);
     }
   };
 
@@ -86,47 +98,41 @@ export default function BankAccountsModal({ companyId, companyName, onClose }: B
         </div>
 
         <div className={styles.content}>
-          {message && (
-            <div className={`${styles.alert} ${message.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-              {message.text}
-            </div>
-          )}
-
           <form className={styles.form} onSubmit={handleSubmit}>
             <h4 className={styles.formTitle}>Adicionar Nova Conta</h4>
             <div className={styles.formGrid}>
               <div className={styles.field}>
                 <label className={styles.label}>Código do Banco</label>
-                <input 
-                  className={styles.input} 
-                  placeholder="Ex: 341" 
+                <input
+                  className={styles.input}
+                  placeholder="Ex: 341"
                   value={form.bank_code}
                   onChange={e => setForm({...form, bank_code: e.target.value})}
                 />
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Nome do Banco</label>
-                <input 
-                  className={styles.input} 
-                  placeholder="Ex: Itaú Unibanco" 
+                <input
+                  className={styles.input}
+                  placeholder="Ex: Itaú Unibanco"
                   value={form.bank_name}
                   onChange={e => setForm({...form, bank_name: e.target.value})}
                 />
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Agência</label>
-                <input 
-                  className={styles.input} 
-                  placeholder="Ex: 0001" 
+                <input
+                  className={styles.input}
+                  placeholder="Ex: 0001"
                   value={form.agency}
                   onChange={e => setForm({...form, agency: e.target.value})}
                 />
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Conta Corrente</label>
-                <input 
-                  className={styles.input} 
-                  placeholder="Ex: 12345-6" 
+                <input
+                  className={styles.input}
+                  placeholder="Ex: 12345-6"
                   value={form.account_number}
                   onChange={e => setForm({...form, account_number: e.target.value})}
                 />
@@ -152,13 +158,22 @@ export default function BankAccountsModal({ companyId, companyName, onClose }: B
                     <span className={styles.itemName}>{acc.bank_code} - {acc.bank_name}</span>
                     <span className={styles.itemDetails}>Ag: {acc.agency} | CC: {acc.account_number}</span>
                   </div>
-                  <Button variant="danger" size="sm" onClick={() => handleDelete(acc.id)}>Excluir</Button>
+                  <Button variant="danger" size="sm" onClick={() => handleRequestDelete(acc.id)}>Excluir</Button>
                 </div>
               ))
             )}
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={showConfirmDelete}
+        onClose={() => { setShowConfirmDelete(false); setPendingDeleteId(null); }}
+        onConfirm={handleConfirmDelete}
+        title="Excluir Conta Bancária"
+        message="Tem certeza que deseja excluir esta conta?"
+        variant="danger"
+      />
     </div>
   );
 }

@@ -8,20 +8,6 @@
   gap: var(--spacing-xl);
 }
 
-/* Alert Box */
-.alertBox {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  background: var(--status-warning-bg);
-  color: var(--status-warning);
-  border: 1px solid var(--status-warning-border);
-}
-
 /* Cards Grid */
 .cardsGrid {
   display: grid;

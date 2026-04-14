@@ -21,12 +21,19 @@ export function getTodayLocal(): string {
  */
 export function formatDateBR(dateString: string): string {
   if (!dateString) return '';
-  
-  // Interpreta a data como meia-noite no timezone local
-  const [year, month, day] = dateString.split('-').map(Number);
-  const date = new Date(year, month - 1, day);
-  
-  return new Intl.DateTimeFormat('pt-BR').format(date);
+
+  try {
+    // Interpreta a data como meia-noite no timezone local
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    
+    // Verifica se a data é válida
+    if (isNaN(date.getTime())) return '';
+
+    return new Intl.DateTimeFormat('pt-BR').format(date);
+  } catch {
+    return '';
+  }
 }
 
 /**

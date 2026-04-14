@@ -9,14 +9,14 @@ import { importBank, importErpPayable, importErpReceivable, getImportHistory, Im
 import { BankAccount, bankAccountService } from '../services/bankAccountService';
 import { Table } from '../components/ui/Table';
 import { Badge } from '../components/ui/Badge';
+import { useToast } from '../components/ui/Toast';
 import { formatDateBR } from '../utils/date';
-import { Upload, FileSpreadsheet, Building2, ChevronRight, History } from 'lucide-react';
+import { Upload, FileSpreadsheet, Building2, ChevronRight } from 'lucide-react';
 import styles from './Importacoes.module.css';
-
-type Message = { type: 'success' | 'error'; text: string } | null;
 
 export default function Importacoes() {
   const { user } = useAuth();
+  const { success, error: showError } = useToast();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [companyId, setCompanyId] = useState<number | null>(null);
 
@@ -26,7 +26,6 @@ export default function Importacoes() {
   const [replacePeriod, setReplacePeriod] = useState(false);
   const [isLoadingCompanies, setIsLoadingCompanies] = useState(true);
   const [isLoadingBankAccounts, setIsLoadingBankAccounts] = useState(false);
-  const [companyMessage, setCompanyMessage] = useState<Message>(null);
 
   const payableFileRef = useRef<HTMLInputElement>(null);
   const receivableFileRef = useRef<HTMLInputElement>(null);
@@ -35,10 +34,6 @@ export default function Importacoes() {
   const [isLoadingPayable, setIsLoadingPayable] = useState(false);
   const [isLoadingReceivable, setIsLoadingReceivable] = useState(false);
   const [isLoadingBank, setIsLoadingBank] = useState(false);
-
-  const [msgPayable, setMsgPayable] = useState<Message>(null);
-  const [msgReceivable, setMsgReceivable] = useState<Message>(null);
-  const [msgBank, setMsgBank] = useState<Message>(null);
 
   const [importHistory, setImportHistory] = useState<ImportHistoryRow[]>([]);
   const [historyPage, setHistoryPage] = useState(1);
@@ -74,13 +69,12 @@ export default function Importacoes() {
 
   const loadCompanies = async () => {
     setIsLoadingCompanies(true);
-    setCompanyMessage(null);
     try {
       const data = await listCompanies(true);
       setCompanies(data);
       setCompanyId((current) => current ?? data[0]?.id ?? null);
     } catch (err: any) {
-      setCompanyMessage({ type: 'error', text: err.response?.data?.detail || 'Não foi possível carregar as empresas.' });
+      showError(err.response?.data?.detail || 'Não foi possível carregar as empresas.');
     } finally { setIsLoadingCompanies(false); }
   };
 
@@ -102,22 +96,21 @@ export default function Importacoes() {
     event.preventDefault();
     const selectedCompanyId = companyId;
     if (selectedCompanyId === null) {
-      setMsgPayable({ type: 'error', text: 'Cadastre e selecione uma empresa antes de importar.' });
+      showError('Cadastre e selecione uma empresa antes de importar.');
       return;
     }
     const file = payableFileRef.current?.files?.[0];
     if (!file) {
-      setMsgPayable({ type: 'error', text: 'Selecione um arquivo CSV ou XLSX.' });
+      showError('Selecione um arquivo CSV ou XLSX.');
       return;
     }
     setIsLoadingPayable(true);
-    setMsgPayable(null);
     try {
       const response = await importErpPayable(selectedCompanyId, file);
-      setMsgPayable({ type: 'success', text: `${response.detail} (${response.records_processed} registros)` });
+      success(`${response.detail} (${response.records_processed} registros)`);
       if (payableFileRef.current) payableFileRef.current.value = '';
     } catch (err: any) {
-      setMsgPayable({ type: 'error', text: err.response?.data?.detail || 'Erro ao importar contas a pagar.' });
+      showError(err.response?.data?.detail || 'Erro ao importar contas a pagar.');
     } finally { setIsLoadingPayable(false); }
   };
 
@@ -125,22 +118,21 @@ export default function Importacoes() {
     event.preventDefault();
     const selectedCompanyId = companyId;
     if (selectedCompanyId === null) {
-      setMsgReceivable({ type: 'error', text: 'Cadastre e selecione uma empresa antes de importar.' });
+      showError('Cadastre e selecione uma empresa antes de importar.');
       return;
     }
     const file = receivableFileRef.current?.files?.[0];
     if (!file) {
-      setMsgReceivable({ type: 'error', text: 'Selecione um arquivo CSV ou XLSX.' });
+      showError('Selecione um arquivo CSV ou XLSX.');
       return;
     }
     setIsLoadingReceivable(true);
-    setMsgReceivable(null);
     try {
       const response = await importErpReceivable(selectedCompanyId, file);
-      setMsgReceivable({ type: 'success', text: `${response.detail} (${response.records_processed} registros)` });
+      success(`${response.detail} (${response.records_processed} registros)`);
       if (receivableFileRef.current) receivableFileRef.current.value = '';
     } catch (err: any) {
-      setMsgReceivable({ type: 'error', text: err.response?.data?.detail || 'Erro ao importar contas a receber.' });
+      showError(err.response?.data?.detail || 'Erro ao importar contas a receber.');
     } finally { setIsLoadingReceivable(false); }
   };
 
@@ -148,32 +140,31 @@ export default function Importacoes() {
     event.preventDefault();
     const selectedCompanyId = companyId;
     if (selectedCompanyId === null) {
-      setMsgBank({ type: 'error', text: 'Cadastre e selecione uma empresa antes de importar.' });
+      showError('Cadastre e selecione uma empresa antes de importar.');
       return;
     }
     if (bankAccountId === null) {
-      setMsgBank({ type: 'error', text: 'Cadastre e selecione uma conta bancária antes de importar.' });
+      showError('Cadastre e selecione uma conta bancária antes de importar.');
       return;
     }
     const file = bankFileRef.current?.files?.[0];
     if (!file) {
-      setMsgBank({ type: 'error', text: 'Selecione um arquivo PDF, CSV ou XLSX.' });
+      showError('Selecione um arquivo PDF, CSV ou XLSX.');
       return;
     }
     setIsLoadingBank(true);
-    setMsgBank(null);
     try {
       const response = await importBank(selectedCompanyId, bankAccountId, replacePeriod, file);
-      setMsgBank({ type: 'success', text: `${response.detail} (${response.records_processed} registros)` });
+      success(`${response.detail} (${response.records_processed} registros)`);
       if (bankFileRef.current) bankFileRef.current.value = '';
       setReplacePeriod(false);
     } catch (err: any) {
-      setMsgBank({ type: 'error', text: err.response?.data?.detail || 'Erro ao importar extrato bancário.' });
+      showError(err.response?.data?.detail || 'Erro ao importar extrato bancário.');
     } finally { setIsLoadingBank(false); }
   };
 
   const historyColumns = [
-    { header: 'DATA', accessor: (row: ImportHistoryRow) => formatDateBR(row.date) },
+    { header: 'DATA', accessor: (row: ImportHistoryRow) => row.date ? formatDateBR(row.date) : '--' },
     { header: 'TIPO', accessor: 'type' as keyof ImportHistoryRow },
     {
       header: 'STATUS',
@@ -197,8 +188,8 @@ export default function Importacoes() {
           </div>
         </div>
 
-        <Card 
-          title="Empresa Atual" 
+        <Card
+          title="Empresa Atual"
           subtitle="Escolha a empresa que receberá a importação"
           headerAction={
             <Link to="/empresas" className={styles.linkButton}>
@@ -207,11 +198,6 @@ export default function Importacoes() {
             </Link>
           }
         >
-          {companyMessage && (
-            <div className={`${styles.alert} ${companyMessage.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-              {companyMessage.text}
-            </div>
-          )}
           <select
             value={companyId ?? ''}
             onChange={(event) => setCompanyId(Number(event.target.value))}
@@ -245,11 +231,6 @@ export default function Importacoes() {
                   <span className={styles.fileText}>Clique para selecionar</span>
                 </div>
               </div>
-              {msgReceivable && (
-                <div className={`${styles.alert} ${msgReceivable.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-                  {msgReceivable.text}
-                </div>
-              )}
               <div className={styles.actions}>
                 <Button type="submit" variant="primary" disabled={isLoadingReceivable || selectedCompanyUnavailable} icon={<Upload size={16} />}>
                   {isLoadingReceivable ? 'Importando...' : 'Importar recebíveis'}
@@ -269,11 +250,6 @@ export default function Importacoes() {
                   <span className={styles.fileText}>Clique para selecionar</span>
                 </div>
               </div>
-              {msgPayable && (
-                <div className={`${styles.alert} ${msgPayable.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-                  {msgPayable.text}
-                </div>
-              )}
               <div className={styles.actions}>
                 <Button type="submit" variant="primary" disabled={isLoadingPayable || selectedCompanyUnavailable} icon={<Upload size={16} />}>
                   {isLoadingPayable ? 'Importando...' : 'Importar pagáveis'}
@@ -316,11 +292,6 @@ export default function Importacoes() {
                 <div className={styles.checkboxContainer}>
                   <input type="checkbox" id="replacePeriod" checked={replacePeriod} onChange={(event) => setReplacePeriod(event.target.checked)} />
                   <label htmlFor="replacePeriod" className={styles.checkboxLabel}>Forçar substituição de período (Admin)</label>
-                </div>
-              )}
-              {msgBank && (
-                <div className={`${styles.alert} ${msgBank.type === 'success' ? styles.alertSuccess : styles.alertError}`}>
-                  {msgBank.text}
                 </div>
               )}
               <div className={styles.actions}>

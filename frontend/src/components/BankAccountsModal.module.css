@@ -143,21 +143,3 @@
   border: 1px dashed var(--color-border);
   border-radius: var(--border-radius-md);
 }
-
-.alert {
-  padding: var(--spacing-sm);
-  border-radius: var(--border-radius-sm);
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  margin-bottom: var(--spacing-md);
-}
-
-.alertSuccess {
-  background: var(--color-success-light);
-  color: var(--color-success);
-}
-
-.alertError {
-  background: var(--color-danger-light);
-  color: var(--color-danger);
-}
