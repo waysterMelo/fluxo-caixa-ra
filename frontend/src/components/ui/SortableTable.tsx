@@ -2,6 +2,7 @@ import { ReactNode, useState, useEffect } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { GripVertical } from 'lucide-react';
 import styles from './Table.module.css';
 
 interface Column<T> {
@@ -49,15 +50,8 @@ function SortableRow<T>({
 
   return (
     <tr ref={setNodeRef} style={style} className={styles.tr}>
-      <td className={`${styles.td} ${styles.center}`} style={{ width: 40, cursor: 'grab' }} {...attributes} {...listeners}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
-          <circle cx="9" cy="12" r="1"></circle>
-          <circle cx="9" cy="5" r="1"></circle>
-          <circle cx="9" cy="19" r="1"></circle>
-          <circle cx="15" cy="12" r="1"></circle>
-          <circle cx="15" cy="5" r="1"></circle>
-          <circle cx="15" cy="19" r="1"></circle>
-        </svg>
+      <td className={`${styles.td} ${styles.center}`} style={{ width: 40, cursor: 'grab', color: 'var(--text-tertiary)' }} {...attributes} {...listeners}>
+        <GripVertical size={16} style={{ display: 'block', margin: '0 auto', opacity: 0.5 }} />
       </td>
       {columns.map((col, index) => {
         const customStyle = typeof col.cellStyle === 'function' ? col.cellStyle(row) : col.cellStyle;

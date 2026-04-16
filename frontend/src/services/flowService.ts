@@ -44,3 +44,8 @@ export const reopenDay = async (companyId: number, targetDate: string, reason: s
   const response = await api.post(`/flows/${companyId}/${targetDate}/reopen`, { reason });
   return response.data;
 };
+
+export const deleteMovement = async (movementId: string): Promise<{ detail: string }> => {
+  const response = await api.delete(`/flows/movement/${movementId}`);
+  return response.data;
+};

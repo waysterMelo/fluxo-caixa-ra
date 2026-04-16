@@ -9,10 +9,10 @@ import { Badge } from '../components/ui/Badge';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Skeleton } from '../components/ui/Skeleton';
 import { useToast } from '../components/ui/Toast';
-import { getDailyFlow, DailyFlowSummary, Movement } from '../services/flowService';
+import { getDailyFlow, DailyFlowSummary, Movement, deleteMovement } from '../services/flowService';
 import { getTodayLocal, formatDateBR } from '../utils/date';
 import { formatCurrency } from '../utils/currency';
-import { ArrowUpRight, ArrowDownRight, Wallet, TrendingUp, Download } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, Wallet, TrendingUp, Download, Info, GripVertical, ListFilter } from 'lucide-react';
 import styles from './FluxoDiario.module.css';
 
 const MESES = [
@@ -32,7 +32,7 @@ const MESES = [
 ];
 
 export default function FluxoDiario() {
-  const { error } = useToast();
+  const { success, error } = useToast();
   const [companyId, setCompanyId] = useState<number | null>(null);
   const [mesFiltro, setMesFiltro] = useState<string>('todos');
   const [resumo, setResumo] = useState<DailyFlowSummary | null>(null);
@@ -51,6 +51,18 @@ export default function FluxoDiario() {
       error('Não foi possível carregar o fluxo diário.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleDeleteMovement = async (id: string) => {
+    if (!confirm('Deseja realmente excluir esta movimentação?')) return;
+    try {
+      await deleteMovement(id);
+      success('Movimentação excluída com sucesso.');
+      loadFlow();
+    } catch (err: any) {
+      console.error(err);
+      error('Erro ao excluir a movimentação.');
     }
   };
 
@@ -126,6 +138,23 @@ export default function FluxoDiario() {
       header: 'SALDO',
       accessor: (row: any) => formatCurrency(row.saldoAcumulado),
       align: 'right' as const,
+      cellStyle: (row: any) => {
+        const isNegative = row.saldoAcumulado < 0;
+        return {
+          color: isNegative ? 'var(--status-error)' : 'var(--status-success)',
+          fontWeight: 600,
+          backgroundColor: isNegative ? 'rgba(239, 68, 68, 0.05)' : 'rgba(34, 197, 94, 0.05)',
+        };
+      },
+    },
+    {
+      header: 'AÇÕES',
+      accessor: (row: Movement) => (
+        <Button variant="ghost" size="sm" onClick={() => handleDeleteMovement(row.id)}>
+          Excluir
+        </Button>
+      ),
+      align: 'center' as const,
     },
   ];
 
@@ -194,9 +223,15 @@ export default function FluxoDiario() {
             {/* Tabela Interativa de Movimentações */}
             <div className={styles.tableSection}>
               <div className={styles.tableHeader}>
-                <div>
-                  <h3 className={styles.tableTitle}>Movimentações do Período</h3>
-                  <p className={styles.tableSubtitle}>Arraste as linhas para reordenar os lançamentos e recalcular o saldo acumulado.</p>
+                <div className={styles.tableTitleGroup}>
+                  <h3 className={styles.tableTitle}>
+                    <ListFilter size={18} className="text-primary" />
+                    Movimentações do Período
+                  </h3>
+                  <div className={styles.tableSubtitle}>
+                    <Info size={16} />
+                    <span>Você pode <strong>arrastar as linhas</strong> (usando o ícone <GripVertical size={14} style={{ display: 'inline', verticalAlign: 'middle', opacity: 0.5 }} /> à esquerda) para reordenar os lançamentos e recalcular o saldo acumulado dinamicamente.</span>
+                  </div>
                 </div>
                 <Button variant="secondary" size="sm" icon={<Download size={14} />}>Exportar CSV</Button>
               </div>

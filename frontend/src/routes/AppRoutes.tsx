@@ -59,14 +59,6 @@ export default function AppRoutes() {
             }
           />
           <Route
-            path="/conciliacao"
-            element={
-              <ProtectedRoute>
-                <Conciliacao />
-              </ProtectedRoute>
-            }
-          />
-          <Route
             path="/ajustes"
             element={
               <ProtectedRoute>

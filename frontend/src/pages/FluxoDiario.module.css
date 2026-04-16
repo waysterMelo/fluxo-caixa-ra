@@ -22,30 +22,55 @@
   box-shadow: var(--shadow-card);
   overflow: hidden;
   border: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
 }
 
 .tableHeader {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding: var(--spacing-lg) var(--spacing-xl);
+  padding: var(--spacing-xl);
   border-bottom: 1px solid var(--border-light);
   gap: var(--spacing-md);
   flex-wrap: wrap;
   background: var(--bg-panel);
 }
 
+.tableTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  max-width: 600px;
+}
+
 .tableTitle {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 
 .tableSubtitle {
   margin: 0;
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  background: var(--bg-secondary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+.tableSubtitle svg {
+  color: var(--accent-blue);
+  flex-shrink: 0;
   margin-top: 2px;
 }
 
