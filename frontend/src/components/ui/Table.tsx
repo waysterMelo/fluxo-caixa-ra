@@ -1,15 +1,15 @@
 import { ReactNode } from 'react';
 import styles from './Table.module.css';
 
-interface Column<T> {
+export interface TableColumn<T> {
   header: string;
   accessor: keyof T | ((row: T) => ReactNode);
   align?: 'left' | 'center' | 'right';
   width?: string;
 }
 
-interface TableProps<T> {
-  columns: Column<T>[];
+export interface TableProps<T> {
+  columns: TableColumn<T>[];
   data: T[];
   keyExtractor: (row: T) => string | number;
   emptyMessage?: string;

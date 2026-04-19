@@ -5,14 +5,14 @@ import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
 import styles from './Table.module.css';
 
-interface Column<T> {
+export interface Column<T> {
   header: string;
   accessor: keyof T | ((row: T) => ReactNode);
   align?: 'left' | 'center' | 'right';
   cellStyle?: React.CSSProperties | ((row: T) => React.CSSProperties);
 }
 
-interface SortableTableProps<T> {
+export interface SortableTableProps<T> {
   columns: Column<T>[];
   data: T[];
   onDataChange: (newData: T[]) => void;

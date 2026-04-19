@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { ArrowUpRight, ArrowDownRight, Minus, Circle } from 'lucide-react';
 import styles from './MetricCard.module.css';
 
-interface MetricCardProps {
+export interface MetricCardProps {
   label: string;
   value: ReactNode;
   subtitle?: string;

@@ -2,12 +2,12 @@ import { SelectHTMLAttributes, forwardRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import styles from './Select.module.css';
 
-interface SelectOption {
+export interface SelectOption {
   value: string | number;
   label: string;
 }
 
-interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
+export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
   label?: string;
   hint?: string;
   error?: string;
