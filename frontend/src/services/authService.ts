@@ -1,4 +1,5 @@
 import api from './api';
+import qs from 'qs';
 
 export interface User {
   id: number;
@@ -13,11 +14,17 @@ export interface LoginResponse {
 }
 
 export const login = async (email: string, senha: string): Promise<LoginResponse> => {
-  const formData = new FormData();
-  formData.append('username', email);
-  formData.append('password', senha);
-
-  const response = await api.post<LoginResponse>('/login/access-token', formData);
+  const response = await api.post<LoginResponse>('/login/access-token', 
+    qs.stringify({
+      username: email,
+      password: senha,
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+  );
   return response.data;
 };
 
