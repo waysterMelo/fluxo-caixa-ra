@@ -1,18 +1,19 @@
 @keyframes toastSlideIn {
   from {
     opacity: 0;
-    transform: translateX(24px);
+    transform: translateY(-24px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
 .container {
   position: fixed;
   top: var(--spacing-xl);
-  right: var(--spacing-xl);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: var(--z-toast);
   display: flex;
   flex-direction: column;
@@ -105,8 +106,9 @@
 
 @media (max-width: 480px) {
   .container {
-    right: var(--spacing-md);
     left: var(--spacing-md);
+    right: var(--spacing-md);
     max-width: none;
+    transform: none;
   }
 }
