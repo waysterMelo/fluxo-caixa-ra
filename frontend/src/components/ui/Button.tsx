@@ -4,7 +4,7 @@ import styles from './Button.module.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: 'primary' | 'secondary' | 'warning' | 'danger' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'warning' | 'danger' | 'ghost' | 'success';
   size?: 'xs' | 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   loading?: boolean;
