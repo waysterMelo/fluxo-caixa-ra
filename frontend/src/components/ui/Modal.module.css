@@ -7,10 +7,10 @@
   }
 }
 
-@keyframes modalSlideUp {
+@keyframes modalSlideDown {
   from {
     opacity: 0;
-    transform: translateY(-20px) scale(0.98);
+    transform: translateY(-30px) scale(0.95);
   }
   to {
     opacity: 1;
@@ -21,13 +21,20 @@
 .overlay {
   position: fixed;
   inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
   background: var(--bg-overlay);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding-top: 10vh;
   z-index: var(--z-modal);
-  padding: var(--spacing-xl);
   animation: modalFadeIn 200ms ease;
+  overflow-y: auto;
 }
 
 .modal {
@@ -39,7 +46,8 @@
   max-height: 80vh;
   width: 100%;
   max-width: 520px;
-  animation: modalSlideUp 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  animation: modalSlideDown 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin: var(--spacing-xl);
 }
 
 .modal.small {
