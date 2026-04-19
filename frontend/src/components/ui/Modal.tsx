@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './Modal.module.css';
 
 export interface ModalProps {
@@ -39,7 +40,7 @@ export function Modal({ isOpen, onClose, title, subtitle, children, footer, size
     if (e.target === overlayRef.current) onClose();
   };
 
-  return (
+  const modalContent = (
     <div className={styles.overlay} ref={overlayRef} onClick={handleOverlayClick}>
       <div className={`${styles.modal} ${styles[size]}`} role="dialog" aria-modal="true">
         <div className={styles.header}>
@@ -59,4 +60,6 @@ export function Modal({ isOpen, onClose, title, subtitle, children, footer, size
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
