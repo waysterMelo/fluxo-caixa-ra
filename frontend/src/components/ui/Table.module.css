@@ -91,7 +91,7 @@
    ======================================== */
 
 .stripe tbody .tr:nth-child(even) {
-  background-color: rgba(2, 6, 23, 0.3);
+  background-color: rgba(11, 14, 20, 0.4);
 }
 
 .stripe tbody .tr:nth-child(even):hover {

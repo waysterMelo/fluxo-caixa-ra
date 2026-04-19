@@ -112,7 +112,7 @@
   overflow: hidden;
   background: radial-gradient(circle at top right, rgba(0, 230, 118, 0.05), transparent 60%),
               radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.03), transparent 60%);
-  background-color: rgba(15, 23, 42, 0.8);
+  background-color: rgba(25, 30, 41, 0.8);
   border: 1px solid var(--border-strong);
 }
 

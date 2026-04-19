@@ -47,7 +47,7 @@
 }
 
 .input:hover:not(:disabled):not(:read-only):not(.error) {
-  background-color: rgba(2, 6, 23, 0.6);
+  background-color: rgba(11, 14, 20, 0.7);
   border-bottom-color: var(--text-muted);
 }
 

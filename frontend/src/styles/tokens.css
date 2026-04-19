@@ -190,9 +190,9 @@
      ======================================== */
   --gradient-primary: linear-gradient(135deg, #00E676 0%, #00C853 100%);
   --gradient-violet: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
-  --gradient-card: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
-  --gradient-hero: linear-gradient(135deg, #020617 0%, #0B132B 100%);
-  --gradient-sidebar: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(2, 6, 23, 0.95) 100%);
+  --gradient-card: linear-gradient(180deg, rgba(35, 42, 56, 0.8) 0%, rgba(25, 30, 41, 0.9) 100%);
+  --gradient-hero: linear-gradient(135deg, #0B0E14 0%, #12161F 100%);
+  --gradient-sidebar: linear-gradient(180deg, rgba(25, 30, 41, 0.8) 0%, rgba(11, 14, 20, 0.95) 100%);
 
   /* ========================================
      TRANSIÇÕES (fluidas e naturais)
@@ -258,4 +258,6 @@
   --border-radius-md: var(--radius-md);
   --border-radius-lg: var(--radius-lg);
   --border-radius-xl: var(--radius-xl);
+}
+-radius-xl);
 }
