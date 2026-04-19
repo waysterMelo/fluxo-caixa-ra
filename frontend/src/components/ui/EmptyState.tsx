@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import styles from './EmptyState.module.css';
 
-interface EmptyStateProps {
+export interface EmptyStateProps {
   icon?: ReactNode;
   title: string;
   description?: string;

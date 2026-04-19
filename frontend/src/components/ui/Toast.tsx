@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import styles from './Toast.module.css';
 
-type ToastVariant = 'success' | 'error' | 'warning' | 'info';
+export type ToastVariant = 'success' | 'error' | 'warning' | 'info';
 
 interface Toast {
   id: number;
@@ -9,7 +9,7 @@ interface Toast {
   variant: ToastVariant;
 }
 
-interface ToastContextType {
+export interface ToastContextType {
   addToast: (message: string, variant?: ToastVariant) => void;
   success: (message: string) => void;
   error: (message: string) => void;

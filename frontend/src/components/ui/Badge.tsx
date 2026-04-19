@@ -2,13 +2,16 @@ import { ReactNode } from 'react';
 import { Circle } from 'lucide-react';
 import styles from './Badge.module.css';
 
-interface BadgeProps {
+export interface BadgeProps {
   children: ReactNode;
   variant?: 'success' | 'warning' | 'error' | 'info' | 'neutral';
   size?: 'xs' | 'small' | 'default' | 'large';
   withDot?: boolean;
   className?: string;
 }
+
+export type BadgeVariant = BadgeProps['variant'];
+export type BadgeSize = BadgeProps['size'];
 
 export function Badge({
   children,

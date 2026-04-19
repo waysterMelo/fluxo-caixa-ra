@@ -1,7 +1,7 @@
 import { TextareaHTMLAttributes, forwardRef } from 'react';
 import styles from './Textarea.module.css';
 
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   hint?: string;
   error?: string;

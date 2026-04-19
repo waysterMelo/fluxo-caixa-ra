@@ -3,7 +3,7 @@ import { Modal } from './Modal';
 import { Button } from './Button';
 import styles from './ConfirmDialog.module.css';
 
-interface ConfirmDialogProps {
+export interface ConfirmDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
