@@ -1,16 +1,17 @@
 /*
- * Button — Ocean Corporate Premium
- * Gradientes, micro-interações, loading state elegante
+ * Button — Obsidian Terminal
+ * Neon glow, dark metálico
  */
 
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
   font-family: var(--font-sans);
-  font-weight: var(--font-weight-semibold);
-  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-lg);
   border: 1px solid transparent;
   cursor: pointer;
   transition: all var(--transition-base);
@@ -21,11 +22,11 @@
 }
 
 .button:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  filter: grayscale(1);
 }
 
-/* Ícone e spinner */
 .icon {
   display: flex;
   align-items: center;
@@ -41,134 +42,136 @@
 
 /* Sizes */
 .xs {
-  padding: 4px var(--spacing-xs);
-  font-size: var(--font-size-xs);
+  padding: 6px var(--spacing-sm);
+  font-size: 11px;
   min-height: 28px;
+  border-radius: var(--radius-md);
 }
 
 .sm {
-  padding: 6px var(--spacing-sm);
+  padding: 8px var(--spacing-md);
   font-size: var(--font-size-xs);
-  min-height: 32px;
+  min-height: 36px;
 }
 
 .md {
-  padding: var(--spacing-xs) var(--spacing-md);
+  padding: 10px var(--spacing-lg);
   font-size: var(--font-size-sm);
-  min-height: 38px;
-}
-
-.lg {
-  padding: var(--spacing-sm) var(--spacing-xl);
-  font-size: var(--font-size-base);
   min-height: 44px;
 }
 
+.lg {
+  padding: 14px var(--spacing-xl);
+  font-size: var(--font-size-base);
+  min-height: 52px;
+  border-radius: var(--radius-xl);
+}
+
 /* ========================================
-   PRIMARY — Gradiente ocean blue
+   PRIMARY — Cyber Emerald
    ======================================== */
 
 .primary {
   background: var(--gradient-primary);
-  color: var(--text-inverse);
-  border: none;
-  box-shadow: 0 1px 3px rgba(59, 130, 246, 0.25);
+  color: #050505;
+  font-weight: var(--font-weight-semibold);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), var(--glow-success);
 }
 
 .primary:hover:not(:disabled) {
-  background: var(--gradient-primary-hover);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.35);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), 0 0 24px rgba(0, 230, 118, 0.6);
   transform: translateY(-1px);
 }
 
 .primary:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(59, 130, 246, 0.2);
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), var(--glow-success);
 }
 
 .primary:focus-visible:not(:disabled) {
-  outline: 2px solid var(--steel-blue);
+  outline: 2px solid var(--accent-success);
   outline-offset: 2px;
 }
 
 /* ========================================
-   SECONDARY — Borda steel blue
+   SECONDARY — Metálico / Glass
    ======================================== */
 
 .secondary {
-  background: var(--bg-panel);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-default);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
   box-shadow: var(--shadow-xs);
+  backdrop-filter: blur(12px);
 }
 
 .secondary:hover:not(:disabled) {
-  background: var(--accent-blue-50);
-  border-color: var(--steel-blue);
-  color: var(--accent-blue);
-  box-shadow: var(--shadow-sm);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-light);
+  transform: translateY(-1px);
 }
 
 .secondary:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: translateY(1px);
 }
 
 /* ========================================
-   WARNING — Gradiente amber
+   WARNING — Amber Neon
    ======================================== */
 
 .warning {
-  background: var(--gradient-status-warning);
-  color: #FFFFFF;
-  border: none;
-  box-shadow: 0 1px 3px rgba(245, 158, 11, 0.25);
+  background: rgba(255, 179, 0, 0.1);
+  color: var(--accent-warning);
+  border: 1px solid rgba(255, 179, 0, 0.3);
+  box-shadow: inset 0 0 12px rgba(255, 179, 0, 0.1);
 }
 
 .warning:hover:not(:disabled) {
-  background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+  background: rgba(255, 179, 0, 0.2);
+  border-color: var(--accent-warning);
+  box-shadow: 0 0 16px rgba(255, 179, 0, 0.3);
   transform: translateY(-1px);
 }
 
 .warning:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(1px);
 }
 
 /* ========================================
-   DANGER — Gradiente red
+   DANGER — Crimson Neon
    ======================================== */
 
 .danger {
-  background: var(--gradient-status-error);
-  color: #FFFFFF;
-  border: none;
-  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.25);
+  background: rgba(255, 42, 85, 0.1);
+  color: var(--accent-error);
+  border: 1px solid rgba(255, 42, 85, 0.3);
+  box-shadow: inset 0 0 12px rgba(255, 42, 85, 0.1);
 }
 
 .danger:hover:not(:disabled) {
-  background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
+  background: rgba(255, 42, 85, 0.2);
+  border-color: var(--accent-error);
+  box-shadow: var(--glow-error);
   transform: translateY(-1px);
 }
 
 .danger:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(1px);
 }
 
 /* ========================================
-   GHOST — Transparente elegante
+   GHOST — Transparente sutil
    ======================================== */
 
 .ghost {
   background: transparent;
   color: var(--text-secondary);
-  border: 1px solid transparent;
 }
 
 .ghost:hover:not(:disabled) {
-  background: var(--bg-hover);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
-  border-color: var(--border-light);
 }
 
 .ghost:active:not(:disabled) {
@@ -176,52 +179,25 @@
 }
 
 /* ========================================
-   SUCCESS — Gradiente green
+   SUCCESS — (Merge com Primary)
    ======================================== */
 
 .success {
-  background: var(--gradient-status-success);
-  color: #FFFFFF;
-  border: none;
-  box-shadow: 0 1px 3px rgba(34, 197, 94, 0.25);
-}
-
-.success:hover:not(:disabled) {
-  background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
-  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.35);
-  transform: translateY(-1px);
-}
-
-.success:active:not(:disabled) {
-  transform: translateY(0);
+  composes: primary;
 }
 
 /* ========================================
    MODIFICADORES
    ======================================== */
 
-/* Full Width */
-.fullWidth {
-  width: 100%;
-}
-
-/* Loading */
-.loading {
-  pointer-events: none;
-}
+.fullWidth { width: 100%; }
+.loading { pointer-events: none; }
 
 /* ========================================
    RESPONSIVIDADE
    ======================================== */
 
 @media (max-width: 768px) {
-  .md {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    min-height: 36px;
-  }
-  
-  .lg {
-    padding: var(--spacing-xs) var(--spacing-md);
-    min-height: 40px;
-  }
+  .md { padding: 8px var(--spacing-md); min-height: 40px; }
+  .lg { padding: 10px var(--spacing-lg); min-height: 48px; }
 }

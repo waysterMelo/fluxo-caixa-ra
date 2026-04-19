@@ -1,8 +1,8 @@
 @import './tokens.css';
 
 /* ========================================
-   RESET E BASE — Premium Fintech Moderno
-   Estilo: sofisticado, limpo, elegante, profissional
+   RESET E BASE — Obsidian Terminal
+   Estilo: Dark, Imersivo, Focado em Dados
    ======================================== */
 
 *, *::before, *::after {
@@ -17,28 +17,32 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
+  /* Fundo escuro absoluto para evitar flashes brancos */
+  background-color: var(--bg-primary); 
 }
 
 body {
   font-family: var(--font-sans);
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-normal);
-  line-height: 1.5;
+  font-weight: var(--font-weight-light); /* Mais fino e elegante no dark mode */
+  line-height: 1.6;
   color: var(--text-primary);
   background-color: var(--bg-primary);
+  /* Textura muito sutil de ruído/grão pode ser adicionada no futuro, por enquanto liso absoluto */
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Links */
 a {
   color: var(--text-link);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
 a:hover {
-  color: var(--accent-blue-hover);
-  text-decoration: underline;
+  color: var(--accent-violet);
+  text-shadow: var(--glow-violet);
 }
 
 /* Botões */
@@ -47,6 +51,7 @@ button {
   cursor: pointer;
   border: none;
   background: none;
+  color: inherit;
 }
 
 /* Formulários */
@@ -54,6 +59,12 @@ input, select, textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  color: var(--text-primary);
+  background: transparent;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
 }
 
 /* Tabelas */
@@ -70,29 +81,34 @@ img {
   display: block;
 }
 
-/* Código */
+/* Código e Números */
 code, pre, kbd {
   font-family: var(--font-mono);
   font-size: 0.875em;
 }
 
+.mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
 /* ========================================
-   SCROLLBAR REFINADA (minimalista)
+   SCROLLBAR CYBER-MINIMALISTA
    ======================================== */
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
-  border-radius: var(--radius-sm);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gray-400);
-  border-radius: var(--radius-sm);
+  background: var(--gray-700);
+  border-radius: var(--radius-full);
   transition: background var(--transition-base);
 }
 
@@ -101,22 +117,23 @@ code, pre, kbd {
 }
 
 /* ========================================
-   SELECTION — navy accent
+   SELECTION — Neon Glow
    ======================================== */
 
 ::selection {
-  background: var(--steel-blue-light);
-  color: var(--navy-deep);
+  background: rgba(0, 230, 118, 0.2);
+  color: #FFFFFF;
+  text-shadow: 0 0 8px rgba(0, 230, 118, 0.5);
 }
 
 /* ========================================
-   FOCUS VISIBLE — acessibilidade premium
+   FOCUS VISIBLE — Acessibilidade High-Tech
    ======================================== */
 
 *:focus-visible {
-  outline: 2px solid var(--steel-blue);
-  outline-offset: 2px;
-  border-radius: var(--radius-md);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-violet);
+  border-radius: var(--radius-sm);
 }
 
 /* ========================================
@@ -125,51 +142,65 @@ code, pre, kbd {
 
 #root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ========================================
-   ANIMAÇÕES DE PÁGINA (suaves e profissionais)
+   ANIMAÇÕES DE PÁGINA (Fade com Scale Reverso)
    ======================================== */
 
 .page-enter {
   opacity: 0;
-  transform: translateY(8px);
+  transform: scale(1.02);
 }
 
 .page-enter-active {
   opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms var(--ease-out-expo),
-              transform 300ms var(--ease-out-expo);
+  transform: scale(1);
+  transition: opacity 400ms var(--ease-out-expo),
+              transform 400ms var(--ease-out-expo);
 }
 
 .page-exit {
   opacity: 1;
-  transform: translateY(0);
+  transform: scale(1);
 }
 
 .page-exit-active {
   opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity 200ms var(--transition-base),
-              transform 200ms var(--transition-base);
+  transform: scale(0.98);
+  transition: opacity 250ms var(--transition-base),
+              transform 250ms var(--transition-base);
 }
 
 /* ========================================
-   UTILITÁRIOS DE TEXTO
+   UTILITÁRIOS DE TEXTO E GLOW
    ======================================== */
 
 .text-label {
-  font-size: var(--font-size-xs);
+  font-family: var(--font-sans);
+  font-size: 10px;
   font-weight: var(--font-weight-medium);
   color: var(--text-tertiary);
-  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .text-value {
-  font-weight: var(--font-weight-semibold);
-  font-variant-numeric: tabular-nums;
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-medium);
   letter-spacing: -0.02em;
+}
+
+.text-glow-success {
+  color: var(--accent-success);
+  text-shadow: var(--glow-success);
+}
+
+.text-glow-error {
+  color: var(--accent-error);
+  text-shadow: var(--glow-error);
 }
 
 /* ========================================
@@ -180,73 +211,89 @@ code, pre, kbd {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-bottom: 1px solid var(--border-default);
-  background: var(--bg-elevated);
+  padding: var(--spacing-md) 0;
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .section-title {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 .section-subtitle {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   color: var(--text-tertiary);
 }
 
 /* ========================================
-   BADGES DE STATUS (refinados)
+   BADGES DE STATUS (Neon Borders)
    ======================================== */
 
 .badge {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-2xs);
-  padding: 4px var(--spacing-sm);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
+  padding: 2px var(--spacing-sm);
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   border-radius: var(--radius-full);
   white-space: nowrap;
-  border: 1px solid transparent;
+  background: transparent;
+  backdrop-filter: blur(4px);
 }
 
 .badge-success {
-  background: var(--status-success-bg);
-  color: var(--status-success);
-  border-color: var(--status-success-border);
+  color: var(--accent-success);
+  border: 1px solid var(--accent-success-border);
+  background: var(--accent-success-light);
+  box-shadow: inset 0 0 8px rgba(0, 230, 118, 0.1);
 }
 
 .badge-warning {
-  background: var(--status-warning-bg);
-  color: var(--status-warning);
-  border-color: var(--status-warning-border);
+  color: var(--accent-warning);
+  border: 1px solid var(--accent-warning-border);
+  background: var(--accent-warning-light);
+  box-shadow: inset 0 0 8px rgba(255, 179, 0, 0.1);
 }
 
 .badge-error {
-  background: var(--status-error-bg);
-  color: var(--status-error);
-  border-color: var(--status-error-border);
+  color: var(--accent-error);
+  border: 1px solid var(--accent-error-border);
+  background: var(--accent-error-light);
+  box-shadow: inset 0 0 8px rgba(255, 42, 85, 0.1);
 }
 
 .badge-info {
-  background: var(--status-info-bg);
-  color: var(--status-info);
-  border-color: var(--status-info-border);
+  color: var(--accent-info);
+  border: 1px solid var(--status-info-border);
+  background: var(--accent-info-light);
 }
 
 .badge-neutral {
-  background: var(--bg-secondary);
   color: var(--text-secondary);
-  border-color: var(--border-default);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-hover);
 }
 
 /* ========================================
-   CLASSES UTILITÁRIAS
+   CLASSES UTILITÁRIAS DE DESIGN
    ======================================== */
+
+.glass-panel {
+  background: var(--bg-panel);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-light);
+  border-top: var(--glass-border-top);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
 
 .sr-only {
   position: absolute;
@@ -266,143 +313,72 @@ code, pre, kbd {
 .text-info { color: var(--status-info); }
 .text-muted { color: var(--text-muted); }
 
-.bg-success { background-color: var(--status-success-bg); }
-.bg-warning { background-color: var(--status-warning-bg); }
-.bg-error { background-color: var(--status-error-bg); }
-.bg-info { background-color: var(--status-info-bg); }
-
 /* ========================================
-   ANIMAÇÕES SUAVES
+   ANIMAÇÕES SUAVES E MICROINTERAÇÕES
    ======================================== */
 
-@keyframes float {
+@keyframes pulse-neon {
   0%, 100% {
-    transform: translateY(0) rotate(0deg);
+    box-shadow: 0 0 8px rgba(0, 230, 118, 0.2);
   }
   50% {
-    transform: translateY(-12px) rotate(2deg);
+    box-shadow: 0 0 16px rgba(0, 230, 118, 0.5), inset 0 0 8px rgba(0, 230, 118, 0.2);
   }
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.5;
-    filter: blur(40px);
-  }
-  50% {
-    opacity: 0.8;
-    filter: blur(50px);
-  }
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@keyframes fade-in {
+@keyframes fade-scale-in {
   from {
     opacity: 0;
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.animate-fade-scale-in {
+  animation: fade-scale-in 0.5s var(--ease-out-expo) forwards;
 }
 
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.animate-pulse-neon {
+  animation: pulse-neon 2s ease-in-out infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+/* Efeito Spotlight para Hover em Linhas/Cards */
+.hover-spotlight {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-base);
 }
 
-/* Classes de animação */
-.animate-float {
-  animation: float 8s ease-in-out infinite;
+.hover-spotlight::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+  transform: skewX(-20deg);
+  transition: all 0.5s ease;
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 4s ease-in-out infinite;
+.hover-spotlight:hover::before {
+  left: 150%;
 }
-
-.animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--bg-secondary) 0%,
-    var(--bg-tertiary) 50%,
-    var(--bg-secondary) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.4s var(--ease-out-expo) forwards;
-}
-
-.animate-slide-up {
-  animation: slide-up 0.4s var(--ease-out-expo) forwards;
-}
-
-/* ========================================
-   EFEITOS DE HOVER PREMIUM (discretos)
-   ======================================== */
 
 .hover-lift {
   transition: transform var(--transition-base),
-              box-shadow var(--transition-base);
+              box-shadow var(--transition-base),
+              border-color var(--transition-base);
 }
 
 .hover-lift:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
-}
-
-.hover-slide {
-  transition: transform var(--transition-fast);
-}
-
-.hover-slide:hover {
-  transform: translateX(4px);
-}
-
-/* ========================================
-   GRADIENTES UTILITÁRIOS
-   ======================================== */
-
-.bg-gradient-primary {
-  background: var(--gradient-primary);
-}
-
-.bg-gradient-card {
-  background: var(--gradient-card);
-}
-
-.bg-gradient-hero {
-  background: var(--gradient-hero);
+  border-color: var(--border-strong);
 }

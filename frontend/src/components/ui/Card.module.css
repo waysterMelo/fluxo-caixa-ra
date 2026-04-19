@@ -1,55 +1,58 @@
 /*
- * Card — Premium Fintech Moderno
- * Bordas sutis, sombras refinadas, hover elevation discreto
+ * Card — Obsidian Terminal
+ * Smoked glass, bordas translúcidas, inner shadow táctil
  */
 
 .card {
-  background-color: var(--bg-panel);
-  border-radius: var(--radius-lg);
+  background: var(--bg-panel);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   transition: all var(--transition-base);
   border: 1px solid var(--border-light);
+  border-top: var(--glass-border-top);
 }
 
 .card:hover {
   box-shadow: var(--shadow-card-hover);
+  border-color: var(--border-default);
 }
 
 /* ========================================
    VARIANTES
    ======================================== */
 
-/* Default */
 .default {
   composes: card;
 }
 
-/* Elevated — sombra maior desde o início */
 .elevated {
   composes: card;
   box-shadow: var(--shadow-elevated);
+  background: rgba(25, 28, 35, 0.75);
 }
 
-/* Hero — card grande com fundo navy deep */
 .hero {
   composes: card;
   background: var(--gradient-hero);
-  border-color: var(--navy-classic);
+  border-color: var(--border-strong);
   padding: var(--spacing-2xl);
+  box-shadow: inset 0 0 40px rgba(0, 230, 118, 0.02);
 }
 
 .hero .title {
-  color: var(--text-inverse);
+  color: var(--text-primary);
 }
 
 .hero .subtitle {
-  color: var(--steel-blue-soft);
+  color: var(--accent-success);
+  text-shadow: var(--glow-success);
 }
 
-/* Metric — para KPIs */
 .metric {
   composes: card;
 }
@@ -62,16 +65,17 @@
 }
 
 .metricValue {
-  font-family: var(--font-mono);
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-medium);
   font-size: var(--font-size-metric);
   line-height: 1.1;
   color: var(--text-primary);
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
 }
 
-/* StatusCard — barra lateral colorida */
+/* StatusCard — linha de neon */
 .statusCard {
   composes: card;
   position: relative;
@@ -81,27 +85,30 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 3px;
+  width: 2px;
   height: 100%;
 }
 
 .statusCard.success .statusBar {
-  background: var(--gradient-status-success);
+  background: var(--accent-success);
+  box-shadow: var(--glow-success);
 }
 
 .statusCard.warning .statusBar {
-  background: var(--gradient-status-warning);
+  background: var(--accent-warning);
+  box-shadow: 0 0 12px rgba(255, 179, 0, 0.4);
 }
 
 .statusCard.error .statusBar {
-  background: var(--gradient-status-error);
+  background: var(--accent-error);
+  box-shadow: var(--glow-error);
 }
 
 .statusCard.info .statusBar {
-  background: linear-gradient(180deg, #06B6D4 0%, #0891B2 100%);
+  background: var(--accent-info);
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
 }
 
-/* Simple — sem header/footer, padding direto */
 .simple {
   composes: card;
   padding: var(--spacing-xl);
@@ -117,8 +124,8 @@
   justify-content: space-between;
   padding: var(--spacing-lg) var(--spacing-xl);
   border-bottom: 1px solid var(--border-light);
-  min-height: 56px;
-  background: var(--bg-panel);
+  min-height: 64px;
+  background: rgba(0, 0, 0, 0.15);
 }
 
 .headerLeft {
@@ -128,16 +135,20 @@
 }
 
 .title {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-display);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
   line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
 .subtitle {
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
-  line-height: 1.4;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .headerRight {
@@ -152,18 +163,17 @@
 
 .content {
   padding: var(--spacing-xl);
-  font-size: var(--font-size-base);
-  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
 }
 
 .content.compact {
   padding: var(--spacing-md) var(--spacing-lg);
 }
 
-/* Hero content */
 .heroContent {
   padding: var(--spacing-2xl);
-  color: var(--text-inverse);
+  color: var(--text-primary);
 }
 
 /* ========================================
@@ -173,8 +183,11 @@
 .footer {
   padding: var(--spacing-md) var(--spacing-xl);
   border-top: 1px solid var(--border-light);
-  background-color: var(--bg-secondary);
-  font-size: var(--font-size-xs);
+  background-color: rgba(0, 0, 0, 0.3);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--text-tertiary);
   line-height: 1.5;
 }
@@ -190,12 +203,13 @@
 .clickable:hover {
   box-shadow: var(--shadow-card-hover);
   transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .selected {
-  box-shadow: 0 0 0 2px var(--steel-blue);
-  background-color: var(--accent-blue-50);
-  border-color: var(--steel-blue);
+  box-shadow: inset 0 0 0 1px var(--accent-violet), var(--glow-violet);
+  background-color: rgba(124, 58, 237, 0.05);
+  border-color: var(--accent-violet);
 }
 
 /* ========================================
@@ -215,36 +229,18 @@
    ======================================== */
 
 @media (max-width: 768px) {
-  .header {
-    padding: var(--spacing-md) var(--spacing-lg);
-  }
-
-  .content {
-    padding: var(--spacing-lg);
-  }
-
-  .footer {
-    padding: var(--spacing-sm) var(--spacing-lg);
-  }
-
-  .heroContent {
-    padding: var(--spacing-xl);
-  }
+  .header { padding: var(--spacing-md) var(--spacing-lg); }
+  .content { padding: var(--spacing-lg); }
+  .footer { padding: var(--spacing-sm) var(--spacing-lg); }
+  .heroContent { padding: var(--spacing-xl); }
 }
 
 @media (max-width: 480px) {
-  .card {
-    border-radius: var(--radius-md);
-  }
-
+  .card { border-radius: var(--radius-xl); }
   .header {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-sm);
   }
-
-  .headerRight {
-    width: 100%;
-    justify-content: flex-end;
-  }
+  .headerRight { width: 100%; justify-content: flex-end; }
 }

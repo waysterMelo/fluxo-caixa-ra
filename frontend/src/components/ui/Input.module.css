@@ -1,20 +1,21 @@
 /*
- * Input — Ocean Corporate Premium
- * Labels elegantes, focus states refinados, ícones de erro
+ * Input — Obsidian Terminal
+ * Fundo escuro transparente, underline que brilha
  */
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2xs);
+  gap: 6px;
 }
 
 .label {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
-  letter-spacing: 0.02em;
-  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .inputWrapper {
@@ -25,54 +26,62 @@
 
 .input {
   width: 100%;
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-sm);
   font-family: var(--font-sans);
   font-weight: var(--font-weight-medium);
   color: var(--text-primary);
-  background-color: var(--bg-input);
+  background-color: rgba(0, 0, 0, 0.3);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  border-bottom: 2px solid var(--border-strong);
+  border-radius: var(--radius-lg);
   outline: none;
   transition: all var(--transition-base);
   line-height: 1.5;
-  min-height: 40px;
+  min-height: 44px;
 }
 
 .input::placeholder {
-  color: var(--text-muted);
-  font-weight: var(--font-weight-normal);
+  color: var(--text-tertiary);
+  font-weight: var(--font-weight-light);
 }
 
 .input:hover:not(:disabled):not(:read-only):not(.error) {
-  border-color: var(--border-strong);
+  background-color: rgba(0, 0, 0, 0.5);
+  border-bottom-color: var(--text-muted);
 }
 
 .input:focus {
-  border-color: var(--steel-blue);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background-color: rgba(0, 230, 118, 0.02);
+  border-color: var(--border-strong);
+  border-bottom-color: var(--accent-success);
+  box-shadow: 0 4px 12px rgba(0, 230, 118, 0.1);
 }
 
 .input:disabled {
-  background-color: var(--bg-secondary);
-  color: var(--text-muted);
+  background-color: transparent;
+  border-color: var(--border-light);
+  color: var(--text-tertiary);
   cursor: not-allowed;
-  opacity: 0.7;
 }
 
 .input.readOnly {
-  background-color: var(--bg-secondary);
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom: 1px solid var(--border-light);
   padding-right: var(--spacing-2xl);
   cursor: default;
 }
 
 .input.error {
-  border-color: var(--accent-error);
+  border-color: var(--border-light);
+  border-bottom-color: var(--accent-error);
+  background-color: rgba(255, 42, 85, 0.05);
   padding-right: var(--spacing-2xl);
 }
 
 .input.error:focus {
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  box-shadow: 0 4px 12px rgba(255, 42, 85, 0.15);
 }
 
 /* Ícones */
@@ -83,12 +92,13 @@
   display: flex;
   align-items: center;
   pointer-events: none;
+  filter: drop-shadow(0 0 4px rgba(255, 42, 85, 0.5));
 }
 
 .iconReadOnly {
   position: absolute;
   right: var(--spacing-sm);
-  color: var(--accent-success);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   pointer-events: none;
@@ -97,43 +107,52 @@
 /* Mono variant */
 .mono .input {
   font-family: var(--font-mono);
-  font-size: var(--font-size-sm);
+  font-size: 13px;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
 /* Date variant */
 .date .input {
-  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  font-size: 13px;
   min-width: 160px;
 }
 
 /* Sizes */
 .small .input {
   min-height: 36px;
-  padding: var(--spacing-2xs) var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
   font-size: var(--font-size-xs);
+  border-radius: var(--radius-md);
 }
 
 .large .input {
-  min-height: 44px;
-  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: 52px;
+  padding: var(--spacing-md) var(--spacing-lg);
   font-size: var(--font-size-base);
+  border-radius: var(--radius-xl);
 }
 
 /* Hint & Error Messages */
 .hint {
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
-  line-height: 1.4;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
 }
 
 .errorMessage {
-  font-size: var(--font-size-xs);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--accent-error);
-  line-height: 1.4;
   display: flex;
   align-items: center;
   gap: var(--spacing-2xs);
+  text-shadow: 0 0 8px rgba(255, 42, 85, 0.3);
 }
 
 /* Estado com erro no container */
@@ -141,13 +160,6 @@
   color: var(--accent-error);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .input {
-    min-height: 44px;
-  }
-  
-  .small .input {
-    min-height: 40px;
-  }
+  .small .input { min-height: 40px; }
 }

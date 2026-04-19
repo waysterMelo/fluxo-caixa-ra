@@ -1,87 +1,92 @@
 /*
- * Design Tokens — Fluxo de Caixa RA · Premium Fintech Moderno
- * Tema: Executive Clean · Sofisticação minimalista
- * Paleta: Branco puro · Cinzas neutros · Azul navy profundo · Verde esmeralda discreto
+ * Design Tokens — Fluxo de Caixa RA · Obsidian Terminal
+ * Tema: Dark Mode Nativo Premium · Cyber-Minimalista
+ * Paleta: Preto absoluto · Obsidian Blue · Cyber Emerald · Violeta Elétrico
  */
 
 :root {
   /* ========================================
-     PALETA EXECUTIVA (Identidade Premium)
+     PALETA OBSIDIAN (Identidade Premium Dark)
      ======================================== */
 
-  /* Deep Navy — para elementos de destaque, headers */
-  --navy-deep: #0F172A;
-  --navy-classic: #1E293B;
-  --navy-soft: #334155;
+  /* Fundos Profundos */
+  --bg-primary: #050505; /* Preto absoluto com textura quase imperceptível */
+  --bg-secondary: #0A0A0A;
+  --bg-tertiary: #111318; /* Obsidian Blue/Black */
+  --bg-panel: rgba(17, 19, 24, 0.6);
+  --bg-elevated: rgba(25, 28, 35, 0.7);
+  --bg-input: rgba(0, 0, 0, 0.2);
+  --bg-hover: rgba(255, 255, 255, 0.04);
+  --bg-active: rgba(255, 255, 255, 0.08);
+  --bg-overlay: rgba(0, 0, 0, 0.8);
+
+  /* Grays (escala metálica para dark mode) */
+  --gray-900: #161B22;
+  --gray-800: #21262D;
+  --gray-700: #30363D;
+  --gray-600: #484F58;
+  --gray-500: #6E7681;
+  --gray-400: #8B949E; /* Metálico */
+  --gray-300: #C9D1D9;
+  --gray-200: #EAECEF; /* Off-white puro */
+  --gray-100: #F0F6FC;
+  --gray-50: #FFFFFF;
+
+  /* ========================================
+     BORDAS (translúcidas e de vidro)
+     ======================================== */
+  --border-light: rgba(255, 255, 255, 0.03);
+  --border-default: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --border-focus: #00E676;
+  --border-error: #FF2A55;
+
+  /* Inner Shadow para simular tátil/vidro */
+  --glass-border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  /* ========================================
+     TEXTO (alto contraste sutil)
+     ======================================== */
+  --text-primary: #EAECEF;
+  --text-secondary: #8B949E;
+  --text-tertiary: #6E7681;
+  --text-muted: #484F58;
+  --text-inverse: #050505;
+  --text-link: #7C3AED;
+
+  /* ========================================
+     CORES DE AÇÃO E ENERGIA (Glows)
+     ======================================== */
   
-  /* Steel Blues — accent principal (mais contido) */
-  --steel-blue: #3B82F6;
-  --steel-blue-soft: #60A5FA;
-  --steel-blue-light: #DBEAFE;
+  /* Secundário / IA / Predições */
+  --accent-violet: #7C3AED;
+  --accent-violet-hover: #6D28D9;
+  --accent-violet-light: rgba(124, 58, 237, 0.15);
   
-  /* Backgrounds (escala branca/cinza limpa) */
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F8FAFC;
-  --bg-tertiary: #F1F5F9;
-  --bg-panel: #FFFFFF;
-  --bg-elevated: #FFFFFF;
-  --bg-input: #FFFFFF;
-  --bg-hover: #F1F5F9;
-  --bg-active: #E2E8F0;
-  --bg-overlay: rgba(15, 23, 42, 0.6);
-
-  /* Grays (escala neutra sofisticada) */
-  --gray-600: #475569;
-  --gray-500: #64748B;
-  --gray-400: #94A3B8;
-  --gray-300: #CBD5E1;
-  --gray-200: #E2E8F0;
-  --gray-100: #F1F5F9;
-  --gray-50: #F8FAFC;
-
-  /* ========================================
-     BORDAS (subtis e elegantes)
-     ======================================== */
-  --border-light: #E2E8F0;
-  --border-default: #CBD5E1;
-  --border-strong: #94A3B8;
-  --border-focus: #3B82F6;
-  --border-error: #EF4444;
-
-  /* ========================================
-     TEXTO (hierarquia clara)
-     ======================================== */
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-tertiary: #64748B;
-  --text-muted: #94A3B8;
-  --text-inverse: #FFFFFF;
-  --text-link: #3B82F6;
-
-  /* ========================================
-     CORES DE AÇÃO (refinadas)
-     ======================================== */
+  /* Primário Histórico (reaproveitado para info) */
   --accent-blue: #3B82F6;
   --accent-blue-hover: #2563EB;
-  --accent-blue-light: #DBEAFE;
-  --accent-blue-50: #EFF6FF;
-  --accent-info: #06B6D4;
-  --accent-info-light: #CFFAFE;
+  --accent-blue-light: rgba(59, 130, 246, 0.15);
+  --accent-info: #0EA5E9;
+  --accent-info-light: rgba(14, 165, 233, 0.15);
 
-  /* Sucesso (Emerald — elegante e maduro) */
-  --accent-success: #10B981;
-  --accent-success-light: #D1FAE5;
-  --accent-success-border: #6EE7B7;
+  /* Sucesso (Cyber Emerald — precisão algorítmica) */
+  --accent-success: #00E676;
+  --accent-success-hover: #00C853;
+  --accent-success-light: rgba(0, 230, 118, 0.15);
+  --accent-success-border: rgba(0, 230, 118, 0.3);
 
-  /* Aviso (Amber — sofisticado) */
-  --accent-warning: #F59E0B;
-  --accent-warning-light: #FEF3C7;
-  --accent-warning-border: #FCD34D;
+  /* Aviso (Amber Neon) */
+  --accent-warning: #FFB300;
+  --accent-warning-hover: #FF8F00;
+  --accent-warning-light: rgba(255, 179, 0, 0.15);
+  --accent-warning-border: rgba(255, 179, 0, 0.3);
 
-  /* Erro (Red — controlado) */
-  --accent-error: #EF4444;
-  --accent-error-light: #FEE2E2;
-  --accent-error-border: #FCA5A5;
+  /* Erro (Neon Crimson — alerta crítico) */
+  --accent-error: #FF2A55;
+  --accent-error-hover: #FF0033;
+  --accent-error-light: rgba(255, 42, 85, 0.15);
+  --accent-error-border: rgba(255, 42, 85, 0.3);
 
   /* ========================================
      STATUS SEMÂNTICO
@@ -100,13 +105,14 @@
 
   --status-info: var(--accent-info);
   --status-info-bg: var(--accent-info-light);
-  --status-info-border: var(--accent-info);
+  --status-info-border: rgba(14, 165, 233, 0.3);
 
   /* ========================================
-     TIPOGRAFIA (Inter + JetBrains Mono)
+     TIPOGRAFIA Evoluída
      ======================================== */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'SF Mono', 'Fira Code', Consolas, monospace;
+  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Space Grotesk', 'Clash Display', var(--font-sans);
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Fira Code', Consolas, monospace;
 
   /* Escala tipográfica refinada */
   --font-size-xs: 0.6875rem;    /* 11px */
@@ -117,13 +123,14 @@
   --font-size-2xl: 1.5rem;      /* 24px */
   --font-size-3xl: 2rem;        /* 32px */
 
-  /* Métricas (KPIs) — com fonte mono para precisão */
+  /* Métricas (KPIs) — com fonte display ou mono para impacto */
   --font-size-metric-sm: 1.25rem;   /* 20px */
   --font-size-metric: 1.75rem;      /* 28px */
-  --font-size-metric-lg: 2.25rem;   /* 36px */
-  --font-size-metric-xl: 3rem;      /* 48px */
+  --font-size-metric-lg: 2.5rem;    /* 40px */
+  --font-size-metric-xl: 3.5rem;    /* 56px */
 
   /* Pesos */
+  --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
@@ -149,71 +156,72 @@
   --spacing-card: var(--spacing-lg);
 
   /* ========================================
-     BORDER RADIUS (moderno mas contido)
+     BORDER RADIUS (Moderno)
      ======================================== */
   --radius-none: 0;
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
-  --radius-2xl: 20px;
+  --radius-2xl: 24px;
   --radius-full: 9999px;
 
   /* ========================================
-     SOMBRAS PREMIUM (profundidade sutil)
+     SOMBRAS E GLOWS (Luz como informação)
      ======================================== */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.7);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.8);
   
-  /* Sombras premium para cards */
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06);
-  --shadow-card-hover: 0 8px 20px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.06);
-  --shadow-elevated: 0 12px 32px rgba(0, 0, 0, 0.10), 0 4px 16px rgba(0, 0, 0, 0.06);
-  --shadow-glass: 0 1px 3px rgba(0, 0, 0, 0.05);
+  /* Efeitos Glass e Tátil */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --shadow-elevated: 0 12px 48px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  
+  /* Glows */
+  --glow-success: 0 0 16px rgba(0, 230, 118, 0.3);
+  --glow-error: 0 0 16px rgba(255, 42, 85, 0.3);
+  --glow-violet: 0 0 24px rgba(124, 58, 237, 0.4);
 
   /* ========================================
-     GRADIENTES (sutis e profissionais)
+     GRADIENTES (Escuros e Radiantes)
      ======================================== */
-  --gradient-primary: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
-  --gradient-primary-hover: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-  --gradient-card: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
-  --gradient-hero: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-  --gradient-sidebar: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
-  --gradient-status-success: linear-gradient(180deg, #10B981 0%, #059669 100%);
-  --gradient-status-warning: linear-gradient(180deg, #F59E0B 0%, #D97706 100%);
-  --gradient-status-error: linear-gradient(180deg, #EF4444 0%, #DC2626 100%);
+  --gradient-primary: linear-gradient(135deg, #00E676 0%, #00C853 100%);
+  --gradient-violet: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+  --gradient-card: linear-gradient(180deg, rgba(20, 22, 28, 0.8) 0%, rgba(10, 12, 16, 0.9) 100%);
+  --gradient-hero: linear-gradient(135deg, #050505 0%, #0A0A0A 100%);
+  --gradient-sidebar: linear-gradient(180deg, rgba(10, 10, 10, 0.8) 0%, rgba(5, 5, 5, 0.95) 100%);
 
   /* ========================================
      TRANSIÇÕES (fluidas e naturais)
      ======================================== */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
   
   /* Curvas de animação premium */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
   /* ========================================
      LAYOUT
      ======================================== */
-  --sidebar-width: 240px;
-  --sidebar-collapsed-width: 68px;
-  --header-height: 64px;
-  --content-max-width: 1400px;
+  --sidebar-width: 80px; /* Floating Dock default */
+  --sidebar-expanded-width: 260px;
+  --header-height: 72px;
+  --content-max-width: 1600px;
 
   /* ========================================
-     TABELAS (clean e legíveis)
+     TABELAS (Limpeza Absoluta)
      ======================================== */
-  --table-header-bg: #F8FAFC;
-  --table-row-hover: #F1F5F9;
-  --table-row-stripe: #FAFBFC;
-  --table-border: #E2E8F0;
-  --table-cell-padding: var(--spacing-sm) var(--spacing-lg);
+  --table-header-bg: transparent;
+  --table-row-hover: rgba(255, 255, 255, 0.02);
+  --table-row-stripe: rgba(255, 255, 255, 0.01);
+  --table-border: rgba(255, 255, 255, 0.04);
+  --table-cell-padding: var(--spacing-sm) var(--spacing-md);
 
   /* ========================================
      Z-INDEX
@@ -226,14 +234,14 @@
   --z-tooltip: 600;
 
   /* ========================================
-     BACKWARD COMPAT
+     BACKWARD COMPAT (Mapeamento para variáveis antigas)
      ======================================== */
-  --color-primary: var(--accent-blue);
-  --color-primary-dark: var(--accent-blue-hover);
-  --color-primary-light: var(--steel-blue-soft);
+  --color-primary: var(--accent-success);
+  --color-primary-dark: var(--accent-success-hover);
+  --color-primary-light: var(--accent-success-light);
   --color-bg: var(--bg-primary);
-  --color-surface: var(--bg-panel);
-  --color-border: var(--border-light);
+  --color-surface: var(--bg-tertiary);
+  --color-border: var(--border-default);
   --color-text: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-muted: var(--text-muted);
