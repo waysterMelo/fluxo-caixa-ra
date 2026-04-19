@@ -1,6 +1,6 @@
 /*
- * Card — Ocean Corporate Premium
- * Bordas sutis, sombras premium, hover elevation, variantes
+ * Card — Premium Fintech Moderno
+ * Bordas sutis, sombras refinadas, hover elevation discreto
  */
 
 .card {
@@ -33,11 +33,11 @@
   box-shadow: var(--shadow-elevated);
 }
 
-/* Hero — card grande com fundo ocean deep */
+/* Hero — card grande com fundo navy deep */
 .hero {
   composes: card;
   background: var(--gradient-hero);
-  border-color: var(--ocean-blue);
+  border-color: var(--navy-classic);
   padding: var(--spacing-2xl);
 }
 
@@ -46,7 +46,7 @@
 }
 
 .hero .subtitle {
-  color: var(--ocean-breeze);
+  color: var(--steel-blue-soft);
 }
 
 /* Metric — para KPIs */
@@ -62,7 +62,7 @@
 }
 
 .metricValue {
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-metric);
   line-height: 1.1;
