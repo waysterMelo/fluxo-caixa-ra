@@ -1,5 +1,5 @@
 /*
- * Layout — Obsidian Terminal
+ * Layout — Ocean Terminal
  * Sidebar flutuante (Floating Dock), Topbar Glass escurecido (Dynamic Island)
  */
 
@@ -26,12 +26,12 @@
 }
 
 /* ========================================
-   SIDEBAR — Floating Dock (Obsidian Glass)
+   SIDEBAR — Floating Dock (Ocean Glass)
    ======================================== */
 
 .sidebar {
   width: var(--sidebar-expanded-width);
-  background: rgba(17, 19, 24, 0.65);
+  background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-light);
@@ -259,7 +259,7 @@
   justify-content: space-between;
   gap: var(--spacing-sm);
   min-height: 72px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(2, 6, 23, 0.3);
 }
 
 .userInfo {
@@ -351,7 +351,7 @@
 }
 
 /* ========================================
-   TOPBAR — Dynamic Island (Obsidian Glass)
+   TOPBAR — Dynamic Island (Ocean Glass)
    ======================================== */
 
 .header {
@@ -495,7 +495,6 @@
   max-width: var(--content-max-width);
   width: 100%;
   margin: 0 auto;
-  /* Animação definida no global.css é reaproveitada, ou podemos colocar específica aqui */
   animation: fade-scale-in 0.6s var(--ease-out-expo) forwards;
 }
 
@@ -534,7 +533,7 @@
 
 @media (max-width: 768px) {
   .breadcrumbs {
-    display: none; /* Simplifica em telas muito pequenas */
+    display: none;
   }
 
   .headerRight {
@@ -545,4 +544,3 @@
     display: none;
   }
 }
-

@@ -1,5 +1,5 @@
 /*
- * Input — Obsidian Terminal
+ * Input — Ocean Terminal
  * Fundo escuro transparente, underline que brilha
  */
 
@@ -31,7 +31,7 @@
   font-family: var(--font-sans);
   font-weight: var(--font-weight-medium);
   color: var(--text-primary);
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(2, 6, 23, 0.4);
   border: 1px solid var(--border-default);
   border-bottom: 2px solid var(--border-strong);
   border-radius: var(--radius-lg);

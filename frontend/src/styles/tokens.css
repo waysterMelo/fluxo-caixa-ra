@@ -1,24 +1,24 @@
 /*
- * Design Tokens — Fluxo de Caixa RA · Obsidian Terminal
- * Tema: Dark Mode Nativo Premium · Cyber-Minimalista
- * Paleta: Preto absoluto · Obsidian Blue · Cyber Emerald · Violeta Elétrico
+ * Design Tokens — Fluxo de Caixa RA · Ocean Terminal
+ * Tema: Dark Mode Nativo Premium · Ocean Blue
+ * Paleta: Slate 950 · Deep Ocean · Cyber Emerald · Violeta Elétrico
  */
 
 :root {
   /* ========================================
-     PALETA OBSIDIAN (Identidade Premium Dark)
+     PALETA OCEAN (Identidade Premium Dark)
      ======================================== */
 
-  /* Fundos Profundos */
-  --bg-primary: #050505; /* Preto absoluto com textura quase imperceptível */
-  --bg-secondary: #0A0A0A;
-  --bg-tertiary: #111318; /* Obsidian Blue/Black */
-  --bg-panel: rgba(17, 19, 24, 0.6);
-  --bg-elevated: rgba(25, 28, 35, 0.7);
-  --bg-input: rgba(0, 0, 0, 0.2);
-  --bg-hover: rgba(255, 255, 255, 0.04);
-  --bg-active: rgba(255, 255, 255, 0.08);
-  --bg-overlay: rgba(0, 0, 0, 0.8);
+  /* Fundos Profundos (Ocean Blue) */
+  --bg-primary: #020617; /* Slate 950 - Fundo absoluto */
+  --bg-secondary: #0B132B; /* Deep Ocean */
+  --bg-tertiary: #0F172A; /* Slate 900 */
+  --bg-panel: rgba(15, 23, 42, 0.6);
+  --bg-elevated: rgba(30, 41, 59, 0.7);
+  --bg-input: rgba(2, 6, 23, 0.4);
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  --bg-active: rgba(255, 255, 255, 0.1);
+  --bg-overlay: rgba(2, 6, 23, 0.85);
 
   /* Grays (escala metálica para dark mode) */
   --gray-900: #161B22;
@@ -190,9 +190,9 @@
      ======================================== */
   --gradient-primary: linear-gradient(135deg, #00E676 0%, #00C853 100%);
   --gradient-violet: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
-  --gradient-card: linear-gradient(180deg, rgba(20, 22, 28, 0.8) 0%, rgba(10, 12, 16, 0.9) 100%);
-  --gradient-hero: linear-gradient(135deg, #050505 0%, #0A0A0A 100%);
-  --gradient-sidebar: linear-gradient(180deg, rgba(10, 10, 10, 0.8) 0%, rgba(5, 5, 5, 0.95) 100%);
+  --gradient-card: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+  --gradient-hero: linear-gradient(135deg, #020617 0%, #0B132B 100%);
+  --gradient-sidebar: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(2, 6, 23, 0.95) 100%);
 
   /* ========================================
      TRANSIÇÕES (fluidas e naturais)
@@ -218,9 +218,9 @@
      TABELAS (Limpeza Absoluta)
      ======================================== */
   --table-header-bg: transparent;
-  --table-row-hover: rgba(255, 255, 255, 0.02);
-  --table-row-stripe: rgba(255, 255, 255, 0.01);
-  --table-border: rgba(255, 255, 255, 0.04);
+  --table-row-hover: rgba(255, 255, 255, 0.05);
+  --table-row-stripe: rgba(255, 255, 255, 0.02);
+  --table-border: rgba(255, 255, 255, 0.05);
   --table-cell-padding: var(--spacing-sm) var(--spacing-md);
 
   /* ========================================
@@ -259,4 +259,3 @@
   --border-radius-lg: var(--radius-lg);
   --border-radius-xl: var(--radius-xl);
 }
-

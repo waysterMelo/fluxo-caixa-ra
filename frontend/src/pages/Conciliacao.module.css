@@ -1,5 +1,5 @@
 /*
- * Conciliacao — Obsidian Terminal
+ * Conciliacao — Ocean Terminal
  * Painéis Dark Glass e feixes de energia (Neon) para matches
  */
 
@@ -144,7 +144,7 @@
   position: sticky;
   bottom: var(--spacing-lg);
   padding: var(--spacing-lg) var(--spacing-2xl);
-  background: rgba(10, 12, 16, 0.9);
+  background: rgba(11, 19, 43, 0.9);
   backdrop-filter: blur(32px);
   -webkit-backdrop-filter: blur(32px);
   border: 1px solid var(--border-strong);

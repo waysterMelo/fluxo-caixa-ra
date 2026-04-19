@@ -1,5 +1,5 @@
 /*
- * Card — Obsidian Terminal
+ * Card — Ocean Terminal
  * Smoked glass, bordas translúcidas, inner shadow táctil
  */
 
@@ -33,7 +33,7 @@
 .elevated {
   composes: card;
   box-shadow: var(--shadow-elevated);
-  background: rgba(25, 28, 35, 0.75);
+  background: rgba(30, 41, 59, 0.75);
 }
 
 .hero {
@@ -183,7 +183,7 @@
 .footer {
   padding: var(--spacing-md) var(--spacing-xl);
   border-top: 1px solid var(--border-light);
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(2, 6, 23, 0.4);
   font-family: var(--font-mono);
   font-size: 10px;
   text-transform: uppercase;
@@ -244,4 +244,3 @@
   }
   .headerRight { width: 100%; justify-content: flex-end; }
 }
-
