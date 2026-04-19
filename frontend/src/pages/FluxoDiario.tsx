@@ -9,6 +9,7 @@ import { Badge } from '../components/ui/Badge';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Skeleton } from '../components/ui/Skeleton';
 import { useToast } from '../components/ui/Toast';
+import { Dialog } from '../components/ui/Dialog';
 import { getDailyFlow, DailyFlowSummary, Movement, deleteMovement } from '../services/flowService';
 import { getTodayLocal, formatDateBR } from '../utils/date';
 import { formatCurrency } from '../utils/currency';
@@ -38,6 +39,8 @@ export default function FluxoDiario() {
   const [resumo, setResumo] = useState<DailyFlowSummary | null>(null);
   const [orderedMovements, setOrderedMovements] = useState<Movement[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [movementToDelete, setMovementToDelete] = useState<string | null>(null);
 
   const loadFlow = async () => {
     if (!companyId) return;
@@ -54,15 +57,23 @@ export default function FluxoDiario() {
     }
   };
 
-  const handleDeleteMovement = async (id: string) => {
-    if (!confirm('Deseja realmente excluir esta movimentação?')) return;
+  const handleDeleteMovement = (id: string) => {
+    setMovementToDelete(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!movementToDelete) return;
     try {
-      await deleteMovement(id);
+      await deleteMovement(movementToDelete);
       success('Movimentação excluída com sucesso.');
       loadFlow();
     } catch (err: any) {
       console.error(err);
       error('Erro ao excluir a movimentação.');
+    } finally {
+      setDeleteDialogOpen(false);
+      setMovementToDelete(null);
     }
   };
 
@@ -245,6 +256,17 @@ export default function FluxoDiario() {
             </div>
           </>
         )}
+        
+        <Dialog
+          isOpen={deleteDialogOpen}
+          onClose={() => setDeleteDialogOpen(false)}
+          onConfirm={confirmDelete}
+          title="Excluir movimentação"
+          message="Deseja realmente excluir esta movimentação? Essa ação não poderá ser desfeita."
+          confirmLabel="Excluir"
+          cancelLabel="Cancelar"
+          variant="danger"
+        />
       </div>
     </Layout>
   );
