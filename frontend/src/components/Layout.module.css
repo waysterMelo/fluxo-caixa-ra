@@ -358,7 +358,7 @@
   height: var(--header-height);
   margin: var(--spacing-md) var(--spacing-md) 0 var(--spacing-md);
   
-  background: rgba(17, 19, 24, 0.5);
+  background: rgba(15, 23, 42, 0.5);
   backdrop-filter: blur(32px);
   -webkit-backdrop-filter: blur(32px);
   border: 1px solid var(--border-light);
@@ -545,3 +545,4 @@
     display: none;
   }
 }
+

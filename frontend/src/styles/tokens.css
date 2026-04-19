@@ -51,7 +51,7 @@
   --text-secondary: #8B949E;
   --text-tertiary: #6E7681;
   --text-muted: #484F58;
-  --text-inverse: #050505;
+  --text-inverse: #020617;
   --text-link: #7C3AED;
 
   /* ========================================
@@ -259,3 +259,4 @@
   --border-radius-lg: var(--radius-lg);
   --border-radius-xl: var(--radius-xl);
 }
+

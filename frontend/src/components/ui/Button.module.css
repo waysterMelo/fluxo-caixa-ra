@@ -73,7 +73,7 @@
 
 .primary {
   background: var(--gradient-primary);
-  color: #050505;
+  color: #020617;
   font-weight: var(--font-weight-semibold);
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6), var(--glow-success);

@@ -40,7 +40,7 @@
   padding: var(--spacing-md) var(--spacing-lg);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
-  background: rgba(17, 19, 24, 0.4);
+  background: rgba(15, 23, 42, 0.4);
   transition: all var(--transition-fast);
   cursor: pointer;
   position: relative;

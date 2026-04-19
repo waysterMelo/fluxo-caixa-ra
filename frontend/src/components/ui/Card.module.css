@@ -125,7 +125,7 @@
   padding: var(--spacing-lg) var(--spacing-xl);
   border-bottom: 1px solid var(--border-light);
   min-height: 64px;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(2, 6, 23, 0.2);
 }
 
 .headerLeft {
@@ -244,3 +244,4 @@
   }
   .headerRight { width: 100%; justify-content: flex-end; }
 }
+

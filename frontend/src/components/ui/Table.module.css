@@ -29,7 +29,7 @@
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--text-tertiary);
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(2, 6, 23, 0.4);
   text-align: left;
   white-space: nowrap;
   border-bottom: 1px solid var(--border-default);
@@ -91,7 +91,7 @@
    ======================================== */
 
 .stripe tbody .tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(2, 6, 23, 0.3);
 }
 
 .stripe tbody .tr:nth-child(even):hover {
