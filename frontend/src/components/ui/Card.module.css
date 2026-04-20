@@ -183,7 +183,7 @@
 .footer {
   padding: var(--spacing-md) var(--spacing-xl);
   border-top: 1px solid var(--border-light);
-  background-color: rgba(11, 14, 20, 0.5);
+  background-color: rgba(24, 25, 26, 0.5);
   font-family: var(--font-mono);
   font-size: 10px;
   text-transform: uppercase;
@@ -244,3 +244,4 @@
   }
   .headerRight { width: 100%; justify-content: flex-end; }
 }
+

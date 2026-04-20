@@ -84,18 +84,18 @@
   width: 40px;
   height: 40px;
   background: transparent;
-  border: 1px solid var(--accent-success-border);
+  border: 1px solid var(--accent-brand-border);
   border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-success);
+  color: var(--accent-brand);
   font-family: var(--font-display);
   font-size: 16px;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.05em;
   flex-shrink: 0;
-  box-shadow: inset 0 0 12px rgba(0, 230, 118, 0.1), var(--glow-success);
+  box-shadow: inset 0 0 12px rgba(24, 119, 242, 0.15), var(--glow-brand);
   position: relative;
 }
 
@@ -105,8 +105,8 @@
   position: absolute;
   top: -1px; left: 10px; right: 10px;
   height: 1px;
-  background: var(--accent-success);
-  box-shadow: 0 0 8px var(--accent-success);
+  background: var(--accent-brand);
+  box-shadow: 0 0 8px var(--accent-brand);
 }
 
 .logoText {
@@ -129,7 +129,7 @@
   font-family: var(--font-mono);
   font-size: 9px;
   font-weight: var(--font-weight-medium);
-  color: var(--accent-success);
+  color: var(--accent-brand);
   text-transform: uppercase;
   letter-spacing: 0.15em;
   white-space: nowrap;
@@ -205,10 +205,10 @@
 }
 
 .navItemActive {
-  background: rgba(0, 230, 118, 0.05);
+  background: rgba(24, 119, 242, 0.05);
   color: var(--text-primary);
-  border-color: rgba(0, 230, 118, 0.2);
-  box-shadow: inset 0 0 20px rgba(0, 230, 118, 0.05);
+  border-color: rgba(24, 119, 242, 0.2);
+  box-shadow: inset 0 0 20px rgba(24, 119, 242, 0.05);
 }
 
 /* Indicador de luz Neon à esquerda */
@@ -220,14 +220,14 @@
   transform: translateY(-50%);
   width: 3px;
   height: 24px;
-  background: var(--accent-success);
+  background: var(--accent-brand);
   border-radius: 0 4px 4px 0;
-  box-shadow: var(--glow-success);
+  box-shadow: var(--glow-brand);
 }
 
 .navItemActive .navIcon {
-  color: var(--accent-success);
-  filter: drop-shadow(0 0 8px rgba(0, 230, 118, 0.5));
+  color: var(--accent-brand);
+  filter: drop-shadow(0 0 8px rgba(24, 119, 242, 0.5));
 }
 
 .navIcon {
@@ -358,7 +358,7 @@
   height: var(--header-height);
   margin: var(--spacing-md) var(--spacing-md) 0 var(--spacing-md);
   
-  background: rgba(25, 30, 41, 0.5);
+  background: rgba(36, 37, 38, 0.5);
   backdrop-filter: blur(32px);
   -webkit-backdrop-filter: blur(32px);
   border: 1px solid var(--border-light);
@@ -415,9 +415,9 @@
 }
 
 .breadcrumbCurrent {
-  color: var(--accent-success);
+  color: var(--accent-brand);
   font-weight: var(--font-weight-medium);
-  text-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+  text-shadow: 0 0 8px rgba(24, 119, 242, 0.3);
 }
 
 .headerRight {
@@ -544,4 +544,5 @@
     display: none;
   }
 }
+
 

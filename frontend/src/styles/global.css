@@ -319,10 +319,10 @@ code, pre, kbd {
 
 @keyframes pulse-neon {
   0%, 100% {
-    box-shadow: 0 0 8px rgba(0, 230, 118, 0.2);
+    box-shadow: 0 0 8px rgba(24, 119, 242, 0.2);
   }
   50% {
-    box-shadow: 0 0 16px rgba(0, 230, 118, 0.5), inset 0 0 8px rgba(0, 230, 118, 0.2);
+    box-shadow: 0 0 16px rgba(24, 119, 242, 0.5), inset 0 0 8px rgba(24, 119, 242, 0.2);
   }
 }
 

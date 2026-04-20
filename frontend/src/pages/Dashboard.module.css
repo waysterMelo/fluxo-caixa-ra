@@ -110,9 +110,9 @@
 .heroCard {
   padding: 0;
   overflow: hidden;
-  background: radial-gradient(circle at top right, rgba(0, 230, 118, 0.05), transparent 60%),
+  background: radial-gradient(circle at top right, rgba(24, 119, 242, 0.08), transparent 60%),
               radial-gradient(circle at bottom left, rgba(124, 58, 237, 0.03), transparent 60%);
-  background-color: rgba(25, 30, 41, 0.8);
+  background-color: rgba(36, 37, 38, 0.8);
   border: 1px solid var(--border-strong);
 }
 
@@ -136,10 +136,10 @@
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: var(--font-weight-medium);
-  color: var(--accent-success);
+  color: var(--accent-brand);
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  text-shadow: var(--glow-success);
+  text-shadow: var(--glow-brand);
 }
 
 .heroValue {

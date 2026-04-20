@@ -70,6 +70,12 @@
   --accent-info: #0EA5E9;
   --accent-info-light: rgba(14, 165, 233, 0.15);
 
+  /* Brand (Facebook Blue) */
+  --accent-brand: #1877F2;
+  --accent-brand-hover: #166FE5;
+  --accent-brand-light: rgba(24, 119, 242, 0.15);
+  --accent-brand-border: rgba(24, 119, 242, 0.3);
+
   /* Sucesso (Cyber Emerald — precisão algorítmica) */
   --accent-success: #00E676;
   --accent-success-hover: #00C853;
@@ -181,6 +187,7 @@
   --shadow-elevated: 0 12px 48px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   
   /* Glows */
+  --glow-brand: 0 0 16px rgba(24, 119, 242, 0.3);
   --glow-success: 0 0 16px rgba(0, 230, 118, 0.3);
   --glow-error: 0 0 16px rgba(255, 42, 85, 0.3);
   --glow-violet: 0 0 24px rgba(124, 58, 237, 0.4);
@@ -188,7 +195,7 @@
   /* ========================================
      GRADIENTES (Escuros e Radiantes)
      ======================================== */
-  --gradient-primary: linear-gradient(135deg, #00E676 0%, #00C853 100%);
+  --gradient-primary: linear-gradient(135deg, #1877F2 0%, #166FE5 100%);
   --gradient-violet: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
   --gradient-card: linear-gradient(180deg, rgba(35, 42, 56, 0.8) 0%, rgba(25, 30, 41, 0.9) 100%);
   --gradient-hero: linear-gradient(135deg, #0B0E14 0%, #12161F 100%);
@@ -236,9 +243,9 @@
   /* ========================================
      BACKWARD COMPAT (Mapeamento para variáveis antigas)
      ======================================== */
-  --color-primary: var(--accent-success);
-  --color-primary-dark: var(--accent-success-hover);
-  --color-primary-light: var(--accent-success-light);
+  --color-primary: var(--accent-brand);
+  --color-primary-dark: var(--accent-brand-hover);
+  --color-primary-light: var(--accent-brand-light);
   --color-bg: var(--bg-primary);
   --color-surface: var(--bg-tertiary);
   --color-border: var(--border-default);

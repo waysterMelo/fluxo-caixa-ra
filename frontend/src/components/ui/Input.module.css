@@ -47,15 +47,15 @@
 }
 
 .input:hover:not(:disabled):not(:read-only):not(.error) {
-  background-color: rgba(11, 14, 20, 0.7);
+  background-color: rgba(58, 59, 60, 0.7);
   border-bottom-color: var(--text-muted);
 }
 
 .input:focus {
-  background-color: rgba(0, 230, 118, 0.02);
+  background-color: rgba(24, 119, 242, 0.02);
   border-color: var(--border-strong);
-  border-bottom-color: var(--accent-success);
-  box-shadow: 0 4px 12px rgba(0, 230, 118, 0.1);
+  border-bottom-color: var(--accent-brand);
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.1);
 }
 
 .input:disabled {
@@ -163,3 +163,4 @@
 @media (max-width: 768px) {
   .small .input { min-height: 40px; }
 }
+

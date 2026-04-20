@@ -74,7 +74,9 @@ export default function Importacoes() {
       setCompanies(data);
       setCompanyId((current) => current ?? data[0]?.id ?? null);
     } catch (err: any) {
-      showError(err.response?.data?.detail || 'Não foi possível carregar as empresas.');
+      const detail = err.response?.data?.detail;
+      const msg = Array.isArray(detail) ? 'Erro de validação.' : detail || 'Não foi possível carregar as empresas.';
+      showError(msg);
     } finally { setIsLoadingCompanies(false); }
   };
 
@@ -110,7 +112,9 @@ export default function Importacoes() {
       success(`${response.detail} (${response.records_processed} registros)`);
       if (payableFileRef.current) payableFileRef.current.value = '';
     } catch (err: any) {
-      showError(err.response?.data?.detail || 'Erro ao importar contas a pagar.');
+      const detail = err.response?.data?.detail;
+      const msg = Array.isArray(detail) ? 'Erro de validação nos dados enviados.' : detail || 'Erro ao importar contas a pagar.';
+      showError(msg);
     } finally { setIsLoadingPayable(false); }
   };
 
@@ -132,7 +136,9 @@ export default function Importacoes() {
       success(`${response.detail} (${response.records_processed} registros)`);
       if (receivableFileRef.current) receivableFileRef.current.value = '';
     } catch (err: any) {
-      showError(err.response?.data?.detail || 'Erro ao importar contas a receber.');
+      const detail = err.response?.data?.detail;
+      const msg = Array.isArray(detail) ? 'Erro de validação nos dados enviados.' : detail || 'Erro ao importar contas a receber.';
+      showError(msg);
     } finally { setIsLoadingReceivable(false); }
   };
 
