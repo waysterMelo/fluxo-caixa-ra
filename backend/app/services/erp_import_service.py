@@ -1,6 +1,8 @@
 import pandas as pd
 import json
 import hashlib
+import re
+import unicodedata
 from datetime import datetime
 from sqlalchemy.orm import Session
 from fastapi import UploadFile, HTTPException
@@ -27,6 +29,37 @@ def _clean_raw_data(row: pd.Series) -> dict:
         else:
             cleaned[k] = v
     return cleaned
+
+def _normalize_column_name(value: object) -> str:
+    text = unicodedata.normalize("NFKD", str(value).strip().lower())
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    return re.sub(r"\s+", " ", text)
+
+def _parse_money(value: object) -> float:
+    if pd.isna(value):
+        return 0.0
+    if isinstance(value, (int, float)):
+        return float(value)
+
+    text = str(value).strip()
+    if not text:
+        return 0.0
+
+    text = text.replace("R$", "").replace("\u00a0", "").strip()
+    text = re.sub(r"[^0-9,.\-]", "", text)
+
+    if "," in text and "." in text:
+        text = text.replace(".", "").replace(",", ".")
+    elif "," in text:
+        text = text.replace(",", ".")
+
+    return float(text) if text else 0.0
+
+def _is_filled(value: object) -> bool:
+    if pd.isna(value):
+        return False
+    text = str(value).strip()
+    return bool(text) and text not in {"00/00/0000", "0000-00-00"}
 
 def process_erp_import(
     db: Session, 
@@ -61,8 +94,8 @@ def process_erp_import(
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Erro ao ler arquivo: {str(e)}")
 
-    # Padronizar colunas para lower e sem espaço (simplificação)
-    df.columns = [str(c).strip().lower() for c in df.columns]
+    # Padronizar colunas para lower, sem acentos e sem espacos duplicados.
+    df.columns = [_normalize_column_name(c) for c in df.columns]
 
     # Mapas de colunas esperadas (Baseado no doc: Vencimento, Valor, Cliente/Fornecedor, Docto, Baixa, Valor Pago)
     col_vencimento = next((c for c in df.columns if 'vencimento' in c and 'real' not in c), None)
@@ -71,7 +104,7 @@ def process_erp_import(
     col_nome = next((c for c in df.columns if 'fornecedor' in c or 'cliente' in c), None)
     col_docto = next((c for c in df.columns if 'docto' in c or 'nf' in c), None)
     col_status = next((c for c in df.columns if 'status' in c), None)
-    col_historico = next((c for c in df.columns if 'histórico' in c or 'historico' in c), None)
+    col_historico = next((c for c in df.columns if 'historico' in c), None)
     
     col_baixa = next((c for c in df.columns if 'baixa' in c), None)
     col_valor_pago = next((c for c in df.columns if 'valor pago' in c), None)
@@ -93,6 +126,7 @@ def process_erp_import(
     # 4. Iterar linhas e popular entidades
     min_date = None
     max_date = None
+    records_processed = 0
 
     for _, row in df.iterrows():
         # Valores básicos
@@ -101,8 +135,8 @@ def process_erp_import(
             if pd.isna(venc_ts): continue
             vencimento = venc_ts.date()
 
-            valor = float(row[col_valor]) if not pd.isna(row[col_valor]) else 0.0
-            nome = str(row[col_nome])
+            valor = _parse_money(row[col_valor])
+            nome = str(row[col_nome]).strip() if _is_filled(row[col_nome]) else "Sem identificacao"
             docto = str(row[col_docto]) if col_docto and not pd.isna(row[col_docto]) else None
             status = str(row[col_status]).upper() if col_status and not pd.isna(row[col_status]) else 'ABERTO'
 
@@ -146,16 +180,17 @@ def process_erp_import(
                 )
             
             db.add(title)
+            records_processed += 1
             db.flush()
 
             # Checar se tem baixa associada na mesma linha do ERP
             if col_baixa and col_valor_pago:
                 baixa_data_val = row[col_baixa]
-                if not pd.isna(baixa_data_val):
+                if _is_filled(baixa_data_val):
                     baixa_ts = pd.to_datetime(baixa_data_val, errors='coerce', dayfirst=True)
                     if not pd.isna(baixa_ts):
                         baixa_data = baixa_ts.date()
-                        valor_pago = float(row[col_valor_pago]) if not pd.isna(row[col_valor_pago]) else 0.0
+                        valor_pago = _parse_money(row[col_valor_pago])
                         
                         if valor_pago > 0:
                             settlement = TitleSettlement(
@@ -180,6 +215,7 @@ def process_erp_import(
     return {
         "detail": "Importação concluída", 
         "batch_id": batch.id,
+        "records_processed": records_processed,
         "period_start": batch.period_start,
         "period_end": batch.period_end
     }

@@ -1,10 +1,5 @@
 @import './tokens.css';
 
-/* ========================================
-   RESET E BASE — Obsidian Terminal
-   Estilo: Dark, Imersivo, Focado em Dados
-   ======================================== */
-
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -17,35 +12,48 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
-  /* Fundo escuro absoluto para evitar flashes brancos */
-  background-color: var(--bg-primary); 
+  background-color: var(--bg-primary);
+  color-scheme: light;
 }
 
 body {
   font-family: var(--font-sans);
   font-size: var(--font-size-base);
-  font-weight: var(--font-weight-light); /* Mais fino e elegante no dark mode */
+  font-weight: var(--font-weight-normal);
   line-height: 1.6;
   color: var(--text-primary);
-  background-color: var(--bg-primary);
-  /* Textura muito sutil de ruído/grão pode ser adicionada no futuro, por enquanto liso absoluto */
+  background:
+    radial-gradient(circle at top left, rgba(24, 119, 242, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(15, 23, 42, 0.06), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 28%),
+    var(--bg-primary);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Links */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.28), transparent 60%);
+  pointer-events: none;
+  z-index: -1;
+}
+
 a {
   color: var(--text-link);
   text-decoration: none;
-  transition: all var(--transition-fast);
+  transition: color var(--transition-fast), opacity var(--transition-fast);
 }
 
 a:hover {
-  color: var(--accent-violet);
-  text-shadow: var(--glow-violet);
+  color: var(--accent-blue-hover);
 }
 
-/* Botões */
 button {
   font-family: inherit;
   cursor: pointer;
@@ -54,7 +62,6 @@ button {
   color: inherit;
 }
 
-/* Formulários */
 input, select, textarea {
   font-family: inherit;
   font-size: inherit;
@@ -67,21 +74,18 @@ input::placeholder, textarea::placeholder {
   color: var(--text-muted);
 }
 
-/* Tabelas */
 table {
   border-collapse: collapse;
   width: 100%;
   border-spacing: 0;
 }
 
-/* Imagens */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* Código e Números */
 code, pre, kbd {
   font-family: var(--font-mono);
   font-size: 0.875em;
@@ -93,13 +97,9 @@ code, pre, kbd {
   letter-spacing: -0.02em;
 }
 
-/* ========================================
-   SCROLLBAR CYBER-MINIMALISTA
-   ======================================== */
-
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -107,38 +107,24 @@ code, pre, kbd {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--gray-700);
+  background: rgba(148, 163, 184, 0.55);
   border-radius: var(--radius-full);
-  transition: background var(--transition-base);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gray-500);
+  background: rgba(100, 116, 139, 0.75);
 }
-
-/* ========================================
-   SELECTION — Neon Glow
-   ======================================== */
 
 ::selection {
-  background: rgba(0, 230, 118, 0.2);
-  color: #FFFFFF;
-  text-shadow: 0 0 8px rgba(0, 230, 118, 0.5);
+  background: rgba(24, 119, 242, 0.18);
+  color: var(--text-primary);
 }
-
-/* ========================================
-   FOCUS VISIBLE — Acessibilidade High-Tech
-   ======================================== */
 
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-violet);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.95), 0 0 0 5px rgba(24, 119, 242, 0.22);
   border-radius: var(--radius-sm);
 }
-
-/* ========================================
-   ROOT
-   ======================================== */
 
 #root {
   min-height: 100vh;
@@ -146,42 +132,29 @@ code, pre, kbd {
   flex-direction: column;
 }
 
-/* ========================================
-   ANIMAÇÕES DE PÁGINA (Fade com Scale Reverso)
-   ======================================== */
-
 .page-enter {
   opacity: 0;
-  transform: scale(1.02);
+  transform: translateY(10px) scale(0.99);
 }
 
 .page-enter-active {
   opacity: 1;
-  transform: scale(1);
-  transition: opacity 400ms var(--ease-out-expo),
-              transform 400ms var(--ease-out-expo);
+  transform: translateY(0) scale(1);
+  transition: opacity 320ms var(--ease-out-expo), transform 320ms var(--ease-out-expo);
 }
 
 .page-exit {
   opacity: 1;
-  transform: scale(1);
 }
 
 .page-exit-active {
   opacity: 0;
-  transform: scale(0.98);
-  transition: opacity 250ms var(--transition-base),
-              transform 250ms var(--transition-base);
+  transition: opacity 220ms var(--transition-base);
 }
 
-/* ========================================
-   UTILITÁRIOS DE TEXTO E GLOW
-   ======================================== */
-
 .text-label {
-  font-family: var(--font-sans);
   font-size: 10px;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -189,23 +162,17 @@ code, pre, kbd {
 
 .text-value {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: -0.02em;
 }
 
 .text-glow-success {
   color: var(--accent-success);
-  text-shadow: var(--glow-success);
 }
 
 .text-glow-error {
   color: var(--accent-error);
-  text-shadow: var(--glow-error);
 }
-
-/* ========================================
-   PADRÕES DE SEÇÃO
-   ======================================== */
 
 .section-header {
   display: flex;
@@ -219,7 +186,7 @@ code, pre, kbd {
 .section-title {
   font-family: var(--font-display);
   font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   letter-spacing: -0.01em;
 }
@@ -229,66 +196,10 @@ code, pre, kbd {
   color: var(--text-tertiary);
 }
 
-/* ========================================
-   BADGES DE STATUS (Neon Borders)
-   ======================================== */
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-2xs);
-  padding: 2px var(--spacing-sm);
-  font-size: 10px;
-  font-weight: var(--font-weight-medium);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: var(--radius-full);
-  white-space: nowrap;
-  background: transparent;
-  backdrop-filter: blur(4px);
-}
-
-.badge-success {
-  color: var(--accent-success);
-  border: 1px solid var(--accent-success-border);
-  background: var(--accent-success-light);
-  box-shadow: inset 0 0 8px rgba(0, 230, 118, 0.1);
-}
-
-.badge-warning {
-  color: var(--accent-warning);
-  border: 1px solid var(--accent-warning-border);
-  background: var(--accent-warning-light);
-  box-shadow: inset 0 0 8px rgba(255, 179, 0, 0.1);
-}
-
-.badge-error {
-  color: var(--accent-error);
-  border: 1px solid var(--accent-error-border);
-  background: var(--accent-error-light);
-  box-shadow: inset 0 0 8px rgba(255, 42, 85, 0.1);
-}
-
-.badge-info {
-  color: var(--accent-info);
-  border: 1px solid var(--status-info-border);
-  background: var(--accent-info-light);
-}
-
-.badge-neutral {
-  color: var(--text-secondary);
-  border: 1px solid var(--border-strong);
-  background: var(--bg-hover);
-}
-
-/* ========================================
-   CLASSES UTILITÁRIAS DE DESIGN
-   ======================================== */
-
 .glass-panel {
   background: var(--bg-panel);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-light);
   border-top: var(--glass-border-top);
   border-radius: var(--radius-xl);
@@ -313,33 +224,20 @@ code, pre, kbd {
 .text-info { color: var(--status-info); }
 .text-muted { color: var(--text-muted); }
 
-/* ========================================
-   ANIMAÇÕES SUAVES E MICROINTERAÇÕES
-   ======================================== */
-
-@keyframes pulse-neon {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(24, 119, 242, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 16px rgba(24, 119, 242, 0.5), inset 0 0 8px rgba(24, 119, 242, 0.2);
-  }
-}
-
-@keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
-}
-
 @keyframes fade-scale-in {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(10px) scale(0.99);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: translateY(0) scale(1);
   }
+}
+
+@keyframes pulse-neon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
 }
 
 .animate-fade-scale-in {
@@ -347,28 +245,26 @@ code, pre, kbd {
 }
 
 .animate-pulse-neon {
-  animation: pulse-neon 2s ease-in-out infinite;
+  animation: pulse-neon 1.8s ease-in-out infinite;
 }
 
-/* Efeito Spotlight para Hover em Linhas/Cards */
 .hover-spotlight {
   position: relative;
   overflow: hidden;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
 .hover-spotlight::before {
   content: '';
   position: absolute;
-  top: 0; left: -100%;
-  width: 50%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
-  transform: skewX(-20deg);
-  transition: all 0.5s ease;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 10%, rgba(24, 119, 242, 0.06) 40%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.55s ease;
 }
 
 .hover-spotlight:hover::before {
-  left: 150%;
+  transform: translateX(120%);
 }
 
 .hover-lift {

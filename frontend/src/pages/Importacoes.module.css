@@ -128,6 +128,9 @@
 .fileText {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
+  max-width: 100%;
+  text-align: center;
+  word-break: break-word;
 }
 
 .checkboxContainer {

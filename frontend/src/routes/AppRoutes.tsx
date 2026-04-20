@@ -4,9 +4,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 import FluxoDiario from '../pages/FluxoDiario';
-import Fechamento from '../pages/Fechamento';
 import Importacoes from '../pages/Importacoes';
-import Conciliacao from '../pages/Conciliacao';
 import Ajustes from '../pages/Ajustes';
 import Empresas from '../pages/Empresas';
 import Relatorios from '../pages/Relatorios';
@@ -31,14 +29,6 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <FluxoDiario />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/fechamento"
-            element={
-              <ProtectedRoute>
-                <Fechamento />
               </ProtectedRoute>
             }
           />

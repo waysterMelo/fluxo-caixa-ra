@@ -1,5 +1,5 @@
 import { useState, useCallback, ReactNode } from 'react';
-import { Dialog, DialogVariant } from '../components/ui/Dialog';
+import { DialogVariant } from '../components/ui/Dialog';
 
 export interface UseDialogOptions {
   title: string;

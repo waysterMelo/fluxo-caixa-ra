@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { Button } from '../components/ui/Button';
@@ -34,6 +34,9 @@ export default function Importacoes() {
   const [isLoadingPayable, setIsLoadingPayable] = useState(false);
   const [isLoadingReceivable, setIsLoadingReceivable] = useState(false);
   const [isLoadingBank, setIsLoadingBank] = useState(false);
+  const [payableFileName, setPayableFileName] = useState('');
+  const [receivableFileName, setReceivableFileName] = useState('');
+  const [bankFileName, setBankFileName] = useState('');
 
   const [importHistory, setImportHistory] = useState<ImportHistoryRow[]>([]);
   const [historyPage, setHistoryPage] = useState(1);
@@ -94,6 +97,13 @@ export default function Importacoes() {
 
   const selectedCompanyUnavailable = companyId === null;
 
+  const handleFileSelection = (
+    event: ChangeEvent<HTMLInputElement>,
+    setFileName: Dispatch<SetStateAction<string>>
+  ) => {
+    setFileName(event.target.files?.[0]?.name ?? '');
+  };
+
   const handleImportPayable = async (event: FormEvent) => {
     event.preventDefault();
     const selectedCompanyId = companyId;
@@ -111,6 +121,7 @@ export default function Importacoes() {
       const response = await importErpPayable(selectedCompanyId, file);
       success(`${response.detail} (${response.records_processed} registros)`);
       if (payableFileRef.current) payableFileRef.current.value = '';
+      setPayableFileName('');
     } catch (err: any) {
       const detail = err.response?.data?.detail;
       const msg = Array.isArray(detail) ? 'Erro de validação nos dados enviados.' : detail || 'Erro ao importar contas a pagar.';
@@ -135,6 +146,7 @@ export default function Importacoes() {
       const response = await importErpReceivable(selectedCompanyId, file);
       success(`${response.detail} (${response.records_processed} registros)`);
       if (receivableFileRef.current) receivableFileRef.current.value = '';
+      setReceivableFileName('');
     } catch (err: any) {
       const detail = err.response?.data?.detail;
       const msg = Array.isArray(detail) ? 'Erro de validação nos dados enviados.' : detail || 'Erro ao importar contas a receber.';
@@ -163,6 +175,7 @@ export default function Importacoes() {
       const response = await importBank(selectedCompanyId, bankAccountId, replacePeriod, file);
       success(`${response.detail} (${response.records_processed} registros)`);
       if (bankFileRef.current) bankFileRef.current.value = '';
+      setBankFileName('');
       setReplacePeriod(false);
     } catch (err: any) {
       showError(err.response?.data?.detail || 'Erro ao importar extrato bancário.');
@@ -233,8 +246,14 @@ export default function Importacoes() {
                 <label className={styles.label}>Arquivo CSV ou XLSX</label>
                 <div className={styles.fileUpload}>
                   <FileSpreadsheet size={24} className={styles.uploadIcon} />
-                  <input type="file" accept=".csv,.xlsx" ref={receivableFileRef} className={styles.fileInput} />
-                  <span className={styles.fileText}>Clique para selecionar</span>
+                  <input
+                    type="file"
+                    accept=".csv,.xlsx"
+                    ref={receivableFileRef}
+                    className={styles.fileInput}
+                    onChange={(event) => handleFileSelection(event, setReceivableFileName)}
+                  />
+                  <span className={styles.fileText}>{receivableFileName || 'Clique para selecionar'}</span>
                 </div>
               </div>
               <div className={styles.actions}>
@@ -252,8 +271,14 @@ export default function Importacoes() {
                 <label className={styles.label}>Arquivo CSV ou XLSX</label>
                 <div className={styles.fileUpload}>
                   <FileSpreadsheet size={24} className={styles.uploadIcon} />
-                  <input type="file" accept=".csv,.xlsx" ref={payableFileRef} className={styles.fileInput} />
-                  <span className={styles.fileText}>Clique para selecionar</span>
+                  <input
+                    type="file"
+                    accept=".csv,.xlsx"
+                    ref={payableFileRef}
+                    className={styles.fileInput}
+                    onChange={(event) => handleFileSelection(event, setPayableFileName)}
+                  />
+                  <span className={styles.fileText}>{payableFileName || 'Clique para selecionar'}</span>
                 </div>
               </div>
               <div className={styles.actions}>
@@ -290,8 +315,14 @@ export default function Importacoes() {
                 <label className={styles.label}>Arquivo PDF, CSV ou XLSX</label>
                 <div className={styles.fileUpload}>
                   <FileSpreadsheet size={24} className={styles.uploadIcon} />
-                  <input type="file" accept=".pdf,.csv,.xlsx" ref={bankFileRef} className={styles.fileInput} />
-                  <span className={styles.fileText}>Clique para selecionar</span>
+                  <input
+                    type="file"
+                    accept=".pdf,.csv,.xlsx"
+                    ref={bankFileRef}
+                    className={styles.fileInput}
+                    onChange={(event) => handleFileSelection(event, setBankFileName)}
+                  />
+                  <span className={styles.fileText}>{bankFileName || 'Clique para selecionar'}</span>
                 </div>
               </div>
               {user?.is_admin && (

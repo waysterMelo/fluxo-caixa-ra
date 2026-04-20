@@ -4,8 +4,6 @@ import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard,
   CalendarDays,
-  CheckCircle2,
-  ArrowDownUp,
   Upload,
   Settings2,
   BarChart3,
@@ -32,7 +30,6 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { label: 'Painel Financeiro', path: '/', icon: <LayoutDashboard size={18} strokeWidth={1.75} />, section: 'PRINCIPAL' },
   { label: 'Fluxo Diário', path: '/fluxo-diario', icon: <CalendarDays size={18} strokeWidth={1.75} />, section: 'PRINCIPAL' },
-  { label: 'Fechamento', path: '/fechamento', icon: <CheckCircle2 size={18} strokeWidth={1.75} />, section: 'PRINCIPAL' },
   { label: 'Importações', path: '/importacoes', icon: <Upload size={18} strokeWidth={1.75} />, section: 'OPERAÇÕES' },
   { label: 'Ajustes Manuais', path: '/ajustes', icon: <Settings2 size={18} strokeWidth={1.75} />, section: 'OPERAÇÕES' },
   { label: 'Relatórios', path: '/relatorios', icon: <BarChart3 size={18} strokeWidth={1.75} />, section: 'CONSULTAS' },
@@ -43,7 +40,6 @@ const menuItems: MenuItem[] = [
 const routeBreadcrumbs: Record<string, string[]> = {
   '/': ['Principal', 'Painel Financeiro'],
   '/fluxo-diario': ['Principal', 'Fluxo Diário'],
-  '/fechamento': ['Principal', 'Fechamento'],
   '/importacoes': ['Operações', 'Importações'],
   '/ajustes': ['Operações', 'Ajustes Manuais'],
   '/relatorios': ['Consultas', 'Relatórios'],

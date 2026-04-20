@@ -1,6 +1,5 @@
 /*
- * Badge — Ocean Corporate Premium
- * Fundos 10%, dots pulsantes, elegante
+ * Badge - pílulas mais leves e legíveis
  */
 
 .badge {
@@ -11,85 +10,69 @@
   border-radius: var(--radius-full);
   white-space: nowrap;
   line-height: 1;
+  border: 1px solid transparent;
 }
 
-/* Sizes */
 .xs {
-  padding: 2px 6px;
+  padding: 3px 7px;
   font-size: 10px;
 }
 
 .small {
-  padding: 3px 8px;
+  padding: 4px 9px;
   font-size: 11px;
 }
 
 .default {
-  padding: 4px 10px;
+  padding: 5px 11px;
   font-size: var(--font-size-xs);
 }
 
 .large {
-  padding: 6px 14px;
+  padding: 7px 15px;
   font-size: var(--font-size-sm);
 }
 
-/* Variants — fundo 10% da cor, texto 100% */
 .success {
-  background: rgba(16, 185, 129, 0.12);
+  background: var(--status-success-bg);
   color: var(--status-success);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-color: var(--status-success-border);
 }
 
 .warning {
-  background: rgba(245, 158, 11, 0.12);
+  background: var(--status-warning-bg);
   color: var(--status-warning);
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-color: var(--status-warning-border);
 }
 
 .error {
-  background: rgba(239, 68, 68, 0.12);
+  background: var(--status-error-bg);
   color: var(--status-error);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-color: var(--status-error-border);
 }
 
 .info {
-  background: rgba(6, 182, 212, 0.12);
+  background: var(--status-info-bg);
   color: var(--accent-info);
-  border: 1px solid rgba(6, 182, 212, 0.2);
+  border-color: var(--status-info-border);
 }
 
 .neutral {
-  background: var(--bg-secondary);
+  background: rgba(241, 245, 249, 0.88);
   color: var(--text-secondary);
-  border: 1px solid var(--border-light);
+  border-color: rgba(148, 163, 184, 0.18);
 }
 
-/* Dot indicator com animação pulsante */
 .dot {
   flex-shrink: 0;
-  animation: pulse 2s ease-in-out infinite;
+  animation: pulse 1.8s ease-in-out infinite;
 }
 
-.dot-success {
-  color: var(--status-success);
-}
-
-.dot-warning {
-  color: var(--status-warning);
-}
-
-.dot-error {
-  color: var(--status-error);
-}
-
-.dot-info {
-  color: var(--accent-info);
-}
-
-.dot-neutral {
-  color: var(--text-muted);
-}
+.dot-success { color: var(--status-success); }
+.dot-warning { color: var(--status-warning); }
+.dot-error { color: var(--status-error); }
+.dot-info { color: var(--accent-info); }
+.dot-neutral { color: var(--text-muted); }
 
 @keyframes pulse {
   0%, 100% {
@@ -97,7 +80,7 @@
     transform: scale(1);
   }
   50% {
-    opacity: 0.5;
-    transform: scale(0.9);
+    opacity: 0.55;
+    transform: scale(0.92);
   }
 }

@@ -1,130 +1,124 @@
 /*
- * MetricCard — Ocean Corporate Premium
- * Gradiente sutil, ícone, trend com setas, status bar elegante
+ * MetricCard - KPIs com foco em leitura e ação
  */
 
 .metricCard {
-  background-color: var(--bg-panel);
-  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at top right, rgba(24, 119, 242, 0.08), transparent 35%),
+    var(--gradient-card);
+  border-radius: 22px;
   padding: var(--spacing-xl);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
   box-shadow: var(--shadow-card);
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(148, 163, 184, 0.16);
 }
 
 .metricCard:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: rgba(24, 119, 242, 0.16);
 }
 
-/* Gradiente de fundo sutil */
 .gradientBg {
-  background: var(--gradient-card);
+  background:
+    radial-gradient(circle at top right, rgba(24, 119, 242, 0.08), transparent 35%),
+    var(--gradient-card);
 }
 
-/* Status bar — barra lateral com gradiente */
 .statusBar {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 3px;
-  height: 100%;
-  background: var(--gray-200);
-  transition: background var(--transition-base);
+  top: 16px;
+  left: 16px;
+  width: 56px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(148, 163, 184, 0.7), rgba(148, 163, 184, 0));
 }
 
-.metricCard.success .statusBar {
-  background: var(--gradient-status-success);
-}
+.metricCard.success .statusBar { background: linear-gradient(90deg, #22c55e, rgba(34, 197, 94, 0)); }
+.metricCard.warning .statusBar { background: linear-gradient(90deg, #f59e0b, rgba(245, 158, 11, 0)); }
+.metricCard.error .statusBar { background: linear-gradient(90deg, #ef4444, rgba(239, 68, 68, 0)); }
+.metricCard.info .statusBar { background: linear-gradient(90deg, #1877f2, rgba(24, 119, 242, 0)); }
 
-.metricCard.warning .statusBar {
-  background: var(--gradient-status-warning);
-}
-
-.metricCard.error .statusBar {
-  background: var(--gradient-status-error);
-}
-
-.metricCard.info .statusBar {
-  background: linear-gradient(180deg, #06B6D4 0%, #0891B2 100%);
-}
-
-/* Header */
 .header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
 }
 
 .headerLeft {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
+  min-width: 0;
 }
 
-/* Ícone com fundo circular */
 .iconWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
   background: var(--accent-blue-50);
   color: var(--accent-blue);
   flex-shrink: 0;
+  border: 1px solid rgba(24, 119, 242, 0.12);
 }
 
 .metricCard.success .iconWrapper {
   background: var(--status-success-bg);
   color: var(--status-success);
+  border-color: var(--status-success-border);
 }
 
 .metricCard.warning .iconWrapper {
   background: var(--status-warning-bg);
   color: var(--status-warning);
+  border-color: var(--status-warning-border);
 }
 
 .metricCard.error .iconWrapper {
   background: var(--status-error-bg);
   color: var(--status-error);
+  border-color: var(--status-error-border);
 }
 
 .metricCard.info .iconWrapper {
   background: var(--status-info-bg);
   color: var(--status-info);
+  border-color: var(--status-info-border);
 }
 
 .label {
-  font-size: var(--font-size-xs);
+  font-size: 10px;
   font-weight: var(--font-weight-semibold);
   color: var(--text-tertiary);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  line-height: 1.3;
+  letter-spacing: 0.11em;
+  line-height: 1.4;
 }
 
 .badge {
   flex-shrink: 0;
 }
 
-/* Value */
 .value {
-  font-family: var(--font-sans);
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-metric);
-  line-height: 1.1;
+  line-height: 1.04;
   color: var(--text-primary);
   word-break: break-word;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
   font-variant-numeric: tabular-nums;
-  margin-top: var(--spacing-2xs);
 }
 
 .value.small {
@@ -143,57 +137,54 @@
   font-size: var(--font-size-metric-xl);
 }
 
-/* Subtitle */
 .subtitle {
   font-size: var(--font-size-xs);
-  color: var(--text-muted);
-  line-height: 1.4;
-  margin-top: var(--spacing-2xs);
+  color: var(--text-secondary);
+  line-height: 1.45;
 }
 
-/* Trend com setas elegantes */
 .trend {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-2xs);
-  font-size: var(--font-size-xs);
+  gap: 6px;
+  font-size: 11px;
   font-weight: var(--font-weight-semibold);
-  margin-top: var(--spacing-2xs);
-  padding: var(--spacing-2xs) var(--spacing-xs);
-  border-radius: var(--radius-sm);
-  background: var(--bg-secondary);
+  padding: 6px 10px;
+  border-radius: var(--radius-full);
   width: fit-content;
+  border: 1px solid transparent;
 }
 
-.trend.up { 
+.trend.up {
   color: var(--status-success);
   background: var(--status-success-bg);
+  border-color: var(--status-success-border);
 }
 
-.trend.down { 
+.trend.down {
   color: var(--status-error);
   background: var(--status-error-bg);
+  border-color: var(--status-error-border);
 }
 
-.trend.neutral { 
-  color: var(--text-muted);
-  background: var(--bg-secondary);
+.trend.neutral {
+  color: var(--text-secondary);
+  background: rgba(226, 232, 240, 0.72);
+  border-color: rgba(148, 163, 184, 0.18);
 }
 
-/* Footer */
 .footer {
   margin-top: auto;
   padding-top: var(--spacing-sm);
-  border-top: 1px solid var(--border-light);
-  font-size: var(--font-size-xs);
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  font-size: 11px;
   color: var(--text-tertiary);
-  line-height: 1.4;
+  line-height: 1.45;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Density */
 .compact {
   padding: var(--spacing-md) var(--spacing-lg);
 }
@@ -203,8 +194,8 @@
 }
 
 .compact .iconWrapper {
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
 }
 
 .relaxed {
@@ -212,25 +203,19 @@
 }
 
 .relaxed .iconWrapper {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
 }
 
-/* Dot de status (para StatusDot) */
 .statusDot {
-  animation: pulse 2s ease-in-out infinite;
+  animation: pulse 1.8s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .metricCard {
     padding: var(--spacing-lg);
@@ -246,23 +231,5 @@
 
   .value.xlarge {
     font-size: var(--font-size-metric-lg);
-  }
-
-  .iconWrapper {
-    width: 28px;
-    height: 28px;
-  }
-}
-
-@media (max-width: 480px) {
-  .metricCard {
-    padding: var(--spacing-md);
-  }
-
-  .value,
-  .value.default,
-  .value.large,
-  .value.xlarge {
-    font-size: clamp(1.2rem, 5vw, 1.75rem);
   }
 }

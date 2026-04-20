@@ -1,238 +1,180 @@
 /*
- * Design Tokens — Fluxo de Caixa RA · Ocean Terminal
- * Tema: Dark Mode Nativo Premium · Ocean Blue
- * Paleta: Slate 950 · Deep Ocean · Cyber Emerald · Violeta Elétrico
+ * Design Tokens - Fluxo de Caixa RA
+ * Tema: Facebook Blue + escala corporativa de cinzas
  */
 
 :root {
-  /* ========================================
-     PALETA OCEAN (Identidade Premium Dark)
-     ======================================== */
+  --bg-primary: #eef2f7;
+  --bg-secondary: #f7f9fc;
+  --bg-tertiary: #ffffff;
+  --bg-panel: rgba(255, 255, 255, 0.92);
+  --bg-elevated: rgba(255, 255, 255, 0.98);
+  --bg-input: #ffffff;
+  --bg-hover: rgba(24, 119, 242, 0.05);
+  --bg-active: rgba(24, 119, 242, 0.1);
+  --bg-overlay: rgba(15, 23, 42, 0.38);
 
-  /* Fundos Profundos (Ocean Blue) */
-  --bg-primary: #020617; /* Slate 950 - Fundo absoluto */
-  --bg-secondary: #0B132B; /* Deep Ocean */
-  --bg-tertiary: #0F172A; /* Slate 900 */
-  --bg-panel: rgba(15, 23, 42, 0.6);
-  --bg-elevated: rgba(30, 41, 59, 0.7);
-  --bg-input: rgba(2, 6, 23, 0.4);
-  --bg-hover: rgba(255, 255, 255, 0.05);
-  --bg-active: rgba(255, 255, 255, 0.1);
-  --bg-overlay: rgba(2, 6, 23, 0.85);
+  --gray-900: #111827;
+  --gray-800: #1f2937;
+  --gray-700: #334155;
+  --gray-600: #475569;
+  --gray-500: #64748b;
+  --gray-400: #94a3b8;
+  --gray-300: #cbd5e1;
+  --gray-200: #e2e8f0;
+  --gray-100: #f1f5f9;
+  --gray-50: #ffffff;
 
-  /* Grays (escala metálica para dark mode) */
-  --gray-900: #161B22;
-  --gray-800: #21262D;
-  --gray-700: #30363D;
-  --gray-600: #484F58;
-  --gray-500: #6E7681;
-  --gray-400: #8B949E; /* Metálico */
-  --gray-300: #C9D1D9;
-  --gray-200: #EAECEF; /* Off-white puro */
-  --gray-100: #F0F6FC;
-  --gray-50: #FFFFFF;
+  --border-light: rgba(148, 163, 184, 0.2);
+  --border-default: rgba(148, 163, 184, 0.34);
+  --border-strong: rgba(100, 116, 139, 0.5);
+  --border-focus: #1877f2;
+  --border-error: #dc2626;
+  --glass-border-top: 1px solid rgba(255, 255, 255, 0.92);
 
-  /* ========================================
-     BORDAS (translúcidas e de vidro)
-     ======================================== */
-  --border-light: rgba(255, 255, 255, 0.03);
-  --border-default: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.12);
-  --border-focus: #00E676;
-  --border-error: #FF2A55;
+  --text-primary: #142033;
+  --text-secondary: #3b4960;
+  --text-tertiary: #66758c;
+  --text-muted: #93a0b3;
+  --text-inverse: #ffffff;
+  --text-link: #166fe5;
 
-  /* Inner Shadow para simular tátil/vidro */
-  --glass-border-top: 1px solid rgba(255, 255, 255, 0.1);
+  --accent-violet: #6f56d9;
+  --accent-violet-hover: #5b45be;
+  --accent-violet-light: rgba(111, 86, 217, 0.12);
 
-  /* ========================================
-     TEXTO (alto contraste sutil)
-     ======================================== */
-  --text-primary: #EAECEF;
-  --text-secondary: #8B949E;
-  --text-tertiary: #6E7681;
-  --text-muted: #484F58;
-  --text-inverse: #020617;
-  --text-link: #7C3AED;
+  --accent-blue: #1877f2;
+  --accent-blue-hover: #166fe5;
+  --accent-blue-light: rgba(24, 119, 242, 0.12);
+  --accent-blue-50: #eaf3ff;
+  --accent-info: #1b74e4;
+  --accent-info-light: rgba(27, 116, 228, 0.12);
 
-  /* ========================================
-     CORES DE AÇÃO E ENERGIA (Glows)
-     ======================================== */
-  
-  /* Secundário / IA / Predições */
-  --accent-violet: #7C3AED;
-  --accent-violet-hover: #6D28D9;
-  --accent-violet-light: rgba(124, 58, 237, 0.15);
-  
-  /* Primário Histórico (reaproveitado para info) */
-  --accent-blue: #3B82F6;
-  --accent-blue-hover: #2563EB;
-  --accent-blue-light: rgba(59, 130, 246, 0.15);
-  --accent-info: #0EA5E9;
-  --accent-info-light: rgba(14, 165, 233, 0.15);
+  --accent-brand: #1877f2;
+  --accent-brand-hover: #166fe5;
+  --accent-brand-light: rgba(24, 119, 242, 0.12);
+  --accent-brand-border: rgba(24, 119, 242, 0.2);
+  --steel-blue: #1877f2;
+  --ocean-sky: #58a6ff;
+  --ocean-breeze: #cfe5ff;
 
-  /* Brand (Facebook Blue) */
-  --accent-brand: #1877F2;
-  --accent-brand-hover: #166FE5;
-  --accent-brand-light: rgba(24, 119, 242, 0.15);
-  --accent-brand-border: rgba(24, 119, 242, 0.3);
+  --accent-success: #16a34a;
+  --accent-success-hover: #15803d;
+  --accent-success-light: rgba(22, 163, 74, 0.12);
+  --accent-success-border: rgba(22, 163, 74, 0.22);
 
-  /* Sucesso (Cyber Emerald — precisão algorítmica) */
-  --accent-success: #00E676;
-  --accent-success-hover: #00C853;
-  --accent-success-light: rgba(0, 230, 118, 0.15);
-  --accent-success-border: rgba(0, 230, 118, 0.3);
+  --accent-warning: #d97706;
+  --accent-warning-hover: #b45309;
+  --accent-warning-light: rgba(217, 119, 6, 0.12);
+  --accent-warning-border: rgba(217, 119, 6, 0.22);
 
-  /* Aviso (Amber Neon) */
-  --accent-warning: #FFB300;
-  --accent-warning-hover: #FF8F00;
-  --accent-warning-light: rgba(255, 179, 0, 0.15);
-  --accent-warning-border: rgba(255, 179, 0, 0.3);
+  --accent-error: #dc2626;
+  --accent-error-hover: #b91c1c;
+  --accent-error-light: rgba(220, 38, 38, 0.12);
+  --accent-error-border: rgba(220, 38, 38, 0.22);
 
-  /* Erro (Neon Crimson — alerta crítico) */
-  --accent-error: #FF2A55;
-  --accent-error-hover: #FF0033;
-  --accent-error-light: rgba(255, 42, 85, 0.15);
-  --accent-error-border: rgba(255, 42, 85, 0.3);
-
-  /* ========================================
-     STATUS SEMÂNTICO
-     ======================================== */
   --status-success: var(--accent-success);
   --status-success-bg: var(--accent-success-light);
   --status-success-border: var(--accent-success-border);
-
   --status-warning: var(--accent-warning);
   --status-warning-bg: var(--accent-warning-light);
   --status-warning-border: var(--accent-warning-border);
-
   --status-error: var(--accent-error);
   --status-error-bg: var(--accent-error-light);
   --status-error-border: var(--accent-error-border);
-
   --status-info: var(--accent-info);
   --status-info-bg: var(--accent-info-light);
-  --status-info-border: rgba(14, 165, 233, 0.3);
+  --status-info-border: rgba(27, 116, 228, 0.22);
 
-  /* ========================================
-     TIPOGRAFIA Evoluída
-     ======================================== */
+  --gradient-primary: linear-gradient(135deg, #1877f2 0%, #166fe5 100%);
+  --gradient-violet: linear-gradient(135deg, #7b61ff 0%, #6246ea 100%);
+  --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.98) 100%);
+  --gradient-hero: linear-gradient(135deg, #ffffff 0%, #eef5ff 62%, #f7f9fc 100%);
+  --gradient-sidebar: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(244, 248, 253, 0.98) 100%);
+  --gradient-status-success: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+  --gradient-status-warning: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+  --gradient-status-error: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+
   --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Space Grotesk', 'Clash Display', var(--font-sans);
   --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Fira Code', Consolas, monospace;
 
-  /* Escala tipográfica refinada */
-  --font-size-xs: 0.6875rem;    /* 11px */
-  --font-size-sm: 0.8125rem;    /* 13px */
-  --font-size-base: 0.875rem;   /* 14px */
-  --font-size-lg: 1rem;         /* 16px */
-  --font-size-xl: 1.125rem;     /* 18px */
-  --font-size-2xl: 1.5rem;      /* 24px */
-  --font-size-3xl: 2rem;        /* 32px */
+  --font-size-xs: 0.6875rem;
+  --font-size-sm: 0.8125rem;
+  --font-size-base: 0.875rem;
+  --font-size-md: 0.9375rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.125rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
 
-  /* Métricas (KPIs) — com fonte display ou mono para impacto */
-  --font-size-metric-sm: 1.25rem;   /* 20px */
-  --font-size-metric: 1.75rem;      /* 28px */
-  --font-size-metric-lg: 2.5rem;    /* 40px */
-  --font-size-metric-xl: 3.5rem;    /* 56px */
+  --font-size-metric-sm: 1.25rem;
+  --font-size-metric: 1.75rem;
+  --font-size-metric-lg: 2.5rem;
+  --font-size-metric-xl: 3.5rem;
 
-  /* Pesos */
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* ========================================
-     ESPAÇAMENTO (generoso e respirável)
-     ======================================== */
-  --spacing-2xs: 0.25rem;   /* 4px */
-  --spacing-xs: 0.5rem;     /* 8px */
-  --spacing-sm: 0.75rem;    /* 12px */
-  --spacing-md: 1rem;       /* 16px */
-  --spacing-lg: 1.25rem;    /* 20px */
-  --spacing-xl: 1.5rem;     /* 24px */
-  --spacing-2xl: 2rem;      /* 32px */
-  --spacing-3xl: 2.5rem;    /* 40px */
-  --spacing-4xl: 3rem;      /* 48px */
-  --spacing-5xl: 4rem;      /* 64px */
+  --spacing-2xs: 0.25rem;
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.25rem;
+  --spacing-xl: 1.5rem;
+  --spacing-2xl: 2rem;
+  --spacing-3xl: 2.5rem;
+  --spacing-4xl: 3rem;
+  --spacing-5xl: 4rem;
 
-  /* Spacing semântico */
   --spacing-page: var(--spacing-2xl);
   --spacing-section: var(--spacing-xl);
   --spacing-card: var(--spacing-lg);
 
-  /* ========================================
-     BORDER RADIUS (Moderno)
-     ======================================== */
   --radius-none: 0;
   --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-2xl: 24px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
   --radius-full: 9999px;
 
-  /* ========================================
-     SOMBRAS E GLOWS (Luz como informação)
-     ======================================== */
-  --shadow-xs: 0 2px 4px rgba(0, 0, 0, 0.4);
-  --shadow-sm: 0 4px 8px rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.7);
-  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.8);
-  
-  /* Efeitos Glass e Tátil */
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  --shadow-elevated: 0 12px 48px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  
-  /* Glows */
-  --glow-brand: 0 0 16px rgba(24, 119, 242, 0.3);
-  --glow-success: 0 0 16px rgba(0, 230, 118, 0.3);
-  --glow-error: 0 0 16px rgba(255, 42, 85, 0.3);
-  --glow-violet: 0 0 24px rgba(124, 58, 237, 0.4);
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 6px 14px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 14px 32px rgba(15, 23, 42, 0.09);
+  --shadow-lg: 0 22px 46px rgba(15, 23, 42, 0.12);
+  --shadow-xl: 0 30px 64px rgba(15, 23, 42, 0.14);
+  --shadow-card: 0 16px 38px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --shadow-card-hover: 0 22px 48px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  --shadow-elevated: 0 26px 58px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.92);
 
-  /* ========================================
-     GRADIENTES (Escuros e Radiantes)
-     ======================================== */
-  --gradient-primary: linear-gradient(135deg, #1877F2 0%, #166FE5 100%);
-  --gradient-violet: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
-  --gradient-card: linear-gradient(180deg, rgba(35, 42, 56, 0.8) 0%, rgba(25, 30, 41, 0.9) 100%);
-  --gradient-hero: linear-gradient(135deg, #0B0E14 0%, #12161F 100%);
-  --gradient-sidebar: linear-gradient(180deg, rgba(25, 30, 41, 0.8) 0%, rgba(11, 14, 20, 0.95) 100%);
+  --glow-brand: 0 12px 28px rgba(24, 119, 242, 0.18);
+  --glow-success: 0 10px 20px rgba(22, 163, 74, 0.12);
+  --glow-error: 0 10px 20px rgba(220, 38, 38, 0.12);
+  --glow-violet: 0 10px 20px rgba(111, 86, 217, 0.12);
 
-  /* ========================================
-     TRANSIÇÕES (fluidas e naturais)
-     ======================================== */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* Curvas de animação premium */
+
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* ========================================
-     LAYOUT
-     ======================================== */
-  --sidebar-width: 80px; /* Floating Dock default */
-  --sidebar-expanded-width: 260px;
-  --header-height: 72px;
+  --sidebar-width: 84px;
+  --sidebar-expanded-width: 276px;
+  --header-height: 76px;
   --content-max-width: 1600px;
 
-  /* ========================================
-     TABELAS (Limpeza Absoluta)
-     ======================================== */
-  --table-header-bg: transparent;
-  --table-row-hover: rgba(255, 255, 255, 0.05);
-  --table-row-stripe: rgba(255, 255, 255, 0.02);
-  --table-border: rgba(255, 255, 255, 0.05);
+  --table-header-bg: rgba(245, 248, 252, 0.92);
+  --table-row-hover: rgba(24, 119, 242, 0.04);
+  --table-row-stripe: rgba(15, 23, 42, 0.015);
+  --table-border: rgba(148, 163, 184, 0.22);
   --table-cell-padding: var(--spacing-sm) var(--spacing-md);
 
-  /* ========================================
-     Z-INDEX
-     ======================================== */
   --z-dropdown: 100;
   --z-sticky: 200;
   --z-overlay: 300;
@@ -240,9 +182,6 @@
   --z-toast: 500;
   --z-tooltip: 600;
 
-  /* ========================================
-     BACKWARD COMPAT (Mapeamento para variáveis antigas)
-     ======================================== */
   --color-primary: var(--accent-brand);
   --color-primary-dark: var(--accent-brand-hover);
   --color-primary-light: var(--accent-brand-light);

@@ -3,12 +3,18 @@ import axios from 'axios';
 const api = axios.create({
   baseURL: '/api/v1',
   headers: {
-    'Content-Type': 'application/json',
+    Accept: 'application/json',
   },
 });
 
 // Interceptor para adicionar o token JWT em cada requisição
 api.interceptors.request.use((config) => {
+  if (config.data instanceof FormData) {
+    delete config.headers['Content-Type'];
+  } else if (!config.headers['Content-Type']) {
+    config.headers['Content-Type'] = 'application/json';
+  }
+
   const token = localStorage.getItem('access_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -20,10 +26,14 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // Token expirado ou inválido - redirecionar para login
+    const status = error.response?.status;
+    const detail = error.response?.data?.detail;
+    const isInvalidToken =
+      status === 401 ||
+      (status === 403 && detail === 'Could not validate credentials');
+
+    if (isInvalidToken) {
       localStorage.removeItem('access_token');
-      // Evita loop de redirecionamento
       if (!window.location.pathname.includes('/login')) {
         window.location.href = '/login';
       }

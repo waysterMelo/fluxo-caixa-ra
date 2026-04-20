@@ -6,7 +6,7 @@
 
 .top {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-between;
   gap: var(--spacing-lg);
 }
@@ -14,23 +14,34 @@
 .titleGroup {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2xs);
+  gap: var(--spacing-xs);
+  position: relative;
+  padding-top: var(--spacing-sm);
+}
+
+.titleGroup::before {
+  content: '';
+  width: 68px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-brand), rgba(24, 119, 242, 0));
 }
 
 .title {
-  font-size: var(--font-size-2xl);
+  font-size: clamp(1.75rem, 2vw, 2.25rem);
   font-weight: var(--font-weight-bold);
   color: var(--text-primary);
-  letter-spacing: -0.025em;
-  line-height: 1.2;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
   margin: 0;
 }
 
 .subtitle {
+  max-width: 720px;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal);
-  color: var(--text-tertiary);
-  line-height: 1.5;
+  color: var(--text-secondary);
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -47,15 +58,16 @@
   gap: var(--spacing-md);
   flex-wrap: wrap;
   padding: var(--spacing-lg);
-  background: var(--bg-panel);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xs);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.98) 100%);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
 }
 
 @media (max-width: 768px) {
   .top {
     flex-direction: column;
+    align-items: stretch;
   }
 
   .filters {

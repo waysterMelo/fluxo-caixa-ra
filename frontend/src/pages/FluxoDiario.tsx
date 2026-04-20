@@ -13,7 +13,7 @@ import { Dialog } from '../components/ui/Dialog';
 import { getDailyFlow, DailyFlowSummary, Movement, deleteMovement } from '../services/flowService';
 import { getTodayLocal, formatDateBR } from '../utils/date';
 import { formatCurrency } from '../utils/currency';
-import { ArrowUpRight, ArrowDownRight, Wallet, TrendingUp, Download, Info, GripVertical, ListFilter } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, Wallet, TrendingUp, Download, Info, GripVertical, ListFilter, Trash2 } from 'lucide-react';
 import styles from './FluxoDiario.module.css';
 
 const MESES = [
@@ -142,27 +142,41 @@ export default function FluxoDiario() {
     },
     {
       header: 'A PAGAR',
-      accessor: (row: Movement) => formatCurrency(row.valor),
+      accessor: (row: Movement) => (
+        <span className={row.tipo === 'ENTRADA' ? styles.amountIn : styles.amountOut}>
+          {formatCurrency(row.valor)}
+        </span>
+      ),
       align: 'right' as const
     },
     {
       header: 'SALDO',
-      accessor: (row: any) => formatCurrency(row.saldoAcumulado),
+      accessor: (row: any) => (
+        <span className={row.saldoAcumulado < 0 ? styles.balanceNegative : styles.balancePositive}>
+          {formatCurrency(row.saldoAcumulado)}
+        </span>
+      ),
       align: 'right' as const,
       cellStyle: (row: any) => {
         const isNegative = row.saldoAcumulado < 0;
         return {
-          color: isNegative ? 'var(--status-error)' : 'var(--status-success)',
-          fontWeight: 600,
-          backgroundColor: isNegative ? 'rgba(239, 68, 68, 0.05)' : 'rgba(34, 197, 94, 0.05)',
+          backgroundColor: isNegative ? 'rgba(220, 38, 38, 0.16)' : 'rgba(22, 163, 74, 0.16)',
+          borderLeft: `3px solid ${isNegative ? 'var(--status-error)' : 'var(--status-success)'}`,
         };
       },
     },
     {
       header: 'AÇÕES',
       accessor: (row: Movement) => (
-        <Button variant="ghost" size="sm" onClick={() => handleDeleteMovement(row.id)}>
-          Excluir
+        <Button
+          variant="ghost"
+          size="sm"
+          className={styles.deleteButton}
+          onClick={() => handleDeleteMovement(row.id)}
+          aria-label="Excluir movimentacao"
+          title="Excluir movimentacao"
+        >
+          <Trash2 size={16} />
         </Button>
       ),
       align: 'center' as const,

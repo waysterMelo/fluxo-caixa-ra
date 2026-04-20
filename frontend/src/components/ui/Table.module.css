@@ -1,14 +1,13 @@
 /*
- * Table — Ocean Terminal
- * Header minúsculo, hover de spotlight, linhas quase invisíveis
+ * Table - leitura mais limpa e hover mais útil
  */
 
 .container {
   width: 100%;
   overflow-x: auto;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border-light);
-  background: transparent;
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .table {
@@ -17,22 +16,18 @@
   border-spacing: 0;
 }
 
-/* ========================================
-   HEADER — Minimalista, Mono
-   ======================================== */
-
 .th {
   padding: var(--spacing-md) var(--spacing-lg);
   font-family: var(--font-mono);
   font-size: 9px;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   color: var(--text-tertiary);
-  background: rgba(2, 6, 23, 0.4);
+  background: var(--table-header-bg);
   text-align: left;
   white-space: nowrap;
-  border-bottom: 1px solid var(--border-default);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
   position: sticky;
   top: 0;
   z-index: 1;
@@ -41,12 +36,8 @@
 .th.right { text-align: right; }
 .th.center { text-align: center; }
 
-/* ========================================
-   ROWS E CELLS
-   ======================================== */
-
 .tr {
-  transition: all var(--transition-fast);
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
   border-bottom: 1px solid var(--table-border);
   position: relative;
 }
@@ -73,34 +64,18 @@
 
 .td.center { text-align: center; }
 
-/* ========================================
-   HOVER — Spotlight
-   ======================================== */
-
 .container:not(.noHover) tbody .tr:hover {
-  background-color: rgba(255, 255, 255, 0.02);
-  box-shadow: inset 2px 0 0 var(--accent-violet);
+  background-color: var(--table-row-hover);
+  box-shadow: inset 3px 0 0 var(--accent-brand);
 }
-
-.container:not(.noHover) tbody .tr:hover .td.right {
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-}
-
-/* ========================================
-   STRIPED
-   ======================================== */
 
 .stripe tbody .tr:nth-child(even) {
-  background-color: rgba(24, 25, 26, 0.4);
+  background-color: var(--table-row-stripe);
 }
 
 .stripe tbody .tr:nth-child(even):hover {
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: var(--table-row-hover);
 }
-
-/* ========================================
-   COMPACT
-   ======================================== */
 
 .compact .th { padding: var(--spacing-sm) var(--spacing-md); }
 .compact .td {
@@ -108,27 +83,15 @@
   font-size: var(--font-size-xs);
 }
 
-/* ========================================
-   Bordered
-   ======================================== */
-
 .bordered .td,
 .bordered .th {
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(148, 163, 184, 0.14);
 }
-
-/* ========================================
-   SELECTED ROW
-   ======================================== */
 
 .selected {
-  background-color: rgba(124, 58, 237, 0.1) !important;
-  box-shadow: inset 2px 0 0 var(--accent-violet), inset 0 0 20px rgba(124, 58, 237, 0.05);
+  background-color: rgba(24, 119, 242, 0.08) !important;
+  box-shadow: inset 3px 0 0 var(--accent-brand);
 }
-
-/* ========================================
-   EMPTY STATE
-   ======================================== */
 
 .emptyState {
   padding: var(--spacing-4xl) var(--spacing-xl);
@@ -138,23 +101,4 @@
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  background: transparent;
 }
-
-/* ========================================
-   RESPONSIVIDADE
-   ======================================== */
-
-@media (max-width: 1024px) {
-  .container { border-radius: var(--radius-lg); }
-  .th, .td { padding: var(--spacing-sm) var(--spacing-md); }
-}
-
-@media (max-width: 768px) {
-  .container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .table { min-width: 600px; }
-}
-

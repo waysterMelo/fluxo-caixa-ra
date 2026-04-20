@@ -1,30 +1,38 @@
 /*
- * Card — Ocean Terminal
- * Smoked glass, bordas translúcidas, inner shadow táctil
+ * Card - superfícies claras, hierarquia mais limpa e premium
  */
 
 .card {
-  background: var(--bg-panel);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  background: var(--gradient-card);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transition: all var(--transition-base);
-  border: 1px solid var(--border-light);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  border: 1px solid rgba(148, 163, 184, 0.18);
   border-top: var(--glass-border-top);
 }
 
-.card:hover {
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--border-default);
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 22px;
+  width: 84px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(24, 119, 242, 0.82), rgba(24, 119, 242, 0));
 }
 
-/* ========================================
-   VARIANTES
-   ======================================== */
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(24, 119, 242, 0.14);
+}
 
 .default {
   composes: card;
@@ -33,15 +41,17 @@
 .elevated {
   composes: card;
   box-shadow: var(--shadow-elevated);
-  background: rgba(30, 41, 59, 0.75);
+  background: var(--bg-elevated);
 }
 
 .hero {
   composes: card;
-  background: var(--gradient-hero);
-  border-color: var(--border-strong);
+  background:
+    radial-gradient(circle at top right, rgba(24, 119, 242, 0.12), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(24, 119, 242, 0.08), transparent 38%),
+    var(--gradient-hero);
+  border-color: rgba(24, 119, 242, 0.16);
   padding: var(--spacing-2xl);
-  box-shadow: inset 0 0 40px rgba(0, 230, 118, 0.02);
 }
 
 .hero .title {
@@ -49,8 +59,7 @@
 }
 
 .hero .subtitle {
-  color: var(--accent-success);
-  text-shadow: var(--glow-success);
+  color: var(--accent-brand);
 }
 
 .metric {
@@ -66,16 +75,14 @@
 
 .metricValue {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-metric);
-  line-height: 1.1;
+  line-height: 1.05;
   color: var(--text-primary);
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
 }
 
-/* StatusCard — linha de neon */
 .statusCard {
   composes: card;
   position: relative;
@@ -85,70 +92,54 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 2px;
+  width: 5px;
   height: 100%;
 }
 
-.statusCard.success .statusBar {
-  background: var(--accent-success);
-  box-shadow: var(--glow-success);
-}
-
-.statusCard.warning .statusBar {
-  background: var(--accent-warning);
-  box-shadow: 0 0 12px rgba(255, 179, 0, 0.4);
-}
-
-.statusCard.error .statusBar {
-  background: var(--accent-error);
-  box-shadow: var(--glow-error);
-}
-
-.statusCard.info .statusBar {
-  background: var(--accent-info);
-  box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
-}
+.statusCard.success .statusBar { background: var(--gradient-status-success); }
+.statusCard.warning .statusBar { background: var(--gradient-status-warning); }
+.statusCard.error .statusBar { background: var(--gradient-status-error); }
+.statusCard.info .statusBar { background: var(--gradient-primary); }
 
 .simple {
   composes: card;
   padding: var(--spacing-xl);
 }
 
-/* ========================================
-   HEADER
-   ======================================== */
-
 .header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: var(--spacing-md);
   padding: var(--spacing-lg) var(--spacing-xl);
-  border-bottom: 1px solid var(--border-light);
-  min-height: 64px;
-  background: rgba(2, 6, 23, 0.2);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  min-height: 72px;
+  background:
+    linear-gradient(180deg, rgba(248, 250, 252, 0.82) 0%, rgba(248, 250, 252, 0.52) 100%);
 }
 
 .headerLeft {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  min-width: 0;
 }
 
 .title {
   font-family: var(--font-display);
   font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
-  line-height: 1.3;
+  line-height: 1.25;
   letter-spacing: -0.01em;
 }
 
 .subtitle {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 10px;
   color: var(--text-tertiary);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
 }
 
 .headerRight {
@@ -156,10 +147,6 @@
   align-items: center;
   gap: var(--spacing-sm);
 }
-
-/* ========================================
-   CONTENT
-   ======================================== */
 
 .content {
   padding: var(--spacing-xl);
@@ -176,14 +163,10 @@
   color: var(--text-primary);
 }
 
-/* ========================================
-   FOOTER
-   ======================================== */
-
 .footer {
   padding: var(--spacing-md) var(--spacing-xl);
-  border-top: 1px solid var(--border-light);
-  background-color: rgba(24, 25, 26, 0.5);
+  border-top: 1px solid rgba(148, 163, 184, 0.14);
+  background-color: rgba(248, 250, 252, 0.76);
   font-family: var(--font-mono);
   font-size: 10px;
   text-transform: uppercase;
@@ -192,10 +175,6 @@
   line-height: 1.5;
 }
 
-/* ========================================
-   STATES
-   ======================================== */
-
 .clickable {
   cursor: pointer;
 }
@@ -203,18 +182,14 @@
 .clickable:hover {
   box-shadow: var(--shadow-card-hover);
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(24, 119, 242, 0.16);
 }
 
 .selected {
-  box-shadow: inset 0 0 0 1px var(--accent-violet), var(--glow-violet);
-  background-color: rgba(124, 58, 237, 0.05);
-  border-color: var(--accent-violet);
+  box-shadow: inset 0 0 0 1px rgba(24, 119, 242, 0.18), var(--shadow-card);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(234, 243, 255, 0.82) 100%);
+  border-color: rgba(24, 119, 242, 0.24);
 }
-
-/* ========================================
-   DENSITY
-   ======================================== */
 
 .compact .content {
   padding: var(--spacing-sm) var(--spacing-md);
@@ -223,10 +198,6 @@
 .relaxed .content {
   padding: var(--spacing-2xl);
 }
-
-/* ========================================
-   RESPONSIVIDADE
-   ======================================== */
 
 @media (max-width: 768px) {
   .header { padding: var(--spacing-md) var(--spacing-lg); }
@@ -240,8 +211,6 @@
   .header {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--spacing-sm);
   }
-  .headerRight { width: 100%; justify-content: flex-end; }
+  .headerRight { width: 100%; justify-content: flex-start; }
 }
-
