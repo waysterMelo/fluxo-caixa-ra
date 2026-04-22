@@ -34,6 +34,7 @@ const menuItems: MenuItem[] = [
   { label: 'Ajustes Manuais', path: '/ajustes', icon: <Settings2 size={18} strokeWidth={1.75} />, section: 'OPERAÇÕES' },
   { label: 'Relatórios', path: '/relatorios', icon: <BarChart3 size={18} strokeWidth={1.75} />, section: 'CONSULTAS' },
   { label: 'Empresas', path: '/empresas', icon: <Building2 size={18} strokeWidth={1.75} />, section: 'ADMIN' },
+  { label: 'Configurações', path: '/configuracoes', icon: <Settings2 size={18} strokeWidth={1.75} />, section: 'ADMIN' },
 ];
 
 // Breadcrumbs mapeados por rota
@@ -44,6 +45,7 @@ const routeBreadcrumbs: Record<string, string[]> = {
   '/ajustes': ['Operações', 'Ajustes Manuais'],
   '/relatorios': ['Consultas', 'Relatórios'],
   '/empresas': ['Admin', 'Empresas'],
+  '/configuracoes': ['Admin', 'Configurações'],
 };
 
 export default function Layout({ children }: LayoutProps) {

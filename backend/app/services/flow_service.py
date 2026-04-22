@@ -12,8 +12,7 @@ from app.models.daily_closing import DailyClosing
 from app.models.audit_log import AuditLog
 
 def get_company_flow(db: Session, company_id: int, target_date: date):
-    # 1. Obter o saldo inicial (do ajuste manual de Registro de Saldo Inicial)
-    # Busca sempre o ÚLTIMO cadastro de saldo inicial
+    # 1. Obter o saldo inicial
     initial_balance_adj = db.query(ManualAdjustment).filter(
         ManualAdjustment.company_id == company_id,
         ManualAdjustment.reason == 'Registro de Saldo Inicial'
@@ -30,8 +29,7 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
 
     movements = []
 
-    # 2. Entradas e Saídas Planejadas (Títulos não baixados/conciliados até a data)
-    # Na prática, num fluxo diário, "planejado" no dia corrente seria o que vence hoje e não foi pago.
+    # 2. Entradas e Saídas Planejadas (ERP)
     ars = db.query(AccountReceivable).filter(
         AccountReceivable.company_id == company_id
     ).all()
@@ -44,7 +42,7 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
             "id": f"AR-{ar.id}",
             "data": ar.due_date.isoformat(),
             "descricao": ar.history or f"Recebimento de {ar.customer_name}",
-            "categoria": "Contas a Receber",
+            "fornecedor": ar.customer_name, # Cliente/Fornecedor
             "tipo": "ENTRADA",
             "valor": float(ar.amount),
             "status": status_mov
@@ -62,7 +60,7 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
             "id": f"AP-{ap.id}",
             "data": ap.due_date.isoformat(),
             "descricao": ap.history or f"Pagamento a {ap.supplier_name}",
-            "categoria": "Contas a Pagar",
+            "fornecedor": ap.supplier_name, # Cliente/Fornecedor
             "tipo": "SAIDA",
             "valor": float(ap.amount),
             "status": status_mov
@@ -80,8 +78,8 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
             movements.append({
                 "id": f"BM-{bm.id}",
                 "data": bm.movement_date.isoformat(),
-                "descricao": bm.history,
-                "categoria": "Banco",
+                "descricao": bm.description_raw,
+                "fornecedor": bm.description_normalized, # No banco usamos a descrição normalizada como fornecedor identificado
                 "tipo": "ENTRADA",
                 "valor": float(bm.credit_amount),
                 "status": "REALIZADO"
@@ -91,8 +89,8 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
             movements.append({
                 "id": f"BM-{bm.id}",
                 "data": bm.movement_date.isoformat(),
-                "descricao": bm.history,
-                "categoria": "Banco",
+                "descricao": bm.description_raw,
+                "fornecedor": bm.description_normalized, # No banco usamos a descrição normalizada como fornecedor identificado
                 "tipo": "SAIDA",
                 "valor": float(bm.debit_amount),
                 "status": "REALIZADO"
@@ -110,8 +108,8 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
             movements.append({
                 "id": f"ADJ-{adj.id}",
                 "data": adj.adjustment_date.isoformat(),
-                "descricao": adj.reason,
-                "categoria": "Ajuste Manual",
+                "descricao": adj.description,
+                "fornecedor": "AJUSTE MANUAL",
                 "tipo": "ENTRADA",
                 "valor": float(adj.amount),
                 "status": "REALIZADO"
@@ -121,8 +119,8 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
             movements.append({
                 "id": f"ADJ-{adj.id}",
                 "data": adj.adjustment_date.isoformat(),
-                "descricao": adj.reason,
-                "categoria": "Ajuste Manual",
+                "descricao": adj.description,
+                "fornecedor": "AJUSTE MANUAL",
                 "tipo": "SAIDA",
                 "valor": float(adj.amount),
                 "status": "REALIZADO"
@@ -134,8 +132,6 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
     # 4. Cálculo de Saldos
     flow_balance = opening_balance + realized_in - realized_out
     
-    # Saldo bancário é a soma do balance_after do extrato ou fluxo. 
-    # (Simplificação: pegando o último registro do dia pelo ID, idealmente ordenar por tempo/ordem original)
     last_bank_mov = db.query(BankMovement).filter(
         BankMovement.company_id == company_id,
         BankMovement.movement_date == target_date
@@ -143,7 +139,6 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
     
     bank_balance = float(last_bank_mov.balance_after) if last_bank_mov and last_bank_mov.balance_after is not None else 0.0
 
-    # Ordenar movimentos por data, depois por tipo (entradas antes de saídas), depois por valor
     movements.sort(key=lambda x: (x["data"], x["tipo"], -x["valor"]))
 
     return {
@@ -162,7 +157,6 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
     }
 
 def close_day(db: Session, company_id: int, target_date: date, user_id: int, notes: str = None):
-    # Verifica se já está fechado
     existing = db.query(DailyClosing).filter(
         DailyClosing.company_id == company_id, 
         DailyClosing.closing_date == target_date,
@@ -172,10 +166,8 @@ def close_day(db: Session, company_id: int, target_date: date, user_id: int, not
     if existing:
         raise HTTPException(status_code=400, detail="Dia já está fechado para esta empresa.")
 
-    # Calcular fluxo do dia
     flow_data = get_company_flow(db, company_id, target_date)
     
-    # Tolerância de pendências (pela especificação, permitimos fechar com notas, o admin pode revisar depois)
     closing = DailyClosing(
         company_id=company_id,
         closing_date=target_date,
@@ -188,7 +180,6 @@ def close_day(db: Session, company_id: int, target_date: date, user_id: int, not
     )
     db.add(closing)
     
-    # Auditar fechamento
     audit = AuditLog(
         entity_name="DailyClosing",
         entity_id=company_id,
@@ -202,7 +193,6 @@ def close_day(db: Session, company_id: int, target_date: date, user_id: int, not
     return {"detail": "Dia fechado com sucesso.", "closing_id": closing.id}
 
 def reopen_day(db: Session, company_id: int, target_date: date, user_id: int, reason: str):
-    # Verifica se está fechado
     existing = db.query(DailyClosing).filter(
         DailyClosing.company_id == company_id, 
         DailyClosing.closing_date == target_date,
@@ -212,7 +202,6 @@ def reopen_day(db: Session, company_id: int, target_date: date, user_id: int, re
     if not existing:
         raise HTTPException(status_code=400, detail="Dia não está fechado para esta empresa na data informada.")
 
-    # Auditar reabertura antes de mudar o estado
     audit = AuditLog(
         entity_name="DailyClosing",
         entity_id=company_id,
@@ -223,7 +212,6 @@ def reopen_day(db: Session, company_id: int, target_date: date, user_id: int, re
     )
     db.add(audit)
 
-    # Marca como reaberto preservando o registro
     existing.status = 'REOPENED'
     existing.reopened_by = user_id
     existing.reopened_at = func.now()

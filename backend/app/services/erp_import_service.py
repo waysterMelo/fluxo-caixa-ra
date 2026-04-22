@@ -77,10 +77,10 @@ def process_erp_import(
     contents = file.file.read()
     file_hash = calculate_file_hash(contents)
     
-    # Prevenir duplicidade do lote inteiro
-    existing_batch = db.query(ImportBatch).filter(ImportBatch.file_hash == file_hash).first()
-    if existing_batch:
-        raise HTTPException(status_code=400, detail="Arquivo já importado anteriormente.")
+    # Prevenir duplicidade do lote inteiro (DESABILITADO conforme solicitação)
+    # existing_batch = db.query(ImportBatch).filter(ImportBatch.file_hash == file_hash).first()
+    # if existing_batch:
+    #     raise HTTPException(status_code=400, detail="Arquivo já importado anteriormente.")
 
     # Ler com Pandas
     try:

@@ -36,9 +36,10 @@ def process_bank_import(
     contents = file.file.read()
     file_hash = calculate_file_hash(contents)
     
-    existing_batch = db.query(ImportBatch).filter(ImportBatch.file_hash == file_hash).first()
-    if existing_batch and not replace_period:
-        raise HTTPException(status_code=400, detail="Arquivo já importado anteriormente.")
+    # Prevenir duplicidade do lote inteiro (DESABILITADO conforme solicitação)
+    # existing_batch = db.query(ImportBatch).filter(ImportBatch.file_hash == file_hash).first()
+    # if existing_batch and not replace_period:
+    #     raise HTTPException(status_code=400, detail="Arquivo já importado anteriormente.")
 
     # Ler arquivo
     try:

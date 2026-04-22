@@ -122,8 +122,8 @@ export default function FluxoDiario() {
 
   const colunas = [
     { header: 'DATA', accessor: (row: Movement) => formatDateBR(row.data) },
+    { header: 'FORNECEDOR', accessor: 'fornecedor' as keyof Movement },
     { header: 'DESCRIÇÃO', accessor: 'descricao' as keyof Movement },
-    { header: 'CATEGORIA', accessor: 'categoria' as keyof Movement },
     {
       header: 'TIPO',
       accessor: (row: Movement) => (

@@ -4,7 +4,7 @@ export interface Movement {
   id: string;
   data: string;
   descricao: string;
-  categoria: string;
+  fornecedor: string;
   tipo: 'ENTRADA' | 'SAIDA';
   valor: number;
   status: 'PREVISTO' | 'REALIZADO' | 'CANCELADO';

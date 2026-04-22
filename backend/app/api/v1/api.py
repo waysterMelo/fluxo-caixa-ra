@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.v1 import adjustments, auth, bank_accounts, companies, consolidated, flows, imports, reconciliations, users
+from app.api.v1 import adjustments, auth, bank_accounts, companies, consolidated, flows, imports, reconciliations, users, config
 
 api_router = APIRouter()
 api_router.include_router(auth.router, tags=["login"])
@@ -11,3 +11,4 @@ api_router.include_router(reconciliations.router, prefix="/reconciliations", tag
 api_router.include_router(flows.router, prefix="/flows", tags=["flows"])
 api_router.include_router(adjustments.router, prefix="/adjustments", tags=["adjustments"])
 api_router.include_router(consolidated.router, prefix="/consolidated", tags=["consolidated"])
+api_router.include_router(config.router, prefix="/config", tags=["config"])
