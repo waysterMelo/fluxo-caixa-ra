@@ -1,5 +1,7 @@
 import pandas as pd
 import hashlib
+import re
+import unicodedata
 from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
@@ -16,6 +18,33 @@ def calculate_file_hash(file_contents: bytes) -> str:
 def normalize_string(text: str) -> str:
     if pd.isna(text): return ""
     return str(text).strip().upper()
+
+def normalize_column_name(value: object) -> str:
+    text = unicodedata.normalize("NFKD", str(value).strip().lower())
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    return re.sub(r"\s+", " ", text)
+
+def parse_money(value: object) -> float:
+    if pd.isna(value):
+        return 0.0
+    if isinstance(value, (int, float)):
+        return float(value)
+
+    text = str(value).strip()
+    if not text:
+        return 0.0
+
+    is_negative = text.startswith("(") and text.endswith(")")
+    text = text.replace("R$", "").replace("\u00a0", "").strip("() ")
+    text = re.sub(r"[^0-9,.\-]", "", text)
+
+    if "," in text and "." in text:
+        text = text.replace(".", "").replace(",", ".")
+    elif "," in text:
+        text = text.replace(",", ".")
+
+    amount = float(text) if text else 0.0
+    return -abs(amount) if is_negative else amount
 
 def process_bank_import(
     db: Session, 
@@ -91,7 +120,7 @@ def process_bank_import(
                         desc = rest_of_line[:value_match.start()].strip()
                         
                         # Standardize value string to float
-                        val_float = float(value_str.replace('.', '').replace(',', '.'))
+                        val_float = parse_money(value_str)
                         
                         parsed_data.append({
                             'data': date_str,
@@ -112,7 +141,7 @@ def process_bank_import(
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Erro ao ler arquivo: {str(e)}")
 
-    df.columns = [str(c).strip().lower() for c in df.columns]
+    df.columns = [normalize_column_name(c) for c in df.columns]
 
     # Mapas de colunas esperadas (Baseado no doc: Data, Lançamento/Descrição, Dcto, Crédito, Débito, Saldo)
     col_data = next((c for c in df.columns if 'data' in c), None)
@@ -121,6 +150,13 @@ def process_bank_import(
     col_credito = next((c for c in df.columns if 'crédito' in c or 'credito' in c or 'entrada' in c), None)
     col_debito = next((c for c in df.columns if 'débito' in c or 'debito' in c or 'saída' in c or 'saida' in c), None)
     col_saldo = next((c for c in df.columns if 'saldo' in c), None)
+
+    if not col_desc:
+        col_desc = next((c for c in df.columns if 'descri' in c or 'lanc' in c or 'hist' in c), None)
+    if not col_credito:
+        col_credito = next((c for c in df.columns if 'credit' in c or 'entrada' in c or (c.startswith('cr') and 'dito' in c)), None)
+    if not col_debito:
+        col_debito = next((c for c in df.columns if 'debit' in c or 'saida' in c or (c.startswith('d') and 'bito' in c)), None)
 
     if not col_data or not col_desc or (not col_credito and not col_debito):
         raise HTTPException(status_code=400, detail="Arquivo bancário não possui colunas obrigatórias (Data, Descrição, Crédito/Débito).")
@@ -150,16 +186,17 @@ def process_bank_import(
 
     for _, row in df.iterrows():
         try:
-            data_movimento = pd.to_datetime(row[col_data]).date()
-            if pd.isna(data_movimento): continue
+            data_ts = pd.to_datetime(row[col_data], dayfirst=True, errors='coerce')
+            if pd.isna(data_ts): continue
+            data_movimento = data_ts.date()
             
             desc_raw = str(row[col_desc]) if not pd.isna(row[col_desc]) else ""
             desc_norm = normalize_string(desc_raw)
             docto = str(row[col_docto]) if col_docto and not pd.isna(row[col_docto]) else None
             
-            credito = abs(float(row[col_credito])) if col_credito and not pd.isna(row[col_credito]) else 0.0
-            debito = abs(float(row[col_debito])) if col_debito and not pd.isna(row[col_debito]) else 0.0
-            saldo = float(row[col_saldo]) if col_saldo and not pd.isna(row[col_saldo]) else None
+            credito = abs(parse_money(row[col_credito])) if col_credito and not pd.isna(row[col_credito]) else 0.0
+            debito = abs(parse_money(row[col_debito])) if col_debito and not pd.isna(row[col_debito]) else 0.0
+            saldo = parse_money(row[col_saldo]) if col_saldo and not pd.isna(row[col_saldo]) else None
 
             # Não processar linha se for puramente vazia de valores
             if credito == 0 and debito == 0:

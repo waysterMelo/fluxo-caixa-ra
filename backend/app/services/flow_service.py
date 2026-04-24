@@ -12,35 +12,52 @@ from app.models.daily_closing import DailyClosing
 from app.models.audit_log import AuditLog
 
 def get_company_flow(db: Session, company_id: int, target_date: date):
-    # 1. Obter o saldo inicial
-    initial_balance_adj = db.query(ManualAdjustment).filter(
-        ManualAdjustment.company_id == company_id,
-        ManualAdjustment.reason == 'Registro de Saldo Inicial'
-    ).order_by(ManualAdjustment.adjustment_date.desc()).first()
-    
     initial_balance_info = None
-    opening_balance = 0.0
-    if initial_balance_adj:
-        opening_balance = float(initial_balance_adj.amount)
+    previous_closing = db.query(DailyClosing).filter(
+        DailyClosing.company_id == company_id,
+        DailyClosing.closing_date < target_date,
+        DailyClosing.status == 'CLOSED'
+    ).order_by(DailyClosing.closing_date.desc(), DailyClosing.id.desc()).first()
+
+    if previous_closing:
+        opening_balance = float(previous_closing.flow_balance)
         initial_balance_info = {
             "amount": opening_balance,
-            "date": initial_balance_adj.adjustment_date.isoformat()
+            "date": previous_closing.closing_date.isoformat(),
+            "source": "daily_closing"
         }
+    else:
+        initial_balance_adj = db.query(ManualAdjustment).filter(
+            ManualAdjustment.company_id == company_id,
+            ManualAdjustment.reason == 'Registro de Saldo Inicial',
+            ManualAdjustment.adjustment_date <= target_date
+        ).order_by(ManualAdjustment.adjustment_date.desc(), ManualAdjustment.id.desc()).first()
+
+        opening_balance = 0.0
+        if initial_balance_adj:
+            opening_balance = float(initial_balance_adj.amount)
+            initial_balance_info = {
+                "amount": opening_balance,
+                "date": initial_balance_adj.adjustment_date.isoformat(),
+                "source": "initial_balance"
+            }
 
     movements = []
 
     # 2. Entradas e Saídas Planejadas (ERP)
     ars = db.query(AccountReceivable).filter(
-        AccountReceivable.company_id == company_id
+        AccountReceivable.company_id == company_id,
+        func.coalesce(AccountReceivable.due_date_real, AccountReceivable.due_date) == target_date
     ).all()
     planned_in = 0.0
     for ar in ars:
-        if ar.status != 'CONCILIATED':
+        flow_date = ar.due_date_real or ar.due_date
+        if ar.status not in ['RECEBIDO', 'BAIXADO', 'CONCILIATED', 'CANCELADO']:
             planned_in += float(ar.amount)
-        status_mov = "PREVISTO" if ar.status not in ['RECEBIDO', 'CONCILIATED'] else "REALIZADO"
+        status_mov = "PREVISTO" if ar.status not in ['RECEBIDO', 'BAIXADO', 'CONCILIATED'] else "REALIZADO"
         movements.append({
             "id": f"AR-{ar.id}",
-            "data": ar.due_date.isoformat(),
+            "data": flow_date.isoformat(),
             "descricao": ar.history or f"Recebimento de {ar.customer_name}",
             "fornecedor": ar.customer_name, # Cliente/Fornecedor
             "tipo": "ENTRADA",
@@ -49,16 +66,18 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
         })
 
     aps = db.query(AccountPayable).filter(
-        AccountPayable.company_id == company_id
+        AccountPayable.company_id == company_id,
+        func.coalesce(AccountPayable.due_date_real, AccountPayable.due_date) == target_date
     ).all()
     planned_out = 0.0
     for ap in aps:
-        if ap.status != 'CONCILIATED':
+        flow_date = ap.due_date_real or ap.due_date
+        if ap.status not in ['PAGO', 'BAIXADO', 'CONCILIATED', 'CANCELADO']:
             planned_out += float(ap.amount)
-        status_mov = "PREVISTO" if ap.status not in ['PAGO', 'CONCILIATED'] else "REALIZADO"
+        status_mov = "PREVISTO" if ap.status not in ['PAGO', 'BAIXADO', 'CONCILIATED'] else "REALIZADO"
         movements.append({
             "id": f"AP-{ap.id}",
-            "data": ap.due_date.isoformat(),
+            "data": flow_date.isoformat(),
             "descricao": ap.history or f"Pagamento a {ap.supplier_name}",
             "fornecedor": ap.supplier_name, # Cliente/Fornecedor
             "tipo": "SAIDA",
@@ -68,7 +87,8 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
 
     # 3. Entradas e Saídas Realizadas (Banco + Ajustes)
     bank_movs = db.query(BankMovement).filter(
-        BankMovement.company_id == company_id
+        BankMovement.company_id == company_id,
+        BankMovement.movement_date == target_date
     ).all()
     bank_in = 0.0
     bank_out = 0.0
@@ -98,6 +118,7 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
 
     adjs = db.query(ManualAdjustment).filter(
         ManualAdjustment.company_id == company_id,
+        ManualAdjustment.adjustment_date == target_date,
         ManualAdjustment.reason != 'Registro de Saldo Inicial'
     ).all()
     adj_in = 0.0
@@ -134,8 +155,9 @@ def get_company_flow(db: Session, company_id: int, target_date: date):
     
     last_bank_mov = db.query(BankMovement).filter(
         BankMovement.company_id == company_id,
-        BankMovement.movement_date == target_date
-    ).order_by(BankMovement.id.desc()).first()
+        BankMovement.movement_date <= target_date,
+        BankMovement.balance_after.isnot(None)
+    ).order_by(BankMovement.movement_date.desc(), BankMovement.id.desc()).first()
     
     bank_balance = float(last_bank_mov.balance_after) if last_bank_mov and last_bank_mov.balance_after is not None else 0.0
 

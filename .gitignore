@@ -1,1 +1,32 @@
-(frontend/src/services/api.ts is a source file, and there are no build artifacts, dependencies, or temporary files in the changes)
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments and local secrets
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+
+# Databases and logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Node
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -8,6 +8,7 @@ import {
   Settings2,
   BarChart3,
   Building2,
+  Table2,
   ChevronsLeft,
   ChevronsRight,
   LogOut,
@@ -33,6 +34,7 @@ const menuItems: MenuItem[] = [
   { label: 'Importações', path: '/importacoes', icon: <Upload size={18} strokeWidth={1.75} />, section: 'OPERAÇÕES' },
   { label: 'Ajustes Manuais', path: '/ajustes', icon: <Settings2 size={18} strokeWidth={1.75} />, section: 'OPERAÇÕES' },
   { label: 'Relatórios', path: '/relatorios', icon: <BarChart3 size={18} strokeWidth={1.75} />, section: 'CONSULTAS' },
+  { label: 'Consolidado Diário', path: '/consolidado-diario', icon: <Table2 size={18} strokeWidth={1.75} />, section: 'CONSULTAS' },
   { label: 'Empresas', path: '/empresas', icon: <Building2 size={18} strokeWidth={1.75} />, section: 'ADMIN' },
   { label: 'Configurações', path: '/configuracoes', icon: <Settings2 size={18} strokeWidth={1.75} />, section: 'ADMIN' },
 ];
@@ -44,6 +46,7 @@ const routeBreadcrumbs: Record<string, string[]> = {
   '/importacoes': ['Operações', 'Importações'],
   '/ajustes': ['Operações', 'Ajustes Manuais'],
   '/relatorios': ['Consultas', 'Relatórios'],
+  '/consolidado-diario': ['Consultas', 'Consolidado Diário'],
   '/empresas': ['Admin', 'Empresas'],
   '/configuracoes': ['Admin', 'Configurações'],
 };

@@ -1,5 +1,5 @@
 /*
- * Empresas — Ocean Corporate Premium
+ * Empresas — Corporate Blue 2026
  */
 
 .container {
@@ -72,9 +72,8 @@
 }
 
 .companyItem:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--steel-blue);
-  transform: translateY(-1px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--accent-brand-border);
 }
 
 .companyInfo {

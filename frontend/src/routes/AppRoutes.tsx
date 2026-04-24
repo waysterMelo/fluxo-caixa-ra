@@ -8,6 +8,7 @@ import Importacoes from '../pages/Importacoes';
 import Ajustes from '../pages/Ajustes';
 import Empresas from '../pages/Empresas';
 import Relatorios from '../pages/Relatorios';
+import ConsolidadoDiario from '../pages/ConsolidadoDiario';
 import Configuracoes from '../pages/Configuracoes';
 import '../styles/global.css';
 
@@ -62,6 +63,14 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <Relatorios />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/consolidado-diario"
+            element={
+              <ProtectedRoute>
+                <ConsolidadoDiario />
               </ProtectedRoute>
             }
           />

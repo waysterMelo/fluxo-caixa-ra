@@ -8,7 +8,7 @@ import { getTodayLocal } from '../utils/date';
 import { Card } from '../components/ui/Card';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import { useToast } from '../components/ui/Toast';
-import { AlertTriangle, Trash2, Database, ShieldAlert } from 'lucide-react';
+import { Trash2, Database, ShieldAlert } from 'lucide-react';
 import styles from './Configuracoes.module.css';
 
 export default function Configuracoes() {

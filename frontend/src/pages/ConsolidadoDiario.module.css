@@ -1,0 +1,627 @@
+/*
+ * Consolidado Diário — Corporate Blue 2026
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  animation: pageEnter 250ms ease both;
+}
+
+/* ── Metrics Grid ─────────────────────────────── */
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.metricCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  background: #FFFFFF;
+  box-shadow: var(--shadow-card);
+  border-left-width: 4px;
+  border-left-color: var(--accent-brand);
+}
+
+.metricSuccess { border-left-color: var(--accent-success); }
+.metricError { border-left-color: var(--accent-error); }
+.metricInfo { border-left-color: var(--accent-brand); }
+.metricWarning { border-left-color: var(--accent-warning); }
+
+.metricAccent {
+  display: none;
+}
+
+.metricHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-width: 0;
+}
+
+.metricIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-md);
+  color: var(--accent-brand);
+  background: var(--accent-brand-light);
+}
+
+.metricSuccess .metricIcon {
+  color: var(--status-success);
+  background: var(--status-success-bg);
+}
+
+.metricError .metricIcon {
+  color: var(--status-error);
+  background: var(--status-error-bg);
+}
+
+.metricInfo .metricIcon {
+  color: var(--accent-brand);
+  background: var(--accent-brand-light);
+}
+
+.metricWarning .metricIcon {
+  color: var(--status-warning);
+  background: var(--status-warning-bg);
+}
+
+.metricLabel {
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.metricValue {
+  display: block;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.14;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+.metricFooter {
+  margin-top: auto;
+  padding-top: var(--spacing-xs);
+  border-top: 1px solid var(--border-light);
+  color: var(--text-tertiary);
+  font-size: var(--font-size-xs);
+  line-height: 1.35;
+}
+
+/* ── Table Section ────────────────────────────── */
+
+.tableSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  background: #FFFFFF;
+  box-shadow: var(--shadow-card);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.sectionTitle {
+  margin: 0 0 var(--spacing-2xs);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.sectionSubtitle {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.sectionIcon {
+  color: var(--text-muted);
+}
+
+.sectionIconBadge,
+.detailTitleIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-md);
+  color: var(--accent-brand);
+  background: var(--accent-brand-light);
+}
+
+/* ── Master Detail Grid ───────────────────────── */
+
+.masterDetailGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: var(--spacing-md);
+  align-items: start;
+}
+
+.dailyMasterDetailGrid {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+  align-items: stretch;
+}
+
+/* ── Table Scroller ───────────────────────────── */
+
+.tableScroller {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  background: #FFFFFF;
+}
+
+.dailyTableScroller {
+  overflow: hidden;
+}
+
+.dailyTableViewport {
+  min-height: 400px;
+  max-height: calc(100vh - 380px);
+  overflow: auto;
+}
+
+.dailyTableViewport .thCompact {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* ── Compact Table ────────────────────────────── */
+
+.compactTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.thCompact {
+  padding: 10px 12px;
+  color: var(--text-secondary);
+  background: var(--table-header-bg);
+  border-bottom: 1px solid var(--border-light);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.thCompact:first-child {
+  text-align: left;
+}
+
+.tdCompact {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--table-border);
+  color: var(--text-primary);
+  font-size: 13px;
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.tdCompact:first-child {
+  text-align: left;
+}
+
+.tr {
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.tr:nth-child(even) .tdCompact {
+  background: var(--table-row-stripe);
+}
+
+.tr:hover .tdCompact {
+  background: var(--table-row-hover);
+}
+
+.positiveRow .tdCompact:first-child {
+  border-left: 3px solid var(--accent-success);
+}
+
+.negativeRow .tdCompact:first-child {
+  border-left: 3px solid var(--accent-error);
+}
+
+.selectedRow .tdCompact {
+  background: var(--accent-brand-light) !important;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ── Legacy table styles ──────────────────────── */
+
+.projectionTable {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  min-width: 132px;
+  padding: 10px 12px;
+  color: var(--text-secondary);
+  background: var(--table-header-bg);
+  border-right: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.companyHeader,
+.totalHeader {
+  text-align: center;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.totalHeader {
+  background: var(--accent-brand-light);
+}
+
+.tr:hover .td {
+  background: var(--table-row-hover);
+}
+
+.td {
+  min-width: 132px;
+  padding: 10px 12px;
+  border-right: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
+  background: #FFFFFF;
+  font-size: var(--font-size-sm);
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.stickyDate {
+  left: 0;
+  z-index: 3;
+  min-width: 124px;
+  text-align: left;
+  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.04);
+}
+
+.td.stickyDate {
+  z-index: 1;
+  background: #FFFFFF;
+}
+
+.dateCell {
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.totalCell {
+  background: var(--accent-brand-light);
+  font-weight: var(--font-weight-bold);
+}
+
+.statusCell {
+  text-align: center;
+}
+
+.positive,
+.amountIn {
+  color: var(--status-success);
+}
+
+.negative,
+.amountOut {
+  color: var(--status-error);
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+/* ── Detail Panel ─────────────────────────────── */
+
+.detailPanel {
+  --detail-panel-top: calc(var(--header-height) + var(--spacing-md) + var(--spacing-lg));
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  background: #FFFFFF;
+  box-shadow: var(--shadow-card);
+}
+
+.dailyDetailPanel {
+  min-height: 400px;
+  max-height: calc(100vh - 380px);
+  overflow: hidden;
+}
+
+.monthlyDetailPanel {
+  position: sticky;
+  top: var(--detail-panel-top);
+  max-height: calc(100vh - var(--detail-panel-top) - var(--spacing-lg));
+  overflow: hidden;
+}
+
+.detailHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.detailHeader strong {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  line-height: 1.1;
+}
+
+.detailTitleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-width: 0;
+}
+
+.detailLabel {
+  color: var(--accent-brand);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detailTotals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-xs);
+}
+
+.detailTotals div {
+  min-width: 0;
+  padding: var(--spacing-xs);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+}
+
+.detailTotals span,
+.companyDetailValues span span {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detailTotals strong {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.detailList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  min-height: 0;
+  overflow: auto;
+}
+
+.companyDetail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xs);
+  padding: var(--spacing-sm);
+  border: 1px solid var(--border-light);
+  border-left-width: 3px;
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+  transition: background var(--transition-fast);
+}
+
+.companyDetail:hover {
+  background: var(--bg-hover);
+}
+
+.companyPositive {
+  border-left-color: var(--accent-success);
+}
+
+.companyNegative {
+  border-left-color: var(--accent-error);
+}
+
+.companyDetailHeader,
+.companyDetailValues {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.companyDetailHeader span {
+  min-width: 0;
+  color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.companyDetailHeader strong,
+.companyDetailValues span {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.companyDetailValues {
+  align-items: flex-start;
+}
+
+.companyDetailValues > span {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+}
+
+.companyDetailValues > span:last-child {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.companyDetailValues strong {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Pagination ───────────────────────────────── */
+
+.paginationBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-top: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  background: var(--table-header-bg);
+  font-size: var(--font-size-xs);
+}
+
+.paginationActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.pageIndicator {
+  color: var(--accent-brand);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+/* ── Animations ───────────────────────────────── */
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Responsive ───────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .metricsGrid {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+  }
+
+  .monthlyMasterDetailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .monthlyDetailPanel {
+    position: static;
+  }
+}
+
+@media (max-width: 900px) {
+  .dailyMasterDetailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .dailyDetailPanel {
+    position: static;
+    max-height: none;
+  }
+
+  .dailyTableViewport {
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .paginationBar,
+  .paginationActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .tdCompact, .thCompact {
+    white-space: normal;
+    word-break: break-word;
+    font-size: 11px;
+    padding: 8px 6px;
+  }
+}

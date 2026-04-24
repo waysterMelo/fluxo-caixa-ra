@@ -22,32 +22,15 @@ body {
   font-weight: var(--font-weight-normal);
   line-height: 1.6;
   color: var(--text-primary);
-  background:
-    radial-gradient(circle at top left, rgba(24, 119, 242, 0.12), transparent 28%),
-    radial-gradient(circle at top right, rgba(15, 23, 42, 0.06), transparent 22%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 28%),
-    var(--bg-primary);
+  background: var(--bg-primary);
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.28), transparent 60%);
-  pointer-events: none;
-  z-index: -1;
 }
 
 a {
   color: var(--text-link);
   text-decoration: none;
-  transition: color var(--transition-fast), opacity var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
 a:hover {
@@ -97,9 +80,11 @@ code, pre, kbd {
   letter-spacing: -0.02em;
 }
 
+/* ── Scrollbar ────────────────────────────────── */
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -107,22 +92,22 @@ code, pre, kbd {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.55);
+  background: var(--gray-300);
   border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.75);
+  background: var(--gray-400);
 }
 
 ::selection {
-  background: rgba(24, 119, 242, 0.18);
+  background: rgba(24, 119, 242, 0.15);
   color: var(--text-primary);
 }
 
 *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.95), 0 0 0 5px rgba(24, 119, 242, 0.22);
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px rgba(24, 119, 242, 0.3);
   border-radius: var(--radius-sm);
 }
 
@@ -132,15 +117,17 @@ code, pre, kbd {
   flex-direction: column;
 }
 
+/* ── Page transitions ─────────────────────────── */
+
 .page-enter {
   opacity: 0;
-  transform: translateY(10px) scale(0.99);
+  transform: translateY(6px);
 }
 
 .page-enter-active {
   opacity: 1;
-  transform: translateY(0) scale(1);
-  transition: opacity 320ms var(--ease-out-expo), transform 320ms var(--ease-out-expo);
+  transform: translateY(0);
+  transition: opacity 250ms ease, transform 250ms ease;
 }
 
 .page-exit {
@@ -149,15 +136,17 @@ code, pre, kbd {
 
 .page-exit-active {
   opacity: 0;
-  transition: opacity 220ms var(--transition-base);
+  transition: opacity 180ms ease;
 }
 
+/* ── Utility classes ──────────────────────────── */
+
 .text-label {
-  font-size: 10px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.04em;
 }
 
 .text-value {
@@ -166,20 +155,23 @@ code, pre, kbd {
   letter-spacing: -0.02em;
 }
 
-.text-glow-success {
-  color: var(--accent-success);
-}
+.text-success { color: var(--status-success); }
+.text-warning { color: var(--status-warning); }
+.text-error { color: var(--status-error); }
+.text-info { color: var(--status-info); }
+.text-muted { color: var(--text-muted); }
 
-.text-glow-error {
-  color: var(--accent-error);
-}
+.text-glow-success { color: var(--accent-success); }
+.text-glow-error { color: var(--accent-error); }
+
+/* ── Section helpers ──────────────────────────── */
 
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-md) 0;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -193,16 +185,13 @@ code, pre, kbd {
 
 .section-subtitle {
   font-size: var(--font-size-sm);
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
 
 .glass-panel {
   background: var(--bg-panel);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-light);
-  border-top: var(--glass-border-top);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
 }
 
@@ -218,20 +207,16 @@ code, pre, kbd {
   border-width: 0;
 }
 
-.text-success { color: var(--status-success); }
-.text-warning { color: var(--status-warning); }
-.text-error { color: var(--status-error); }
-.text-info { color: var(--status-info); }
-.text-muted { color: var(--text-muted); }
+/* ── Animations ───────────────────────────────── */
 
 @keyframes fade-scale-in {
   from {
     opacity: 0;
-    transform: translateY(10px) scale(0.99);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -241,40 +226,25 @@ code, pre, kbd {
 }
 
 .animate-fade-scale-in {
-  animation: fade-scale-in 0.5s var(--ease-out-expo) forwards;
+  animation: fade-scale-in 0.35s ease forwards;
 }
 
 .animate-pulse-neon {
   animation: pulse-neon 1.8s ease-in-out infinite;
 }
 
+/* ── Compat: hover helpers (now no-ops) ───────── */
+
 .hover-spotlight {
   position: relative;
   overflow: hidden;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-
-.hover-spotlight::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent 10%, rgba(24, 119, 242, 0.06) 40%, transparent 70%);
-  transform: translateX(-120%);
-  transition: transform 0.55s ease;
-}
-
-.hover-spotlight:hover::before {
-  transform: translateX(120%);
 }
 
 .hover-lift {
-  transition: transform var(--transition-base),
-              box-shadow var(--transition-base),
-              border-color var(--transition-base);
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .hover-lift:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
-  border-color: var(--border-strong);
+  border-color: var(--border-default);
 }

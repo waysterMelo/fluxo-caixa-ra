@@ -1,5 +1,5 @@
 /*
- * Fechamento — Ocean Corporate Premium
+ * Fechamento — Corporate Blue 2026
  */
 
 .container {
@@ -17,13 +17,13 @@
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
 }
 
 .secondaryGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
 }
 
 .formSection {
@@ -50,13 +50,14 @@
 }
 
 .reopenSection {
-  background: linear-gradient(180deg, #FFFBEB 0%, #FFFFFF 100%);
+  background: var(--accent-warning-light);
   border: 1px solid var(--accent-warning-border);
-  padding: var(--spacing-xl);
+  border-left: 4px solid var(--accent-warning);
+  padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
 }
 
 .reopenHeader {
@@ -76,7 +77,7 @@
   color: var(--accent-warning);
   text-transform: uppercase;
   margin: 0;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
 .reopenSubtitle {

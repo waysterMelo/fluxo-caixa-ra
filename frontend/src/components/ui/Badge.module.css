@@ -1,5 +1,5 @@
 /*
- * Badge - pílulas mais leves e legíveis
+ * Badge — Clean, subtle radius
  */
 
 .badge {
@@ -7,29 +7,29 @@
   align-items: center;
   gap: var(--spacing-2xs);
   font-weight: var(--font-weight-semibold);
-  border-radius: var(--radius-full);
+  border-radius: 6px;
   white-space: nowrap;
   line-height: 1;
   border: 1px solid transparent;
 }
 
 .xs {
-  padding: 3px 7px;
+  padding: 2px 6px;
   font-size: 10px;
 }
 
 .small {
-  padding: 4px 9px;
+  padding: 3px 8px;
   font-size: 11px;
 }
 
 .default {
-  padding: 5px 11px;
+  padding: 4px 10px;
   font-size: var(--font-size-xs);
 }
 
 .large {
-  padding: 7px 15px;
+  padding: 6px 14px;
   font-size: var(--font-size-sm);
 }
 
@@ -58,9 +58,9 @@
 }
 
 .neutral {
-  background: rgba(241, 245, 249, 0.88);
+  background: var(--bg-secondary);
   color: var(--text-secondary);
-  border-color: rgba(148, 163, 184, 0.18);
+  border-color: var(--border-light);
 }
 
 .dot {
@@ -75,12 +75,6 @@
 .dot-neutral { color: var(--text-muted); }
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.55;
-    transform: scale(0.92);
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
